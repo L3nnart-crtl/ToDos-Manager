@@ -1,7 +1,6 @@
 # Spring Boot RESTful API
 
-> This is an example of a Java RESTful API with Spring Boot and MariaDB.
-> It exposes REST resources under http://localhost:8080/api/v1/.
+You can start the API by executing the start.sh or the start.bat
 
 ## Prerequisites
 
