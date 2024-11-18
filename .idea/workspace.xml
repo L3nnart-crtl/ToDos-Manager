@@ -4,22 +4,88 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17c0044f-c468-4c21-b6af-335c7d560dd2" name="Changes" comment="Documents added">
+    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="v0.2">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.run/Application.run.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/ApiVersion1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/assignees/Assignee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/assignees/AssigneeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/assignees/AssigneeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoResponsePut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/test/java/de/unistuttgart/iste/ese/api/todos/CatControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/test/java/de/unistuttgart/iste/ese/api/todos/CatTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/src/test/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.eslintrc.cjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.prettierrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/base.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/router/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/ts/toasts.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/AboutView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/CatsView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/HomeView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/excercise1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/excercise1.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
-  <component name="ProjectId" id="2oFKkQ1cLZh0ELwvlWgvHDEklUZ" />
+  <component name="ProjectId" id="2ok5jUcwaYO0VTokPp3bqe8OgDi" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,95 +93,110 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JAR Application.rest-api.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api [package].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/leeis/IdeaProjects/repo051/docs&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/leeis/IdeaProjects/rest-api-pe2-exc2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\docs" />
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="de.unistuttgart.iste.ese.api.todos" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\docs" />
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.unistuttgart.iste.ese.api.entities.todos" />
+      <recent name="de.unistuttgart.iste.ese.api.entities.assignees" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="repo051" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="rest-api.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/api/target/rest-api.jar" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="repo051" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.rest-api.jar" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="17c0044f-c468-4c21-b6af-335c7d560dd2" name="Changes" comment="" />
-      <created>1730460025470</created>
+      <changelist id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="" />
+      <created>1731400867480</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1730460025470</updated>
+      <updated>1731400867480</updated>
+      <workItem from="1731402294486" duration="129000" />
+      <workItem from="1731402432211" duration="31000" />
+      <workItem from="1731402498274" duration="120000" />
+      <workItem from="1731402662891" duration="48000" />
+      <workItem from="1731402722968" duration="21000" />
+      <workItem from="1731402880313" duration="21095000" />
+      <workItem from="1731426696232" duration="1114000" />
+      <workItem from="1731668071702" duration="173000" />
+      <workItem from="1731670322549" duration="86000" />
+      <workItem from="1731672404243" duration="22000" />
+      <workItem from="1731672439144" duration="3000" />
+      <workItem from="1731940791192" duration="67000" />
+      <workItem from="1731940872179" duration="6364000" />
+      <workItem from="1731947348767" duration="397000" />
+      <workItem from="1731947756557" duration="1911000" />
+      <workItem from="1731949716256" duration="4000" />
+      <workItem from="1731949727982" duration="10000" />
     </task>
-    <task id="LOCAL-00001" summary="Comit">
+    <task id="LOCAL-00001" summary="v0.2">
       <option name="closed" value="true" />
-      <created>1730460184316</created>
+      <created>1731946334633</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1730460184316</updated>
+      <updated>1731946334633</updated>
     </task>
-    <task id="LOCAL-00002" summary="Comit">
+    <task id="LOCAL-00002" summary="v0.2">
       <option name="closed" value="true" />
-      <created>1730460446839</created>
+      <created>1731949210126</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1730460446839</updated>
+      <updated>1731949210126</updated>
     </task>
-    <task id="LOCAL-00003" summary="Classes added">
-      <option name="closed" value="true" />
-      <created>1730478392985</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1730478392985</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Documents added">
-      <option name="closed" value="true" />
-      <created>1730478481988</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1730478481988</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Documents added">
-      <option name="closed" value="true" />
-      <created>1730479235815</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1730479235815</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Documents added">
-      <option name="closed" value="true" />
-      <created>1730479505503</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1730479505503</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -129,9 +210,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Comit" />
-    <MESSAGE value="Classes added" />
-    <MESSAGE value="Documents added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Documents added" />
+    <MESSAGE value="v0.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2" />
   </component>
 </project>
