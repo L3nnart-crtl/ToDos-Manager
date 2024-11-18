@@ -131,7 +131,7 @@
       <recent name="de.unistuttgart.iste.ese.api.entities.assignees" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.Application">
     <configuration name="rest-api.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/api/target/rest-api.jar" />
       <method v="2" />
