@@ -4,6 +4,7 @@
     <table>
       <thead>
       <tr>
+        <th>ID</th>
         <th>Vorname</th>
         <th>Nachname</th>
         <th>E-Mail</th>
@@ -12,6 +13,7 @@
       </thead>
       <tbody>
       <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+        <td>{{ assignee.id }}</td>
         <td>{{ assignee.prename }}</td>
         <td>{{ assignee.name }}</td>
         <td>{{ assignee.email }}</td>
@@ -47,7 +49,6 @@ export default defineComponent({
     const assignees = ref<any[]>([]);
     const editIndex = ref<number | null>(null);
 
-    // Abrufen der Assignees
     const getAssignees = async () => {
       try {
         const response = await axios.get('/api/v1/assignees');
@@ -57,46 +58,40 @@ export default defineComponent({
       }
     };
 
-    // Aktualisieren der Liste, wenn ein neues Assignee über den EventBus hinzugefügt wird
     watch(() => EventBus.newAssignee, (newAssignee) => {
       if (newAssignee) {
-        assignees.value.push(newAssignee); // Füge das neue Assignee zur Liste hinzu
-        EventBus.newAssignee = null; // Event zurücksetzen
+        assignees.value.push(newAssignee);
+        EventBus.newAssignee = null;
       }
     });
 
-    // Bearbeiten eines Assignees
     const editAssignee = (index: number) => {
       editIndex.value = index;
     };
 
-    // Löschen eines Assignees
     const deleteAssignee = async (id: number) => {
       try {
         await axios.delete(`/api/v1/assignees/${id}`);
-        getAssignees(); // Liste nach dem Löschen erneut abrufen
+        getAssignees();
       } catch (error) {
         console.error('Fehler beim Löschen des Assignees:', error);
       }
     };
 
-    // Speichern eines bearbeiteten Assignees
     const saveAssignee = async (updatedAssignee: any) => {
       try {
         await axios.put(`/api/v1/assignees/${updatedAssignee.id}`, updatedAssignee);
-        assignees.value[editIndex.value!] = updatedAssignee; // Assignee aktualisieren
-        editIndex.value = null; // Zurück zur Liste
+        assignees.value[editIndex.value!] = updatedAssignee;
+        editIndex.value = null;
       } catch (error) {
         console.error('Fehler beim Speichern des Assignees:', error);
       }
     };
 
-    // Bearbeitung abbrechen
     const cancelEdit = () => {
       editIndex.value = null;
     };
 
-    // Initiales Laden der Assignees
     getAssignees();
 
     return {
@@ -110,7 +105,6 @@ export default defineComponent({
   },
 });
 </script>
-
 
 <style scoped>
 .container {

@@ -1,37 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { EventBus } from './event-bus';
-import axios from 'axios';
-
-export default defineComponent({
-  name: 'CreateAssignee',
-  data() {
-    return {
-      assignee: {
-        prename: '',
-        name: '',
-        email: '',
-      },
-    };
-  },
-  methods: {
-    async onSubmit() {
-      try {
-        const response = await axios.post('/api/v1/assignees', this.assignee); // Verwende axios direkt
-
-        // Sende das neue Assignee über den EventBus
-        EventBus.newAssignee = response.data;
-
-        alert('Assignee created!');
-      } catch (error) {
-        console.log(error);
-        alert('Assignee not created!');
-      }
-    },
-  },
-});
-</script>
-
 <template>
   <div class="container">
     <h1>Create Assignee</h1>
@@ -53,6 +19,36 @@ export default defineComponent({
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { EventBus } from './event-bus';
+import axios from 'axios';
+
+export default defineComponent({
+  name: 'CreateAssignee',
+  data() {
+    return {
+      assignee: {
+        prename: '',
+        name: '',
+        email: '',
+      },
+    };
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        const response = await axios.post('/api/v1/assignees', this.assignee);
+        EventBus.newAssignee = response.data;
+        alert('Assignee created!');
+      } catch (error) {
+        console.log(error);
+        alert('Assignee not created!');
+      }
+    },
+  },
+});
+</script>
 
 <style scoped>
 .container {
