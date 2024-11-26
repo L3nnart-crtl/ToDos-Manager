@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "vue-loader": "^17.4.2",
+    "vue-template-compiler": "^2.7.16"
+  }
+}

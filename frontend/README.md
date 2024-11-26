@@ -1,36 +1,29 @@
-# frontend
+# aeb_frontend
 
-This is an example project for a single page application frontend with Vue.js v3. The UI is accessible under http://localhost:5173.
+This template should help get you started developing with Vue 3 in Vite.
 
-## Prerequisites
+## Recommended IDE Setup
 
-Install [Node.js](https://nodejs.org/en/) and ensure that the root folder of its installation is added to your PATH. You can check with this command: echo %PATH% (or echo $PATH on Linux / Git Bash).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Development Setup
+## Customize configuration
 
-There are multiple possibilities, here a few examples:
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-- [WebStorm](https://www.jetbrains.com/webstorm/) (brings the required plugins natively)
-- your favorite text editor + CLI
+See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 
-Install the required dependencies with
 ```sh
 npm install
 ```
 
-Then you are good to go with
+### Compile and Hot-Reload for Development
+
 ```sh
 npm run dev
 ```
 
-To deploy your code to production, you can compile and minify using
+### Compile and Minify for Production
+
 ```sh
 npm run build
-```
-
-Also, there is linter available:
-```sh
-npm run lint
 ```

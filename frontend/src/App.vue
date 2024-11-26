@@ -1,58 +1,20 @@
-<script setup lang="ts">
-import {RouterView} from 'vue-router'
-import {Close, Header, HeaderNav, HeaderNavItem, Toast, Toasts} from "agnostic-vue";
-import {activeToasts} from "@/ts/toasts";
-
-import 'agnostic-vue/dist/common.min.css';
-import "agnostic-vue/dist/index.css";
-</script>
-
 <template>
   <div id="app">
-    <Header isHeaderContentStart>
-      <template v-slot:headernav>
-        <HeaderNav>
-          <HeaderNavItem>
-            <RouterLink to="/">Home</RouterLink>
-          </HeaderNavItem>
-          <HeaderNavItem>
-            <RouterLink to="/about">About</RouterLink>
-          </HeaderNavItem>
-          <HeaderNavItem>
-            <RouterLink to="/cats">Cats</RouterLink>
-          </HeaderNavItem>
-        </HeaderNav>
-      </template>
-    </Header>
-
-    <div class="main">
-      <RouterView/>
-    </div>
+    <HomePage />
   </div>
-
-  <Toasts vertical-position="top" horizontal-position="end">
-    <template v-for="toast of activeToasts" :key="toast.key">
-      <Toast :type="toast.type" class="alert alert-border-left alert-info">
-        <div class="flex-fill flex flex-column">
-          <div class="flex">
-            <h3 class="flex-fill">{{ toast.title }}</h3>
-            <Close @click="toast.close()"/>
-          </div>
-          <div class="flex">
-            <font-awesome-icon :icon="toast.icon" size="xl" class="mie8 pbs2"></font-awesome-icon>
-            <div class="flex-fill">
-              {{ toast.message }}
-            </div>
-          </div>
-        </div>
-      </Toast>
-      <div class="mbe14"/>
-    </template>
-  </Toasts>
 </template>
 
+<script lang="ts" setup>
+import HomePage from './components/HomePage.vue';
+</script>
+
 <style scoped>
-.main {
-  padding: 10px 20px;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
