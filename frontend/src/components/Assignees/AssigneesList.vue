@@ -1,29 +1,31 @@
 <template>
   <div>
     <h1>Assignees List</h1>
-    <table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Vorname</th>
-        <th>Nachname</th>
-        <th>E-Mail</th>
-        <th>Aktionen</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(assignee, index) in assignees" :key="assignee.id">
-        <td>{{ assignee.id }}</td>
-        <td>{{ assignee.prename }}</td>
-        <td>{{ assignee.name }}</td>
-        <td>{{ assignee.email }}</td>
-        <td>
-          <button @click="editAssignee(index)">Bearbeiten</button>
-          <button @click="deleteAssignee(assignee.id)">Löschen</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>E-Mail</th>
+          <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+          <td>{{ assignee.id }}</td>
+          <td>{{ assignee.prename }}</td>
+          <td>{{ assignee.name }}</td>
+          <td>{{ assignee.email }}</td>
+          <td>
+            <button @click="editAssignee(index)">Bearbeiten</button>
+            <button @click="deleteAssignee(assignee.id)">Löschen</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
     <EditAssignee
         v-if="editIndex !== null"
@@ -106,3 +108,44 @@ export default defineComponent({
 });
 </script>
 
+<style scoped>
+.table-container {
+  max-height: 400px; /* Maximalhöhe für den Container */
+  overflow-y: auto;  /* Scrollbar wird angezeigt, wenn der Inhalt die Maximalhöhe überschreitet */
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:focus {
+  outline: none;
+}
+</style>

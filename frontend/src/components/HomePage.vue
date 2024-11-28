@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <!-- Assignee-Container für AssigneeList und CreateAssignee nebeneinander -->
     <div class="assignee-container">
+      <div class="component">
+        <SearchAssignee />
+      </div>
+
       <div class="component">
         <AssigneeList />
       </div>
@@ -10,27 +13,29 @@
       </div>
     </div>
 
-    <!-- SearchAssignee oben oder unten angezeigt -->
-    <div class="component">
-      <SearchAssignee />
-    </div>
-
-    <!-- ToDoList und ToDoCreateModal untereinander -->
     <div class="todo-container">
       <div class="component">
-        <ToDoList />
+        <ToDoList :todos="todos" />
       </div>
       <div class="component">
-        <ToDoCreateModal />
+        <ToDoCreateModal @created="handleNewToDo" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import AssigneeList from './Assignees/AssigneesList.vue';
 import CreateAssignee from './Assignees/createAssignee.vue';
 import SearchAssignee from './Assignees/SearchAssignee.vue';
 import ToDoList from "@/components/Todos/ToDoList.vue";
 import ToDoCreateModal from "@/components/Todos/ToDoCreateModal.vue";
+
+const todos = ref([]); // To-Do Liste
+
+// Methode zum Hinzufügen eines neuen To-Dos
+const handleNewToDo = (newTodo) => {
+  todos.value.push(newTodo); // Füge das neue To-Do direkt der Liste hinzu
+};
 </script>

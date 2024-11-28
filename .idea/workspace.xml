@@ -4,26 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="- Added SearchAssignee.vue">
-      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/config/DataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoCreateModal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoDetailsModal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoEditModal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoList.vue" afterDir="false" />
+    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="- Added Todo functions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/assets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AssigneesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/AssigneesList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/EditAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/EditAssignee.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Assignees/AssigneesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/AssigneesList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Assignees/SearchAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/SearchAssignee.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SearchAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/SearchAssignee.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/createAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/createAssignee.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoCreateModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoCreateModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/event-bus.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/event-bus.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +30,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -55,45 +49,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JAR Application.rest-api.jar.executor": "Run",
-    "Maven.api [deploy].executor": "Run",
-    "Maven.api [package].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.Application.executor": "Run",
-    "git-widget-placeholder": "main",
-    "javascript.nodejs.core.library.configured.version": "22.11.0",
-    "javascript.nodejs.core.library.typings.version": "22.10.0",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/leeis/IdeaProjects/rest-api-pe2-exc2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "settings.vue",
-    "ts.external.directory.path": "C:\\Users\\leeis\\IdeaProjects\\repo051\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JAR Application.rest-api.jar.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api [deploy].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.api [package].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;production__exc3&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.11.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.10.0&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/leeis/IdeaProjects/rest-api-pe2-exc2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\leeis\\IdeaProjects\\repo051\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ],
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components\Todos" />
@@ -111,7 +105,7 @@
       <recent name="de.unistuttgart.iste.ese.api.entities.assignees" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="rest-api.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/api/target/rest-api.jar" />
       <method v="2" />
@@ -175,7 +169,8 @@
       <workItem from="1732608256767" duration="89000" />
       <workItem from="1732608924941" duration="6783000" />
       <workItem from="1732628624651" duration="5000" />
-      <workItem from="1732780226010" duration="8339000" />
+      <workItem from="1732780226010" duration="8844000" />
+      <workItem from="1732803643160" duration="4786000" />
     </task>
     <task id="LOCAL-00001" summary="v0.2">
       <option name="closed" value="true" />
@@ -249,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732615968309</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- Added Todo functions">
+      <option name="closed" value="true" />
+      <created>1732789030992</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1732789030992</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +273,8 @@
     <MESSAGE value="v0.2" />
     <MESSAGE value="- Frontend AssigneesList, EditAssignees and CreateAssignees added" />
     <MESSAGE value="- Added SearchAssignee.vue" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added SearchAssignee.vue" />
+    <MESSAGE value="- Added Todo functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added Todo functions" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

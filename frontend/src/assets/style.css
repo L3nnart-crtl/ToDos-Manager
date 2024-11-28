@@ -13,13 +13,15 @@ body {
     overflow-x: hidden;
 }
 
+/* Container für alle Inhalte */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    max-width: 1200px;
+    max-width: 100%; /* Maximale Breite auf 100% */
     margin: 0 auto;
+    padding: 0 10px; /* Abstand an den Seiten für kleinere Bildschirme */
 }
 
 /* Layout für größere Bildschirme */
@@ -27,7 +29,6 @@ body {
     .container {
         flex-direction: row;
         justify-content: space-between;
-        gap: 30px;
     }
 
     .assignee-container {
@@ -44,7 +45,7 @@ body {
     }
 }
 
-/* Komponenten-Stil */
+/* Komponente-Stil */
 .component {
     background-color: #1e1e1e;
     padding: 20px;
@@ -91,6 +92,13 @@ ul {
     margin: 0;
 }
 
+/* Dynamische Scrollbare Listen */
+.scrollable-list {
+    max-height: 300px; /* Begrenze die maximale Höhe */
+    overflow-y: auto;  /* Vertikale Scrollbar aktivieren */
+}
+
+/* Scrollbare Listen für Assignees, To-Do's, etc. */
 ul li {
     display: flex;
     justify-content: space-between;
@@ -116,6 +124,7 @@ ul li button:hover {
     background-color: #d32f2f;
 }
 
+/* Modal Styles */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -133,7 +142,8 @@ ul li button:hover {
     background: #2a2a2a;
     padding: 30px;
     border-radius: 10px;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     position: relative;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
@@ -144,17 +154,34 @@ ul li button:hover {
     right: 10px;
     font-size: 20px;
     background: transparent;
-    color: #f44336; /* Rote Farbe für das "X" */
+    color: #f44336;
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .close-btn:hover {
-    color: #d32f2f; /* Dunkleres Rot beim Hover */
+    color: #d32f2f;
 }
 
-/* Formulare */
+/* Scrollbare Listen für alle Aufgaben */
+.todo-list {
+    max-height: 300px; /* Maximale Höhe der To-Do-Liste */
+    overflow-y: auto;  /* Aktiviert vertikales Scrollen */
+    margin-bottom: 20px; /* Abstand zwischen den Listen */
+    width: 100%;  /* Volle Breite des Containers */
+    max-width: 600px; /* Maximale Breite anpassen */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Weitere nützliche Stile */
+.error-message {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Formular */
 .form {
     width: 100%;
     max-width: 600px;
@@ -174,7 +201,7 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
     width: 100%;
     padding: 10px;
     background-color: #444;
@@ -185,79 +212,6 @@ input[type="text"] {
 
 input[type="text"]:focus {
     border-color: #4caf50;
-}
-
-.search-form {
-    margin-bottom: 20px;
-}
-
-/* Weitere nützliche Stile */
-.error-message {
-    color: #f44336;
-    font-weight: bold;
-}
-
-/* Scrollbare Listen */
-.scrollable-list {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-/* Layout für "Create Assignee" */
-.create-assignee-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.create-assignee-container button {
-    align-self: flex-start;
-}
-
-/* Überschriften anpassen */
-h1, h2, h3 {
-    color: #ffffff;
-    margin-bottom: 20px;
-}
-
-h1 {
-    font-size: 28px;
-}
-
-h2 {
-    font-size: 24px;
-}
-
-/* Optimierungen für die Modals */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1100;
-}
-
-.modal {
-    background: #2a2a2a;
-    padding: 30px;
-    border-radius: 10px;
-    width: 500px;
-    position: relative;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-}
-
-/* Optimierungen für Formulare */
-input, textarea {
-    font-size: 14px;
-}
-
-textarea {
-    min-height: 100px;
 }
 
 button[type="submit"] {
@@ -271,3 +225,46 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #45a049;
 }
+
+/* Optimierungen für Formulare und Buttons */
+input, textarea {
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .todo-list {
+        max-height: 200px;
+    }
+
+    .scrollable-list {
+        max-height: 200px;
+    }
+}
+
+h1, h2, h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
