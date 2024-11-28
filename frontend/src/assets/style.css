@@ -1,218 +1,273 @@
-/* Allgemeine Layout- und Container-Stile */
-.homepage-container {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-    background-color: #f8f8f8;
+/* Globale Stile */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.content-container {
-    display: flex;
-    gap: 50px;
-    max-width: 1200px;
-    width: 100%;
+body {
+    background-color: #121212; /* Dunkler Hintergrund für Dark Mode */
+    color: #e0e0e0; /* Helle Textfarbe */
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
-/* Formularkomponenten */
-.form-container {
-    flex: 1 1 400px;
+.container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    background-color: #ffffff;
-    padding: 30px;
-    transition: box-shadow 0.3s ease;
+    align-items: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.form-container:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+/* Layout für größere Bildschirme */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .assignee-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .todo-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 }
 
-.form-title {
-    text-align: center;
-    color: #4caf50;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 30px;
-}
-
-/* Eingabefelder */
-input,
-textarea {
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    background-color: #f5f5f5;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-input:focus,
-textarea:focus {
-    border-color: #4caf50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.6);
-}
-
-textarea {
-    resize: vertical;
+/* Komponenten-Stil */
+.component {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px;
 }
 
 button {
-    padding: 14px 20px;
-    font-size: 16px;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #45a049;
-    transform: translateY(-2px);
 }
 
-button:active {
-    transform: translateY(2px);
+button:focus {
+    outline: none;
 }
 
-.add-button {
-    background-color: #4caf50;
-}
-
-.add-button:hover {
-    background-color: #45a049;
-}
-
-.submit-button {
-    background-color: #3b82f6;
-}
-
-.submit-button:hover {
-    background-color: #1e5fd1;
-}
-
-.remove-button {
-    background-color: #e57373;
-    color: white;
+input[type="text"], input[type="number"], textarea {
+    background-color: #333;
+    border: 1px solid #444;
+    color: #e0e0e0;
     padding: 10px;
-    font-size: 14px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-.remove-button:hover {
-    background-color: #d32f2f;
-}
-
-/* Rezeptlisten-Stile */
-.recipe-list-container {
-    flex: 2 1 800px;
-    max-width: 800px;
+    border-radius: 4px;
     width: 100%;
 }
 
-.recipe-list-container .list-title {
-    text-align: center;
-    font-size: 28px;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 20px;
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border-color: #4caf50;
 }
 
-.recipe-cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-}
-
-.recipe-card {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.recipe-name {
-    font-size: 18px;
-    color: #4caf50;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.recipe-description {
-    color: #555;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.ingredient-list {
+ul {
     list-style-type: none;
-    padding-left: 0;
-    margin-top: 10px;
+    padding: 0;
+    margin: 0;
 }
 
-.ingredient-list li {
-    font-size: 14px;
-    color: #333;
-}
-
-.no-recipes {
-    text-align: center;
-    font-size: 16px;
-    color: #888;
-}
-
-/* Kalender-Stile */
-.calendar-container {
-    margin-top: 40px;
-}
-
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-}
-
-.calendar-day {
-    border: 1px solid #ddd;
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2a;
     padding: 10px;
-    text-align: center;
+    margin: 5px 0;
+    border-radius: 6px;
+    border: 1px solid #444;
 }
 
-.calendar-day button {
-    padding: 10px;
-    font-size: 16px;
+ul li button {
+    background-color: #f44336;
     color: white;
-    background-color: #e57373;
-    border-radius: 8px;
     border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.calendar-day button:hover {
+ul li button:hover {
     background-color: #d32f2f;
 }
 
-.calendar-day p {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
 }
 
-.no-mealplan {
-    text-align: center;
+.modal {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background: transparent;
+    color: #f44336; /* Rote Farbe für das "X" */
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #d32f2f; /* Dunkleres Rot beim Hover */
+}
+
+/* Formulare */
+.form {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
     font-size: 14px;
-    color: #888;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #e0e0e0;
+    border-radius: 4px;
+}
+
+input[type="text"]:focus {
+    border-color: #4caf50;
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+/* Weitere nützliche Stile */
+.error-message {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Scrollbare Listen */
+.scrollable-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Layout für "Create Assignee" */
+.create-assignee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-assignee-container button {
+    align-self: flex-start;
+}
+
+/* Überschriften anpassen */
+h1, h2, h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+/* Optimierungen für die Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.modal {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    width: 500px;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Optimierungen für Formulare */
+input, textarea {
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
 }

@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import axios from 'axios';
-import { EventBus } from './event-bus';
+import { EventBus } from '../event-bus';
 import EditAssignee from './EditAssignee.vue';
 
 export default defineComponent({
@@ -106,38 +106,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-table {
-  width: 80%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-  text-align: left;
-}
-
-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #d32f2f;
-}
-</style>

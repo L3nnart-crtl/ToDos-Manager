@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="- Frontend AssigneesList, EditAssignees and CreateAssignees added" />
+    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="- Added SearchAssignee.vue">
+      <change afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/config/DataLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoCreateModal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoDetailsModal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoEditModal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todos/ToDoList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/de/unistuttgart/iste/ese/api/entities/todos/ToDoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AssigneesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/AssigneesList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/EditAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/EditAssignee.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SearchAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/SearchAssignee.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/createAssignee.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Assignees/createAssignee.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
         <option value="Vue Composition API Component" />
       </list>
     </option>
@@ -76,10 +96,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components\Todos" />
+      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components\Assignees" />
       <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components" />
       <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src" />
       <recent name="C:\Users\leeis\IdeaProjects\repo051\api" />
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\api\src\main" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -152,7 +173,9 @@
       <workItem from="1732604192764" duration="3851000" />
       <workItem from="1732608200273" duration="38000" />
       <workItem from="1732608256767" duration="89000" />
-      <workItem from="1732608924941" duration="6457000" />
+      <workItem from="1732608924941" duration="6783000" />
+      <workItem from="1732628624651" duration="5000" />
+      <workItem from="1732780226010" duration="8339000" />
     </task>
     <task id="LOCAL-00001" summary="v0.2">
       <option name="closed" value="true" />
@@ -218,7 +241,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732615442226</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="- Added SearchAssignee.vue">
+      <option name="closed" value="true" />
+      <created>1732615968309</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732615968309</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,7 +269,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2" />
     <MESSAGE value="- Frontend AssigneesList, EditAssignees and CreateAssignees added" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Frontend AssigneesList, EditAssignees and CreateAssignees added" />
+    <MESSAGE value="- Added SearchAssignee.vue" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added SearchAssignee.vue" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
