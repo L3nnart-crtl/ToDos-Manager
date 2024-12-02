@@ -12,14 +12,14 @@ export default defineConfig({
     },
   },
   server: {
-    host: '0.0.0.0',
-    port: 80,
+    host: '0.0.0.0',  // Lauscht auf allen IPv4-Adressen, auch localhost
+    port: 80,          // Frontend läuft auf Port 80
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8080',  // Dein Backend auf localhost:8080
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,  // Deaktiviert die SSL/TLS-Prüfung
+        rewrite: (path) => path.replace(/^\/api/, ''),  // Entfernt "/api" aus dem Pfad
       },
     },
   },
