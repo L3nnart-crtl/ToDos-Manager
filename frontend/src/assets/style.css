@@ -1,0 +1,270 @@
+/* Globale Stile */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212; /* Dunkler Hintergrund für Dark Mode */
+    color: #e0e0e0; /* Helle Textfarbe */
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* Container für alle Inhalte */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 100%; /* Maximale Breite auf 100% */
+    margin: 0 auto;
+    padding: 0 10px; /* Abstand an den Seiten für kleinere Bildschirme */
+}
+
+/* Layout für größere Bildschirme */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .assignee-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .todo-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/* Komponente-Stil */
+.component {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 600px;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:focus {
+    outline: none;
+}
+
+input[type="text"], input[type="number"], textarea {
+    background-color: #333;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border-color: #4caf50;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Dynamische Scrollbare Listen */
+.scrollable-list {
+    max-height: 300px; /* Begrenze die maximale Höhe */
+    overflow-y: auto;  /* Vertikale Scrollbar aktivieren */
+}
+
+/* Scrollbare Listen für Assignees, To-Do's, etc. */
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2a;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    border: 1px solid #444;
+}
+
+ul li button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+ul li button:hover {
+    background-color: #d32f2f;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.modal {
+    background: #2a2a2a;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background: transparent;
+    color: #f44336;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #d32f2f;
+}
+
+/* Scrollbare Listen für alle Aufgaben */
+.todo-list {
+    max-height: 300px; /* Maximale Höhe der To-Do-Liste */
+    overflow-y: auto;  /* Aktiviert vertikales Scrollen */
+    margin-bottom: 20px; /* Abstand zwischen den Listen */
+    width: 100%;  /* Volle Breite des Containers */
+    max-width: 600px; /* Maximale Breite anpassen */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Weitere nützliche Stile */
+.error-message {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Formular */
+.form {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #e0e0e0;
+    border-radius: 4px;
+}
+
+input[type="text"]:focus {
+    border-color: #4caf50;
+}
+
+button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Optimierungen für Formulare und Buttons */
+input, textarea {
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .todo-list {
+        max-height: 200px;
+    }
+
+    .scrollable-list {
+        max-height: 200px;
+    }
+}
+
+h1, h2, h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 24px;
+}
+

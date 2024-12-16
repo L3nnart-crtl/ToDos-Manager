@@ -15,6 +15,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/v1")
 @ApiVersion1
+@CrossOrigin(origins = "http://localhost")
 public class ToDoController {
 
     @Autowired
