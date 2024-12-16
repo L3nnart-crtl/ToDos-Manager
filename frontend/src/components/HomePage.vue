@@ -4,6 +4,9 @@
       <div class="component">
         <SearchAssignee />
       </div>
+      <div class="component">
+        <SearchTodo />
+      </div>
 
       <div class="component">
         <AssigneeList />
@@ -11,16 +14,14 @@
       <div class="component">
         <CreateAssignee />
       </div>
+      <div class="component">
+              <ToDoList :todos="todos" />
+      </div>
+      <div class="component">
+              <ToDoCreateModal @created="handleNewToDo" />
+      </div>
     </div>
 
-    <div class="todo-container">
-      <div class="component">
-        <ToDoList :todos="todos" />
-      </div>
-      <div class="component">
-        <ToDoCreateModal @created="handleNewToDo" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import CreateAssignee from './Assignees/createAssignee.vue';
 import SearchAssignee from './Assignees/SearchAssignee.vue';
 import ToDoList from "@/components/Todos/ToDoList.vue";
 import ToDoCreateModal from "@/components/Todos/ToDoCreateModal.vue";
+import SearchTodo from "@/components/Todos/SearchTodo.vue";
 
 const todos = ref([]); // To-Do Liste
 

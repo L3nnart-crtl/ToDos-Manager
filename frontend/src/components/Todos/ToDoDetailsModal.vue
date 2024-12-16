@@ -4,8 +4,9 @@
       <!-- Close button (X) -->
       <button class="close-btn" @click="closeModal">X</button>
 
-      <h2>{{ todo.title }}</h2>
-      <p>{{ todo.description }}</p>
+      <h2>Title: {{ todo.title }}</h2>
+      <h2>Id: {{ todo.id }}</h2>
+      <p>Description{{ todo.description }}</p>
       <p>Due Date: {{ new Date(todo.dueDate).toLocaleString() }}</p>
       <p>Status: {{ todo.finished ? "Completed" : "In Progress" }}</p>
 

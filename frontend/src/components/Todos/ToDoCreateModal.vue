@@ -1,39 +1,39 @@
 <template>
   <div class="create-todo-form">
-    <h2>Neues To-Do Erstellen</h2>
+    <h2>Create new To-Do</h2>
 
     <div>
       <label for="title">Titel:</label>
       <input v-model="newTodo.title" id="title" type="text" required />
 
-      <label for="description">Beschreibung:</label>
+      <label for="description">Description:</label>
       <input v-model="newTodo.description" id="description" type="text" />
 
-      <label for="dueDate">Fälligkeitsdatum:</label>
+      <label for="dueDate">Due Date:</label>
       <input v-model="newTodo.dueDate" id="dueDate" type="date" />
 
       <label for="assignee">Assignees:</label>
       <select v-model="selectedAssignee" id="addAssignee" class="form-select">
-        <option disabled value="">Wählen Sie einen Assignee aus</option>
+        <option disabled value="">Choose an assignee</option>
         <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
           {{ assignee.prename }} {{ assignee.name }}
         </option>
       </select>
 
-      <button @click="addAssignee">Hinzufügen</button>
+      <button @click="addAssignee">Add</button>
 
       <div v-if="newTodo.assigneeList.length > 0">
-        <h4>Zugewiesene Assignees:</h4>
+        <h4>Assignees:</h4>
         <ul>
           <li v-for="assignee in newTodo.assigneeList" :key="assignee.id">
             {{ assignee.prename }} {{ assignee.name }}
-            <button @click="removeAssignee(assignee.id)">Entfernen</button>
+            <button @click="removeAssignee(assignee.id)">Remove</button>
           </li>
         </ul>
       </div>
     </div>
 
-    <button @click="submit">Erstellen</button>
+    <button @click="submit">Create</button>
   </div>
 </template>
 

@@ -75,7 +75,7 @@ The Vue.js frontend requires Node.js and npm to install dependencies and start t
 
 ---
 
-## Project Setup
+## 1. Manual Project Setup
 
 1. **Clone the repository**:
    If you haven't cloned the project yet, do so by running:
@@ -133,9 +133,29 @@ The Vue.js frontend requires Node.js and npm to install dependencies and start t
 
 ---
 
-## Backend and Frontend Startup
+## 2. Automated Backend and Frontend Startup
 
 You can automate the startup of both backend and frontend using the following scripts.
+
+1.**Navigate to the api directory**:
+   ```bash
+   cd api
+   ```
+
+2.**Build the project**:
+   ```bash
+   mvn clean install
+   ```
+3.**Navigate to the frontend directory**:
+   ```bash
+   cd frontend
+   ```
+
+4.**Install the frontend dependencies using npm**:
+   ```bash
+   npm install
+   ```
+Now you can start the Application using the following start skripts: 
 
 ### Windows: `start.bat`
 

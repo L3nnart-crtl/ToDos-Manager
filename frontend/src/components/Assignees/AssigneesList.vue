@@ -4,25 +4,25 @@
     <div class="table-container">
       <table>
         <thead>
-        <tr>
-          <th>ID</th>
-          <th>Vorname</th>
-          <th>Nachname</th>
-          <th>E-Mail</th>
-          <th>Aktionen</th>
-        </tr>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
-        <tr v-for="(assignee, index) in assignees" :key="assignee.id">
-          <td>{{ assignee.id }}</td>
-          <td>{{ assignee.prename }}</td>
-          <td>{{ assignee.name }}</td>
-          <td>{{ assignee.email }}</td>
-          <td>
-            <button @click="editAssignee(index)">Bearbeiten</button>
-            <button @click="deleteAssignee(assignee.id)">Löschen</button>
-          </td>
-        </tr>
+          <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+            <td>{{ assignee.id }}</td>
+            <td>{{ assignee.prename }}</td>
+            <td>{{ assignee.name }}</td>
+            <td>{{ assignee.email }}</td>
+            <td>
+              <button @click="editAssignee(index)">Edit</button>
+              <button @click="deleteAssignee(assignee.id)">Delete</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -113,6 +113,7 @@ export default defineComponent({
   max-height: 400px; /* Maximalhöhe für den Container */
   overflow-y: auto;  /* Scrollbar wird angezeigt, wenn der Inhalt die Maximalhöhe überschreitet */
   margin-top: 20px;
+
 }
 
 table {

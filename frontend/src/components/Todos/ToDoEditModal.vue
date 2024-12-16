@@ -17,7 +17,7 @@
         <label for="assignee">Assignees:</label>
         <!-- Dropdown für Assignees -->
         <select v-model="selectedAssignee" id="addAssignee" class="form-select">
-          <option disabled value="">Wählen Sie einen Assignee aus</option>
+          <option disabled value="">Choose an assignee</option>
           <option
               v-for="assignee in availableAssignees"
               :key="assignee.id"
@@ -27,7 +27,7 @@
           </option>
         </select>
         <!-- Hinzufügen-Button -->
-        <button @click="addAssignee">Hinzufügen</button>
+        <button @click="addAssignee">Add</button>
 
         <!-- Liste der Assignees mit Entfernen-Button -->
         <div v-if="todo.assigneeList.length > 0">
@@ -35,7 +35,7 @@
           <ul>
             <li v-for="assignee in todo.assigneeList" :key="assignee.id">
               {{ assignee.prename }} {{ assignee.name }}
-              <button @click="removeAssignee(assignee.id)">Entfernen</button>
+              <button @click="removeAssignee(assignee.id)">Remove</button>
             </li>
           </ul>
         </div>

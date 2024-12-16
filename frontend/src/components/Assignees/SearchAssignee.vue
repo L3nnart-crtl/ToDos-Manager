@@ -3,6 +3,7 @@
     <h1>Search Assignee</h1>
     <div class="search-form">
       <select v-model="searchCriterion">
+        <option value="id">ID</option> <!-- Neue Option für die ID -->
         <option value="prename">First Name</option>
         <option value="name">Last Name</option>
         <option value="email">Email</option>
@@ -13,7 +14,7 @@
     <div v-if="assignees.length > 0">
       <h2>Assignee Details</h2>
       <ul>
-        <li v-for="assignee in filteredAssignees" :key="assignee.id">
+        <li v-for="assignee in assignees" :key="assignee.id">
           <p><strong>ID:</strong> {{ assignee.id }}</p>
           <p><strong>First Name:</strong> {{ assignee.prename }}</p>
           <p><strong>Last Name:</strong> {{ assignee.name }}</p>
@@ -27,43 +28,47 @@
   </div>
 </template>
 
+
 <script lang="ts">
-import {computed, defineComponent, ref} from 'vue';
+import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
   name: 'SearchAssignee',
   setup() {
-    const searchCriterion = ref<string>('prename'); // Default: Suche nach Vorname
-    const searchValue = ref<string>(''); // Wert, nach dem gesucht wird
-    const assignees = ref<any[]>([]); // Alle Assignees
-    const errorMessage = ref<string | null>(null);
+    const searchCriterion = ref('prename'); // Standardkriterium
+    const searchValue = ref(''); // Eingabewert
+    const assignees = ref([]); // Ergebnisliste
+    const errorMessage = ref(null); // Fehlermeldung
 
     const searchAssignee = async () => {
-      if (!searchValue.value) {
+      errorMessage.value = null;
+      assignees.value = [];
+
+      if (!searchValue.value.trim()) {
         errorMessage.value = 'Please enter a value to search';
         return;
       }
 
       try {
-        const response = await axios.get('/api/v1/assignees');
-        assignees.value = response.data;
-        errorMessage.value = null; // Reset error message
+        if (searchCriterion.value === 'id') {
+          // Suche nach ID
+          const response = await axios.get(`/api/v1/assignees/${searchValue.value.trim()}`);
+          assignees.value = [response.data];
+        } else {
+          // Allgemeine Suche
+          const response = await axios.get('/api/v1/assignees');
+          assignees.value = response.data.filter((assignee: any) => {
+            const field = assignee[searchCriterion.value]?.toLowerCase();
+            return field && field.includes(searchValue.value.toLowerCase());
+          });
+        }
       } catch (error) {
-        assignees.value = [];
-        errorMessage.value = 'Error fetching assignees';
+        errorMessage.value = searchCriterion.value === 'id'
+          ? 'No assignee found with the given ID'
+          : 'Error fetching assignees';
       }
     };
-
-    // Filtert die Assignees basierend auf dem gewählten Kriterium und dem Wert
-    const filteredAssignees = computed(() => {
-      if (!searchValue.value) return assignees.value; // Wenn kein Wert eingegeben wurde, zeige alle an
-
-      return assignees.value.filter(assignee => {
-        const value = assignee[searchCriterion.value]?.toLowerCase();
-        return value && value.includes(searchValue.value.toLowerCase());
-      });
-    });
 
     return {
       searchCriterion,
@@ -71,17 +76,19 @@ export default defineComponent({
       assignees,
       errorMessage,
       searchAssignee,
-      filteredAssignees,
     };
   },
 });
 </script>
+
+
 <style scoped>
 /* Gesamter Container */
 .container {
   background-color: #1e1e1e; /* Dunkler Hintergrund für den Container */
   color: #e0e0e0; /* Helle Textfarbe */
   padding: 20px;
+  display: grid;
   border-radius: 8px;
   max-width: 600px;
   margin: 20px auto;
@@ -97,7 +104,7 @@ h1 {
 
 /* Formular zur Suche */
 .search-form {
-  display: flex;
+  display: grid;
   flex-direction: column;
   gap: 15px;
   margin-bottom: 20px;

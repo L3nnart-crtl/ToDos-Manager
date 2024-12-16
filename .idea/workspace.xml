@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="- Fixed Bugs in TodoList">
+    <list default="true" id="35945871-2360-4039-88a5-f0fda91ffd12" name="Changes" comment="v0.2">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/target/rest-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/api/target/rest-api.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +16,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
-        <option value="JavaScript File" />
         <option value="Class" />
-        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -33,6 +27,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -48,7 +43,6 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Batch.start.executor&quot;: &quot;Run&quot;,
     &quot;JAR Application.rest-api.jar.executor&quot;: &quot;Run&quot;,
     &quot;Maven.api [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.api [package].executor&quot;: &quot;Run&quot;,
@@ -60,8 +54,6 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;production__exc3&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.11.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.10.0&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/leeis/IdeaProjects/rest-api-pe2-exc2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -69,33 +61,19 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\leeis\\IdeaProjects\\repo051\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
       &quot;mariadb&quot;
-    ],
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
     ]
   }
 }</component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components\Todos" />
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components\Assignees" />
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src\components" />
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\frontend\src" />
-      <recent name="C:\Users\leeis\IdeaProjects\repo051\api" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
       <recent name="de.unistuttgart.iste.ese.api.todos" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -103,52 +81,13 @@
       <recent name="de.unistuttgart.iste.ese.api.entities.assignees" />
     </key>
   </component>
-  <component name="RunManager" selected="Batch.start">
-    <configuration name="start" type="BatchConfigurationType" factoryName="Batch" temporary="true">
-      <module name="rest-api-pe2-exc2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="start.bat" />
-      <option name="PARAMETERS" value="" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JAR Application.rest-api.jar">
     <configuration name="rest-api.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/api/target/rest-api.jar" />
       <method v="2" />
     </configuration>
-    <configuration name="start.sh" type="ShConfigurationType" temporary="true">
-      <option name="SCRIPT_TEXT" value="" />
-      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/start.sh" />
-      <option name="SCRIPT_OPTIONS" value="" />
-      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
-      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="EXECUTE_IN_TERMINAL" value="false" />
-      <option name="EXECUTE_SCRIPT_FILE" value="true" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/frontend/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Batch.start" />
-        <item itemvalue="Shell Script.start.sh" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="JAR Application.rest-api.jar" />
       </list>
     </recent_temporary>
@@ -187,25 +126,7 @@
       <workItem from="1731949716256" duration="4000" />
       <workItem from="1731949727982" duration="10000" />
       <workItem from="1731950476686" duration="1717000" />
-      <workItem from="1731952239312" duration="1038000" />
-      <workItem from="1732094996707" duration="86000" />
-      <workItem from="1732600838063" duration="3210000" />
-      <workItem from="1732604192764" duration="3851000" />
-      <workItem from="1732608200273" duration="38000" />
-      <workItem from="1732608256767" duration="89000" />
-      <workItem from="1732608924941" duration="6783000" />
-      <workItem from="1732628624651" duration="5000" />
-      <workItem from="1732780226010" duration="8844000" />
-      <workItem from="1732803643160" duration="4973000" />
-      <workItem from="1732865554733" duration="9000" />
-      <workItem from="1733142685070" duration="595000" />
-      <workItem from="1733143302152" duration="3000" />
-      <workItem from="1733143312597" duration="21000" />
-      <workItem from="1733143351017" duration="165000" />
-      <workItem from="1733143546538" duration="124000" />
-      <workItem from="1733228726596" duration="288000" />
-      <workItem from="1733229036300" duration="661000" />
-      <workItem from="1733229717688" duration="2803000" />
+      <workItem from="1731952239312" duration="810000" />
     </task>
     <task id="LOCAL-00001" summary="v0.2">
       <option name="closed" value="true" />
@@ -255,47 +176,7 @@
       <option name="project" value="LOCAL" />
       <updated>1731952013832</updated>
     </task>
-    <task id="LOCAL-00007" summary="v0.2">
-      <option name="closed" value="true" />
-      <created>1731998298401</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1731998298401</updated>
-    </task>
-    <task id="LOCAL-00008" summary="- Frontend AssigneesList, EditAssignees and CreateAssignees added">
-      <option name="closed" value="true" />
-      <created>1732615442226</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1732615442226</updated>
-    </task>
-    <task id="LOCAL-00009" summary="- Added SearchAssignee.vue">
-      <option name="closed" value="true" />
-      <created>1732615968309</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1732615968309</updated>
-    </task>
-    <task id="LOCAL-00010" summary="- Added Todo functions">
-      <option name="closed" value="true" />
-      <created>1732789030992</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1732789030992</updated>
-    </task>
-    <task id="LOCAL-00011" summary="- Fixed Bugs in TodoList">
-      <option name="closed" value="true" />
-      <created>1732808583657</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1732808583657</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,14 +195,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2" />
-    <MESSAGE value="- Frontend AssigneesList, EditAssignees and CreateAssignees added" />
-    <MESSAGE value="- Added SearchAssignee.vue" />
-    <MESSAGE value="- Added Todo functions" />
-    <MESSAGE value="- Fixed Bugs in TodoList" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fixed Bugs in TodoList" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2" />
   </component>
 </project>
