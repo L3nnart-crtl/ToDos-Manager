@@ -98,12 +98,12 @@ export default {
       ); // Entferne den Assignee aus der Liste
     },
     updateToDo() {
-      // Speichern der To-Do mit der neuen Liste von Assignees
-      const updatedToDo = {
-        ...this.todo,
-        assigneeIdList: this.todo.assigneeList.map((a) => a.id), // Assignee IDs für das Backend
-      };
-      this.$emit('update', updatedToDo); // Event zum Aktualisieren des To-Dos
+        const updatedToDo = {
+            ...this.todo,
+            dueDate: new Date(this.todo.dueDate).getTime(), // Convert to timestamp
+            assigneeIdList: this.todo.assigneeList.map((a) => a.id),
+        };
+        this.$emit('update', updatedToDo);
     },
   },
 };

@@ -108,14 +108,40 @@ export default {
       this.isEditModalOpen = false;
     },
     updateToDo(updatedTodo) {
-      axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
-          .then(response => {
-            const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
-            if (index !== -1) {
-              this.todos.splice(index, 1, response.data);
-            }
-            this.closeEditModal();
-          });
+        axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
+            .then(response => {
+                const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
+                if (index !== -1) {
+                    this.todos.splice(index, 1, response.data); // Ersetze das alte ToDo mit dem aktualisierten
+                }
+                this.closeEditModal(); // Schließe das Modal nach erfolgreichem Update
+            })
+            .catch(error => {
+                let errorMessage = "An unexpected error occurred.";
+
+                // Fehler vom Backend (z. B. 400, 500)
+                if (error.response) {
+                    // Fehlerdetails vom Backend
+                    errorMessage = `Error ${error.response.status}: ${error.response.data?.message || 'Assignee already assigned'}`;
+                    console.error(errorMessage);
+                }
+                // Fehler, weil keine Antwort vom Server kam
+                else if (error.request) {
+                    errorMessage = 'No response received from the server.';
+                    console.error(errorMessage);
+                }
+                // Allgemeiner Fehler, z. B. Syntaxfehler
+                else {
+                    errorMessage = `Error: ${error.message}`;
+                    console.error(errorMessage);
+                }
+
+                // Optionale Benutzerbenachrichtigung (z. B. mit alert oder einer anderen Methode)
+                alert(errorMessage); // Hier könnte auch eine benutzerdefinierte Fehleranzeige wie ein Modal oder eine Statusmeldung stehen.
+
+                // Fehler werfen, damit die Methode außerhalb Fehler behandeln kann
+                throw new Error(errorMessage);
+            });
     },
     toggleFinished(todo) {
       axios.put(`/api/v1/todos/${todo.id}`, todo)
