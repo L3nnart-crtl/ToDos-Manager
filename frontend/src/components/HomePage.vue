@@ -20,6 +20,9 @@
       <div class="component">
               <ToDoCreateModal @created="handleNewToDo" />
       </div>
+      <div>
+        <TodoCsvDownloader />
+      </div>
     </div>
 
   </div>
@@ -33,6 +36,7 @@ import SearchAssignee from './Assignees/SearchAssignee.vue';
 import ToDoList from "@/components/Todos/ToDoList.vue";
 import ToDoCreateModal from "@/components/Todos/ToDoCreateModal.vue";
 import SearchTodo from "@/components/Todos/SearchTodo.vue";
+import TodoCsvDownloader from "@/components/Todos/TodoCsvDownloader.vue";
 
 const todos = ref([]); // To-Do Liste
 
