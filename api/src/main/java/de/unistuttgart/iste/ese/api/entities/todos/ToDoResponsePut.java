@@ -13,9 +13,10 @@ public class ToDoResponsePut {
     private long createdDate;
     private long dueDate;
     private long finishedDate;
+    private String category;
 
     public ToDoResponsePut(final long id, final String title, final String description, final boolean finished,
-                           final List<Assignee> assigneeList, final long createdDate, final long dueDate, final long finishedDate) {
+                           final List<Assignee> assigneeList, final long createdDate, final long dueDate, final long finishedDate,final String category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,6 +25,7 @@ public class ToDoResponsePut {
         this.createdDate = createdDate;
         this.dueDate = dueDate;
         this.finishedDate = finishedDate;
+        this.category = category;
     }
 
     public long getId() {
@@ -88,5 +90,13 @@ public class ToDoResponsePut {
 
     public void setFinishedDate(final long finishedDate) {
         this.finishedDate = finishedDate;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(final String category) {
+        this.category = category;
     }
 }

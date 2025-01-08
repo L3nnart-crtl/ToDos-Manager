@@ -33,13 +33,13 @@ public class ToDoController {
 
     // get all todos
     @GetMapping("/todos")
-    public List<ToDoResponse> gettodos() {
-        List<ToDoResponse> toDoResponses = new ArrayList<>();
+    public List<ToDoResponsePut> gettodos() {
+        List<ToDoResponsePut> toDoResponses = new ArrayList<>();
         for (ToDo todo : toDoRepository.findAll()) {
 
-            ToDoResponse response = new ToDoResponse(todo.getId(), todo.getTitle(), todo.getDescription(),
+            ToDoResponsePut response = new ToDoResponsePut(todo.getId(), todo.getTitle(), todo.getDescription(),
                 todo.isFinished(), todo.getAssigneeList(),
-                todo.getCreatedDate().getTime(), todo.getDueDate());
+                todo.getCreatedDate().getTime(), todo.getDueDate(),todo.getFinishedDate(),todo.getCategory());
             toDoResponses.add(response);
         }
         return toDoResponses ;
@@ -56,7 +56,7 @@ public class ToDoController {
         if (todo != null) {
             ToDoResponsePut response = new ToDoResponsePut(todo.getId(), todo.getTitle(), todo.getDescription(),
                 todo.isFinished(), todo.getAssigneeList(),
-                todo.getCreatedDate().getTime(), todo.getDueDate(),todo.getFinishedDate());
+                todo.getCreatedDate().getTime(), todo.getDueDate(),todo.getFinishedDate(),todo.getCategory());
             return response;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -74,11 +74,11 @@ public class ToDoController {
         List<Long> assigneeIdList = requestBody.getAssigneeIdList();
         toDoService.todoRequestValid(requestBody);
         
-        ToDo todo = new ToDo(requestBody.getTitle(),requestBody.getDescription(),toDoService.getAssigneesListByIds(assigneeIdList),requestBody.getDueDate());
+        ToDo todo = new ToDo(requestBody.getTitle(),requestBody.getDescription(),toDoService.getAssigneesListByIds(assigneeIdList),requestBody.getDueDate(),toDoService.findCategory(requestBody.getTitle()));
         toDoRepository.save(todo);
         ToDoResponse response = new ToDoResponse(todo.getId(), todo.getTitle(), todo.getDescription(),
             todo.isFinished(), todo.getAssigneeList(),
-            todo.getCreatedDate().getTime(), todo.getDueDate());
+            todo.getCreatedDate().getTime(), todo.getDueDate(),toDoService.findCategory(requestBody.getTitle()));
         return response;
     }
 
@@ -98,10 +98,12 @@ public class ToDoController {
             toDoToUpdate.setFinished(requestBody.isFinished());
             toDoToUpdate.setAssigneeList(toDoService.getAssigneesListByIds(requestBody.getAssigneeIdList()));
             toDoToUpdate.setFinishedDate(new Date(requestBody.getDueDate()));
+            //Update Category
+            toDoToUpdate.setCategory(toDoToUpdate.getTitle());
             toDoRepository.save(toDoToUpdate);
             return new ToDoResponsePut(toDoToUpdate.getId(), toDoToUpdate.getTitle(), toDoToUpdate.getDescription(),
                 toDoToUpdate.isFinished(), toDoToUpdate.getAssigneeList(),
-                toDoToUpdate.getCreatedDate().getTime(), toDoToUpdate.getDueDate(),toDoToUpdate.getDueDate());
+                toDoToUpdate.getCreatedDate().getTime(), toDoToUpdate.getDueDate(),toDoToUpdate.getDueDate(),toDoToUpdate.getCategory());
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 String.format("ToDo with ID %s not found!", id));

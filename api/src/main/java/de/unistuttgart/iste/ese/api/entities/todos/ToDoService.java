@@ -82,4 +82,13 @@ public class ToDoService {
         }
         return assigneesList;
     }
+    
+    public String findCategory(final String todoName) {
+        TodoModel todoModel = new TodoModel("src/main/resources/model.pmml");
+        todoModel.loadModel();
+        
+        String category = todoModel.predictClass(todoName);
+        todoModel.unloadModel();
+        return category;
+    }
 }

@@ -36,6 +36,8 @@ public class ToDo {
 
     private Date finishedDate;
     
+    private String category;
+    
     
 
     // empty default constructor is necessary for JPA
@@ -44,7 +46,7 @@ public class ToDo {
     }
 
 
-    public ToDo(final String title, final String description, final List<Assignee> assigneeList, final long unixTimeStamp) {
+    public ToDo(final String title, final String description, final List<Assignee> assigneeList, final long unixTimeStamp,final String category) {
         
         this.title = title;
         this.description = description;
@@ -52,7 +54,7 @@ public class ToDo {
         this.assigneeList = new ArrayList<>(assigneeList);
         this.createdDate = dueDate;
         this.finishedDate = createdDate;
-        
+        this.category = category;
     }
 
     public long getId() {
@@ -125,5 +127,11 @@ public class ToDo {
         this.finishedDate = finishedDate;
     }
 
-    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(final String category) {
+        this.category = category;
+    }
 }

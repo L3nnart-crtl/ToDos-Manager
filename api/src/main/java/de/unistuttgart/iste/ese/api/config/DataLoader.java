@@ -4,6 +4,7 @@ import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
 import de.unistuttgart.iste.ese.api.entities.assignees.AssigneeRepository;
 import de.unistuttgart.iste.ese.api.entities.todos.ToDo;
 import de.unistuttgart.iste.ese.api.entities.todos.ToDoRepository;
+import de.unistuttgart.iste.ese.api.entities.todos.ToDoService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,9 @@ public class DataLoader {
     @Autowired
     private ToDoRepository toDoRepository;
 
+    @Autowired
+    private ToDoService toDoService;
+    
     @PostConstruct
     public void loadData() {
         // Delete existing data
@@ -135,18 +139,20 @@ public class DataLoader {
         assigneesForTodo12.add(assignee19);
         assigneesForTodo12.add(assignee20);
 
-        ToDo todo1 = new ToDo("Fix bugs", "Fix all reported bugs in the system", assigneesForTodo1, 1672531199000L);
-        ToDo todo2 = new ToDo("Prepare report", "Prepare the quarterly report for the team", assigneesForTodo2, 1673027599000L);
-        ToDo todo3 = new ToDo("Design new feature", "Design the new user profile feature", assigneesForTodo3, 1673617599000L);
-        ToDo todo4 = new ToDo("Update documentation", "Update the user guide documentation", assigneesForTodo4, 1674207599000L);
-        ToDo todo5 = new ToDo("Client meeting", "Meet with the client to discuss project progress", assigneesForTodo5, 1674897599000L);
-        ToDo todo6 = new ToDo("Team building event", "Organize a team building event", assigneesForTodo6, 1675487599000L);
-        ToDo todo7 = new ToDo("Code review", "Review the pull requests for the new feature", assigneesForTodo7, 1676077599000L);
-        ToDo todo8 = new ToDo("Conduct training", "Conduct a training session for new team members", assigneesForTodo8, 1676667599000L);
-        ToDo todo9 = new ToDo("Marketing strategy", "Develop a marketing strategy for the new product", assigneesForTodo9, 1677257599000L);
-        ToDo todo10 = new ToDo("Product design", "Design the product UI/UX", assigneesForTodo10, 1677847599000L);
-        ToDo todo11 = new ToDo("Budget planning", "Create a budget plan for the next quarter", assigneesForTodo11, 1678437599000L);
-        ToDo todo12 = new ToDo("Website launch", "Launch the new company website", assigneesForTodo12, 1679027599000L);
+        
+        ToDo todo1 = new ToDo("Fix bugs", "Fix all reported bugs in the system", assigneesForTodo1, 1672531199000L,toDoService.findCategory("Fix bugs"));
+        ToDo todo2 = new ToDo("Prepare report", "Prepare the quarterly report for the team", assigneesForTodo2, 1673027599000L, toDoService.findCategory("Prepare report"));
+        ToDo todo3 = new ToDo("Design new feature", "Design the new user profile feature", assigneesForTodo3, 1673617599000L, toDoService.findCategory("Design new feature"));
+        ToDo todo4 = new ToDo("Update documentation", "Update the user guide documentation", assigneesForTodo4, 1674207599000L, toDoService.findCategory("Update documentation"));
+        ToDo todo5 = new ToDo("Client meeting", "Meet with the client to discuss project progress", assigneesForTodo5, 1674897599000L, toDoService.findCategory("Client meeting"));
+        ToDo todo6 = new ToDo("Team building event", "Organize a team building event", assigneesForTodo6, 1675487599000L, toDoService.findCategory("Team building event"));
+        ToDo todo7 = new ToDo("Code review", "Review the pull requests for the new feature", assigneesForTodo7, 1676077599000L, toDoService.findCategory("Code review"));
+        ToDo todo8 = new ToDo("Conduct training", "Conduct a training session for new team members", assigneesForTodo8, 1676667599000L, toDoService.findCategory("Conduct training"));
+        ToDo todo9 = new ToDo("Marketing strategy", "Develop a marketing strategy for the new product", assigneesForTodo9, 1677257599000L, toDoService.findCategory("Marketing strategy"));
+        ToDo todo10 = new ToDo("Product design", "Design the product UI/UX", assigneesForTodo10, 1677847599000L, toDoService.findCategory("Product design"));
+        ToDo todo11 = new ToDo("Budget planning", "Create a budget plan for the next quarter", assigneesForTodo11, 1678437599000L, toDoService.findCategory("Budget planning"));
+        ToDo todo12 = new ToDo("Website launch", "Launch the new company website", assigneesForTodo12, 1679027599000L, toDoService.findCategory("Website launch"));
+
 
         // Save todos to the repository
         toDoRepository.save(todo1);
