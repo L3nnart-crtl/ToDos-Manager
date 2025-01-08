@@ -144,12 +144,25 @@ export default {
             });
     },
     toggleFinished(todo) {
-      axios.put(`/api/v1/todos/${todo.id}`, todo)
+      // Transform the todo object to match the desired request body
+      const requestBody = {
+        title: todo.title,
+        description: todo.description,
+        finished: todo.finished,
+        assigneeIdList: todo.assigneeList.map(assignee => assignee.id), // Extract IDs from assigneeList
+        dueDate: new Date(todo.dueDate).getTime() // Convert dueDate to a Unix timestamp in milliseconds
+      };
+
+      // Send the PUT request with the transformed body
+      axios.put(`/api/v1/todos/${todo.id}`, requestBody)
           .then(response => {
             const index = this.todos.findIndex(t => t.id === todo.id);
             if (index !== -1) {
               this.todos.splice(index, 1, response.data);
             }
+          })
+          .catch(error => {
+            console.error('Error updating the todo:', error);
           });
     },
     deleteToDo(todoId) {

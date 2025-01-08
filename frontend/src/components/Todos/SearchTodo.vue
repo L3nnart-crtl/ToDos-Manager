@@ -10,6 +10,7 @@
       <p><strong>ID:</strong> {{ todo.id }}</p>
       <p><strong>Title:</strong> {{ todo.title }}</p>
       <p><strong>Description:</strong> {{ todo.description }}</p>
+      <p><strong>Category:</strong> {{ todo.category }}</p>
       <p><strong>Finished:</strong> {{ todo.finished }}</p>
       <p><strong>Created Date:</strong> {{ formatDate(todo.createdDate) }}</p>
       <p><strong>Due Date:</strong> {{ formatDate(todo.dueDate) }}</p>
