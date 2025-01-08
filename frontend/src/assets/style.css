@@ -97,7 +97,9 @@ ul {
     max-height: 300px; /* Begrenze die maximale Höhe */
     overflow-y: auto;  /* Vertikale Scrollbar aktivieren */
 }
-
+.delete {
+    color: #d32f2f;
+}
 /* Scrollbare Listen für Assignees, To-Do's, etc. */
 ul li {
     display: flex;

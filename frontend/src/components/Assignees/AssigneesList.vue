@@ -4,35 +4,39 @@
     <div class="table-container">
       <table>
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-          <tr v-for="(assignee, index) in assignees" :key="assignee.id">
-            <td>{{ assignee.id }}</td>
-            <td>{{ assignee.prename }}</td>
-            <td>{{ assignee.name }}</td>
-            <td>{{ assignee.email }}</td>
-            <td>
-              <button @click="editAssignee(index)">Edit</button>
-              <button @click="deleteAssignee(assignee.id)">Delete</button>
-            </td>
-          </tr>
+        <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+          <td>{{ assignee.id }}</td>
+          <td>{{ assignee.prename }}</td>
+          <td>{{ assignee.name }}</td>
+          <td>{{ assignee.email }}</td>
+          <td>
+            <button class="edit" @click="editAssignee(index)">Edit</button>
+            <button class="delete" @click="deleteAssignee(assignee.id)">Delete</button>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
 
-    <EditAssignee
-        v-if="editIndex !== null"
-        :assignee="assignees[editIndex]"
-        @cancel="cancelEdit"
-        @save="saveAssignee"
-    />
+    <!-- Modal für das Bearbeiten des Assignees -->
+    <div v-if="editIndex !== null" class="modal-overlay">
+      <div class="modal-content">
+        <EditAssignee
+            :assignee="assignees[editIndex]"
+            @cancel="cancelEdit"
+            @save="saveAssignee"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,7 +49,7 @@ import EditAssignee from './EditAssignee.vue';
 export default defineComponent({
   name: 'AssigneeList',
   components: {
-    EditAssignee
+    EditAssignee,
   },
   setup() {
     const assignees = ref<any[]>([]);
@@ -72,11 +76,18 @@ export default defineComponent({
     };
 
     const deleteAssignee = async (id: number) => {
-      try {
-        await axios.delete(`/api/v1/assignees/${id}`);
-        getAssignees();
-      } catch (error) {
-        console.error('Fehler beim Löschen des Assignees:', error);
+      // Bestätigungsfenster anzeigen
+      const confirmed = window.confirm('Are you sure you want to delete this assignee?');
+
+      if (confirmed) {
+        try {
+          await axios.delete(`/api/v1/assignees/${id}`);
+          getAssignees(); // Liste der Assignees nach dem Löschen aktualisieren
+        } catch (error) {
+          console.error('Fehler beim Löschen des Assignees:', error);
+        }
+      } else {
+        console.log('Delete operation was canceled.');
       }
     };
 
@@ -110,10 +121,9 @@ export default defineComponent({
 
 <style scoped>
 .table-container {
-  max-height: 400px; /* Maximalhöhe für den Container */
-  overflow-y: auto;  /* Scrollbar wird angezeigt, wenn der Inhalt die Maximalhöhe überschreitet */
+  max-height: 400px;
+  overflow-y: auto;
   margin-top: 20px;
-
 }
 
 table {
@@ -122,7 +132,7 @@ table {
 }
 
 th, td {
-  padding: 12px 15px;
+  padding: 8px 10px;  /* Weniger Padding für engere Spalten */
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -132,21 +142,65 @@ th {
   color: white;
 }
 
+.button-container {
+  display: block; /* Buttons untereinander anordnen */
+}
+
 button {
-  background-color: #4CAF50;
+  margin-bottom: 5px; /* Abstand zwischen den Buttons */
+}
+
+.edit {
+  background-color: #4CAF50; /* Grün für den Edit-Button */
   color: white;
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
-  margin-right: 5px;
 }
 
-button:hover {
-  background-color: #45a049;
+.edit:hover {
+  background-color: #45a049; /* Dunkleres Grün beim Hover */
+}
+
+.delete {
+  background-color: #f44336; /* Rot für den Delete-Button */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  background-color: #e53935; /* Dunkleres Rot beim Hover */
 }
 
 button:focus {
   outline: none;
 }
+
+
+/* Modal-Stile */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 </style>

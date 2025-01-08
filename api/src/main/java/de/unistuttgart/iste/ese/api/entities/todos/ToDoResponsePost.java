@@ -4,7 +4,7 @@ import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
 
 import java.util.List;
 
-public class ToDoResponsePut {
+public class ToDoResponsePost {
     private long id;
     private String title;
     private String description;
@@ -12,11 +12,10 @@ public class ToDoResponsePut {
     private List<Assignee> assigneeList;
     private long createdDate;
     private long dueDate;
-    private long finishedDate;
     private String category;
 
-    public ToDoResponsePut(final long id, final String title, final String description, final boolean finished,
-                           final List<Assignee> assigneeList, final long createdDate, final long dueDate, final long finishedDate,final String category) {
+    public ToDoResponsePost(final long id, final String title, final String description, final boolean finished,
+                            final List<Assignee> assigneeList, final long createdDate, final long dueDate, final String category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,7 +23,6 @@ public class ToDoResponsePut {
         this.assigneeList = assigneeList;
         this.createdDate = createdDate;
         this.dueDate = dueDate;
-        this.finishedDate = finishedDate;
         this.category = category;
     }
 
@@ -82,14 +80,6 @@ public class ToDoResponsePut {
 
     public void setDueDate(final long dueDate) {
         this.dueDate = dueDate;
-    }
-
-    public long getFinishedDate() {
-        return finishedDate;
-    }
-
-    public void setFinishedDate(final long finishedDate) {
-        this.finishedDate = finishedDate;
     }
 
     public String getCategory() {

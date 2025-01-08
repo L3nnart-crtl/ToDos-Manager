@@ -40,6 +40,7 @@ export default defineComponent({
       try {
         const response = await axios.post('/api/v1/assignees', this.assignee);
         EventBus.newAssignee = response.data;
+        EventBus.$emit('new-assignee', response.data);
         alert('Assignee created!');
       } catch (error) {
         console.log(error);

@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
     todo: {
@@ -40,7 +42,17 @@ export default {
       this.$emit('close'); // Emit 'close' event to parent
     },
     deleteToDo(id) {
-      this.$emit('delete', id); // Emit 'delete' event to parent
+      const confirmed = window.confirm('Möchte Sie das Todo wirklich löschen?');
+      if (confirmed) {
+        try {
+          this.$emit('delete', id); // Emit 'delete' event to parent
+        } catch (error) {
+          console.error('Fehler beim Löschen des Todos:', error);
+        }
+      } else {
+        console.log('Delete operation was canceled.');
+      }
+
     },
     editToDo() {
       this.$emit('edit', this.todo); // Emit 'edit' event to parent

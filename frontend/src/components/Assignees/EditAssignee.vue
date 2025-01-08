@@ -1,20 +1,25 @@
 <template>
   <div>
-    <h2>Assignee bearbeiten</h2>
-    <form @submit.prevent="onSubmit">
-      <div>
-        <label for="prename">Vorname:</label>
-        <input type="text" v-model="assignee.prename" id="prename" />
+    <!-- Modal Overlay, das nur sichtbar ist, wenn assignee gesetzt ist -->
+    <div v-if="assignee" class="modal-overlay" @click="cancel">
+      <div class="modal" @click.stop>
+        <h2>Assignee bearbeiten</h2>
+        <form @submit.prevent="onSubmit">
+          <div>
+            <label for="prename">Vorname:</label>
+            <input type="text" v-model="assignee.prename" id="prename" />
 
-        <label for="name">Nachname:</label>
-        <input type="text" v-model="assignee.name" id="name" />
+            <label for="name">Nachname:</label>
+            <input type="text" v-model="assignee.name" id="name" />
 
-        <label for="email">E-Mail:</label>
-        <input type="text" v-model="assignee.email" id="email" />
+            <label for="email">E-Mail:</label>
+            <input type="text" v-model="assignee.email" id="email" />
+          </div>
+          <button type="submit">Speichern</button>
+          <button type="button" @click="cancel">Abbrechen</button>
+        </form>
       </div>
-      <button type="submit">Speichern</button>
-      <button type="button" @click="cancel">Abbrechen</button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -48,4 +53,5 @@ export default defineComponent({
   },
 });
 </script>
+
 

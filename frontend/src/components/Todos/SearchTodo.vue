@@ -13,7 +13,7 @@
       <p><strong>Finished:</strong> {{ todo.finished }}</p>
       <p><strong>Created Date:</strong> {{ formatDate(todo.createdDate) }}</p>
       <p><strong>Due Date:</strong> {{ formatDate(todo.dueDate) }}</p>
-      <p><strong>Finished Date:</strong> {{ formatDate(todo.finishedDate) }}</p>
+      <p><strong>Finished Date:</strong> {{ todo.finishedDate ? formatDate(todo.finishedDate) : 'Not finished yet' }}</p>
       <h3>Assignee List</h3>
       <ul>
         <li v-for="assignee in todo.assigneeList" :key="assignee.id">
