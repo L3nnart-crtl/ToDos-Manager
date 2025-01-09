@@ -172,7 +172,9 @@ public class ToDoController {
         byte[] csvContent = byteArrayOutputStream.toByteArray();
         return ResponseEntity.ok()
             .header("Content-Disposition", "attachment; filename=\"todos.csv\"")
+            .header("Content-Type", "text/csv")
             .body(csvContent);
+
     }
 
     private List<String> getAssigneeNames(List<Assignee> assignees) {
@@ -183,13 +185,18 @@ public class ToDoController {
     }
 
     private String escapeCsv(String value) {
-        // Escape special characters in CSV
         if (value == null) {
             return "";
         }
-        return value.replace("\"", "\"\"");
+        // Escape doppelte Anführungszeichen
+        value = value.replace("\"", "\"\"");
+        // Umgeben von Anführungszeichen, wenn das Feld Kommas, Anführungszeichen oder Zeilenumbrüche enthält
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            value = "\"" + value + "\"";
+        }
+        return value;
     }
-
+    
     private String formatDate(Date date) {
         // Format date to YYYY-MM-DD
         if (date == null) {
