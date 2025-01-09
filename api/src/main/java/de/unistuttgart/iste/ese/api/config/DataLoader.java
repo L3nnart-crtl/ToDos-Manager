@@ -23,7 +23,11 @@ public class DataLoader {
 
     @Autowired
     private ToDoService toDoService;
-    
+    /**
+     * This method is called after the Spring container is initialized. It deletes any existing data from 
+     * the assignee and todo repositories, creates a predefined set of assignees and todos, 
+     * and saves them to the database.
+     */
     @PostConstruct
     public void loadData() {
         // Delete existing data

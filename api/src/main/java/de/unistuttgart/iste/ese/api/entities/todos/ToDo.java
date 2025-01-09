@@ -9,7 +9,13 @@ import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * Represents a To-Do item entity for task management.
+ *
+ * <p>The class includes properties such as title, description, status, 
+ * assignees, and important dates (creation, due, and finished dates). 
+ * It is mapped to the database table "todos" using JPA annotations.</p>
+ */
 @Entity
 @Table(name = "todos")
 public class ToDo {
