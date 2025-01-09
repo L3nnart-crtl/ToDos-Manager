@@ -1,5 +1,5 @@
 <template>
-  <div class="create-todo-form">
+
     <h2>Create new To-Do</h2>
 
     <div>
@@ -34,7 +34,7 @@
     </div>
 
     <button @click="submit">Create</button>
-  </div>
+
 </template>
 
 <script>

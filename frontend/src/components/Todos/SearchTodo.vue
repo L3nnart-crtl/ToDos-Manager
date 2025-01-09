@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+
     <h1>Search Todo</h1>
     <div class="search-form">
       <input v-model="todoId" placeholder="Enter Todo ID" />
@@ -28,7 +28,6 @@
     <div v-if="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>
     </div>
-  </div>
 </template>
 
 <script lang="ts">

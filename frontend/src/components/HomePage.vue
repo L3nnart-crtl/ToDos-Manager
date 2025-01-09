@@ -1,31 +1,26 @@
 <template>
   <div class="container">
-    <div class="assignee-container">
-      <div class="component">
+
+      <div class="component-search-createTodo">
         <SearchAssignee />
-      </div>
-      <div class="component">
         <SearchTodo />
       </div>
 
-      <div class="component">
+      <div class="todoList-component">
+        <ToDoList :todos="todos" />
+        <TodoCsvDownloader />
+      </div>
+
+      <div class="assigneeList-component">
+        <CreateAssignee />
         <AssigneeList />
       </div>
       <div class="component">
-        <CreateAssignee />
-      </div>
-      <div class="component">
-              <ToDoList :todos="todos" />
-      </div>
-      <div class="component">
-              <ToDoCreateModal @created="handleNewToDo" />
-      </div>
-      <div>
-        <TodoCsvDownloader />
+        <ToDoCreateModal @created="handleNewToDo" />
       </div>
     </div>
 
-  </div>
+
 </template>
 
 <script lang="ts" setup>

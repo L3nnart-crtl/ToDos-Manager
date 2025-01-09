@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-    <h1>Create Assignee</h1>
-    <form @submit.prevent="onSubmit" class="form">
+    <form @submit.prevent="onSubmit" >
+      <h1>Create Assignee</h1>
       <div class="form-group">
         <label for="prename">Prename</label>
         <input type="text" id="prename" v-model="assignee.prename" />
@@ -16,7 +15,6 @@
       </div>
       <button type="submit">Create</button>
     </form>
-  </div>
 </template>
 
 <script lang="ts">
@@ -50,4 +48,3 @@ export default defineComponent({
   },
 });
 </script>
-

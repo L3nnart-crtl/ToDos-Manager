@@ -1,5 +1,4 @@
 <template>
-  <div class="container">
     <h1>Search Assignee</h1>
     <div class="search-form">
       <select v-model="searchCriterion">
@@ -25,7 +24,6 @@
     <div v-if="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>
     </div>
-  </div>
 </template>
 
 

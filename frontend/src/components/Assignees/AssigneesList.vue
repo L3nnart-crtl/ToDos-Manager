@@ -132,16 +132,18 @@ table {
 }
 
 th, td {
-  padding: 8px 10px;  /* Weniger Padding für engere Spalten */
+  padding: 3px 3px;  /* Weniger Padding für engere Spalten */
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: #4CAF50;
+  background-color: #4CAF50;  /* Grüner Hintergrund für die Überschriften */
   color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;  /* Ensures headers stay above other table content */
 }
-
 .button-container {
   display: block; /* Buttons untereinander anordnen */
 }

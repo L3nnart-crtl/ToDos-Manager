@@ -1,5 +1,5 @@
 <template>
-  <div class="todo-container">
+
     <!-- Filter und Sortierung -->
     <div class="filters">
       <label for="titleFilter">Filter by Title:</label>
@@ -60,7 +60,6 @@
         :todo="selectedToDo"
         @update="updateToDo"
         @close="closeEditModal" />
-  </div>
 </template>
 
 
@@ -268,19 +267,11 @@ export default {
 
 <style scoped>
 /* Gesamter Container */
-.todo-container {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für den Container */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
 
-/* Filter und Sortierung */
 .filters {
   margin-bottom: 20px;
+  display: flex;
+  /* Erlaubt Umbrüche bei Bedarf, falls der Platz nicht ausreicht */
 }
 
 .filters label {
