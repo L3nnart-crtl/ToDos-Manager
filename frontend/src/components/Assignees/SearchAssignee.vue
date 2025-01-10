@@ -1,31 +1,52 @@
 <template>
-    <h1>Search Assignee</h1>
+  <div class="search-container">
     <div class="search-form">
-      <select v-model="searchCriterion">
-        <option value="id">ID</option> <!-- Neue Option für die ID -->
-        <option value="prename">First Name</option>
-        <option value="name">Last Name</option>
-        <option value="email">Email</option>
-      </select>
-      <input v-model="searchValue" placeholder="Enter search value" />
-      <button @click="searchAssignee">Search</button>
+      <h1>Search Assignee</h1>
+      <div class="search-fields">
+        <select v-model="searchCriterion">
+          <option value="id">ID</option>
+          <option value="prename">First Name</option>
+          <option value="name">Last Name</option>
+          <option value="email">Email</option>
+        </select>
+        <input v-model="searchValue" placeholder="Enter search value" />
+        <button @click="searchAssignee">Search</button>
+      </div>
     </div>
-    <div v-if="assignees.length > 0">
-      <h2>Assignee Details</h2>
-      <ul>
-        <li v-for="assignee in assignees" :key="assignee.id">
-          <p><strong>ID:</strong> {{ assignee.id }}</p>
-          <p><strong>First Name:</strong> {{ assignee.prename }}</p>
-          <p><strong>Last Name:</strong> {{ assignee.name }}</p>
-          <p><strong>Email:</strong> {{ assignee.email }}</p>
-        </li>
-      </ul>
+
+    <div v-show="assignees.length > 0" class="assignee-details">
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+            <td>{{ assignee.id }}</td>
+            <td>{{ assignee.prename }}</td>
+            <td>{{ assignee.name }}</td>
+            <td class="email-actions">{{ assignee.email }}</td>
+            <td class="actions">
+              <button class="edit" @click="editAssignee(index)">Edit</button>
+              <button class="delete" @click="deleteAssignee(assignee.id)">Delete</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
     <div v-if="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>
     </div>
+  </div>
 </template>
-
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
@@ -34,10 +55,10 @@ import axios from 'axios';
 export default defineComponent({
   name: 'SearchAssignee',
   setup() {
-    const searchCriterion = ref('prename'); // Standardkriterium
-    const searchValue = ref(''); // Eingabewert
-    const assignees = ref([]); // Ergebnisliste
-    const errorMessage = ref(null); // Fehlermeldung
+    const searchCriterion = ref('prename');
+    const searchValue = ref('');
+    const assignees = ref<any[]>([]);
+    const errorMessage = ref<string | null>(null);
 
     const searchAssignee = async () => {
       errorMessage.value = null;
@@ -50,11 +71,9 @@ export default defineComponent({
 
       try {
         if (searchCriterion.value === 'id') {
-          // Suche nach ID
           const response = await axios.get(`/api/v1/assignees/${searchValue.value.trim()}`);
           assignees.value = [response.data];
         } else {
-          // Allgemeine Suche
           const response = await axios.get('/api/v1/assignees');
           assignees.value = response.data.filter((assignee: any) => {
             const field = assignee[searchCriterion.value]?.toLowerCase();
@@ -63,8 +82,24 @@ export default defineComponent({
         }
       } catch (error) {
         errorMessage.value = searchCriterion.value === 'id'
-          ? 'No assignee found with the given ID'
-          : 'Error fetching assignees';
+            ? 'No assignee found with the given ID'
+            : 'Error fetching assignees';
+      }
+    };
+
+    const editAssignee = (index: number) => {
+      alert(`Editing assignee at index ${index}`);
+    };
+
+    const deleteAssignee = async (id: number) => {
+      const confirmed = window.confirm('Are you sure you want to delete this assignee?');
+      if (confirmed) {
+        try {
+          await axios.delete(`/api/v1/assignees/${id}`);
+          assignees.value = assignees.value.filter(assignee => assignee.id !== id);
+        } catch (error) {
+          console.error('Error deleting assignee:', error);
+        }
       }
     };
 
@@ -74,138 +109,124 @@ export default defineComponent({
       assignees,
       errorMessage,
       searchAssignee,
+      editAssignee,
+      deleteAssignee,
     };
   },
 });
 </script>
 
-
 <style scoped>
-/* Gesamter Container */
-.container {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für den Container */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 20px;
-  display: grid;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Titel */
-h1 {
-  font-size: 24px;
-  color: #e0e0e0;
-  margin-bottom: 20px;
-}
-
-/* Formular zur Suche */
-.search-form {
-  display: grid;
+.search-container {
+  display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 20px;
 }
 
-/* Auswahlfeld für Kriterien */
-select {
-  background-color: #333; /* Dunkler Hintergrund für das Dropdown */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #444; /* Dunkle Umrandung */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* Reduzierter Abstand zwischen den Elementen */
 }
 
-select:focus {
-  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
-  outline: none;
-  background-color: #444; /* Dunklerer Hintergrund bei Fokus */
+.search-fields {
+  display: flex;
+  gap: 10px; /* Abstand zwischen Filter, Eingabefeld und Button */
+  align-items: center;
 }
 
-/* Eingabefeld für den Suchwert */
-input {
-  background-color: #333; /* Dunkler Hintergrund für das Eingabefeld */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #444; /* Dunkle Umrandung */
-}
-
-input:focus {
-  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
-  outline: none;
-  background-color: #444; /* Dunklerer Hintergrund bei Fokus */
-}
-
-/* Such-Button */
+select,
+input,
 button {
-  background-color: #4CAF50; /* Grüner Button */
-  color: white;
+  padding: 12px;
   font-size: 16px;
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 4px;
+  border: 1px solid #444;
+}
+
+select {
+  flex: 1;
+}
+
+input {
+  flex: 2;
+}
+
+button {
+  flex: 1;
+  background-color: #4CAF50;
+  color: white;
   padding: 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
 }
 
 button:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+  background-color: #45a049;
 }
 
-button:disabled {
-  background-color: #666; /* Grauer Button, wenn deaktiviert */
-  cursor: not-allowed;
-}
-
-/* Fehlernachricht */
 .error-message {
   color: red;
   font-size: 14px;
   margin-top: 15px;
 }
 
-/* Details der Assignees */
-h2 {
-  font-size: 20px;
-  color: #e0e0e0;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-ul li {
-  padding: 10px;
-  border-bottom: 1px solid #444; /* Dunkler Rand für jedes Listenelement */
-}
-
-ul li p {
-  margin: 5px 0;
-}
-
-ul li strong {
-  color: #ccc; /* Helle Farbe für die Labels */
-}
-
-/* Anpassung für das Layout der Formular-Elemente */
-.search-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.search-form input,
-.search-form select,
-.search-form button {
+.table-container {
+  max-height: 180px;
+  overflow-y: auto;
   width: 100%;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 3px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  position: sticky;
+  top: 0; /* Fixiert die Kopfzeile am oberen Rand */
+  z-index: 1; /* Stellt sicher, dass die Kopfzeile immer oben bleibt, wenn gescrollt wird */
+}
+
+td {
+  word-wrap: break-word;
+}
+
+td.actions {
+  width: 100px;
+  text-align: center;
+}
+
+button.edit {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 12px;
+  padding: 6px 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.delete {
+  background-color: #f44336;
+  color: white;
+  font-size: 12px;
+  padding: 6px 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
 </style>

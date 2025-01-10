@@ -5,25 +5,28 @@
     box-sizing: border-box;
 }
 
+
 body {
-    background-color: #121212; /* Dunkler Hintergrund für Dark Mode */
+    background-color: #121212; /* Dunkler Hintergrund */
     color: #e0e0e0; /* Helle Textfarbe */
     font-family: 'Roboto', sans-serif;
-    padding: 20px;
+    margin: 0;
+    padding: 0; /* Kein zusätzlicher Abstand */
     overflow-x: hidden;
+    display: flex; /* Flexbox für vertikale Anordnung */
+    flex-direction: column; /* Komponenten vertikal anordnen */
+    align-items: center; /* Horizontal zentriert */
 }
 
-/* Container für alle Inhalte */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    max-width: 100%; /* Maximale Breite auf 100% */
-    margin: 0 auto;
-    padding: 0 10px; /* Abstand an den Seiten für kleinere Bildschirme */
+    flex-direction: column; /* Komponenten vertikal anordnen */
+    align-items: flex-start; /* Komponenten oben platzieren */
+    gap: 30px; /* Abstand zwischen den Komponenten */
+    width: 100%;
+    max-width: 100%;
+    padding: 20px; /* Seitenabstand */
 }
-
 /* Layout für größere Bildschirme */
 @media (min-width: 768px) {
     .container {
@@ -52,7 +55,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
+    height: 800px;
 }
 .todoList-component {
     background-color: #1e1e1e;
@@ -60,7 +64,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     max-height: 800px;
 }
 .assigneeList-component{
@@ -70,15 +74,31 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
     max-width: 500px;
-    max-height: 1000px;
+    height: 460px;
 }
-.component-search-createTodo {
+.component-search {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    width: 100%;
-    max-width: 300px;
+    height: 340px;
+    width: 500px; /* Feste Breite */
+    /* Flexbox-Einstellungen */
+    display: flex;
+    flex-direction: column; /* Vertikale Anordnung der Elemente */
+    align-items: flex-start; /* Elemente oben ausrichten */
+
+    /* Abstand zwischen den Elementen */
+    gap: 20px; /* Abstand zwischen den Elementen */
+
+    /* Verhindern, dass der Inhalt überläuft */
+    overflow-x: hidden; /* Verhindert horizontales Überlaufen */
+    overflow-y: auto; /* Ermöglicht vertikales Scrollen, wenn der Inhalt zu hoch ist */
+}
+
+.todos-search-container {
+    display: flex;
+    flex-direction: column;
 }
 button {
     background-color: #4caf50;

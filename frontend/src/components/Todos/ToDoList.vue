@@ -1,23 +1,28 @@
 <template>
-
+    <h1>Todos</h1>
     <!-- Filter und Sortierung -->
+
     <div class="filters">
-      <label for="titleFilter">Filter by Title:</label>
-      <input id="titleFilter" v-model="titleFilter" type="text" placeholder="Search by title" />
-
-      <label for="sortBy">Sort by:</label>
-      <select v-model="sortBy">
-        <option value="title">Title</option>
-        <option value="dueDate">Due Date</option>
-      </select>
-
-      <label for="sortOrder">Sort Order:</label>
-      <select v-model="sortOrder">
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-      </select>
+      <div>
+        <label for="titleFilter">Filter by Title:</label>
+        <input id="titleFilter" v-model="titleFilter" type="text" placeholder="Search by title" />
+      </div>
+      <div>
+        <label for="sortBy">Sort by:</label>
+        <select v-model="sortBy">
+          <option value="title">Title</option>
+          <option value="dueDate">Due Date</option>
+        </select>
+      </div>
+      <div>
+        <label for="sortOrder">Sort Order:</label>
+        <select v-model="sortOrder">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
     </div>
-
+  <div class="todos">
     <!-- Open To-Do List -->
     <div class="todo-list-section">
       <h3>Open To-Dos</h3>
@@ -45,7 +50,7 @@
         </li>
       </ul>
     </div>
-
+  </div>
     <!-- ToDoDetailsModal -->
     <ToDoDetailsModal
         v-if="selectedToDo && !isEditModalOpen"
@@ -62,12 +67,11 @@
         @close="closeEditModal" />
 </template>
 
-
 <script>
 import axios from 'axios';
 import ToDoDetailsModal from './ToDoDetailsModal.vue';
 import ToDoEditModal from './ToDoEditModal.vue';
-import { EventBus } from '@/components/event-bus.js';
+import { EventBus } from '@/components/event-bus.js'; // Import EventBus
 
 export default {
   components: {
@@ -79,9 +83,9 @@ export default {
       todos: [],
       selectedToDo: null,
       isEditModalOpen: false,
-      titleFilter: '',  // Filter für den Titel
-      sortBy: 'title',  // Sortierkriterium
-      sortOrder: 'asc',  // Sortierreihenfolge
+      titleFilter: '',
+      sortBy: 'title',
+      sortOrder: 'asc',
     };
   },
   methods: {
@@ -107,61 +111,22 @@ export default {
       this.isEditModalOpen = false;
     },
     updateToDo(updatedTodo) {
-        axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
-            .then(response => {
-                const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
-                if (index !== -1) {
-                    this.todos.splice(index, 1, response.data); // Ersetze das alte ToDo mit dem aktualisierten
-                }
-                this.closeEditModal(); // Schließe das Modal nach erfolgreichem Update
-            })
-            .catch(error => {
-                let errorMessage = "An unexpected error occurred.";
-
-                // Fehler vom Backend (z. B. 400, 500)
-                if (error.response) {
-                    // Fehlerdetails vom Backend
-                    errorMessage = `Error ${error.response.status}: ${error.response.data?.message || 'Assignee already assigned'}`;
-                    console.error(errorMessage);
-                }
-                // Fehler, weil keine Antwort vom Server kam
-                else if (error.request) {
-                    errorMessage = 'No response received from the server.';
-                    console.error(errorMessage);
-                }
-                // Allgemeiner Fehler, z. B. Syntaxfehler
-                else {
-                    errorMessage = `Error: ${error.message}`;
-                    console.error(errorMessage);
-                }
-
-                // Optionale Benutzerbenachrichtigung (z. B. mit alert oder einer anderen Methode)
-                alert(errorMessage); // Hier könnte auch eine benutzerdefinierte Fehleranzeige wie ein Modal oder eine Statusmeldung stehen.
-
-                // Fehler werfen, damit die Methode außerhalb Fehler behandeln kann
-                throw new Error(errorMessage);
-            });
-    },
-    toggleFinished(todo) {
-      // Transform the todo object to match the desired request body
-      const requestBody = {
-        title: todo.title,
-        description: todo.description,
-        finished: todo.finished,
-        assigneeIdList: todo.assigneeList.map(assignee => assignee.id), // Extract IDs from assigneeList
-        dueDate: new Date(todo.dueDate).getTime() // Convert dueDate to a Unix timestamp in milliseconds
-      };
-
-      // Send the PUT request with the transformed body
-      axios.put(`/api/v1/todos/${todo.id}`, requestBody)
+      axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
           .then(response => {
-            const index = this.todos.findIndex(t => t.id === todo.id);
+            const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
             if (index !== -1) {
               this.todos.splice(index, 1, response.data);
             }
+            this.closeEditModal();
+            EventBus.$emit('todoUpdated', response.data); // Emit event for updated todo
           })
           .catch(error => {
-            console.error('Error updating the todo:', error);
+            let errorMessage = "An unexpected error occurred.";
+            if (error.response) {
+              errorMessage = `Error ${error.response.status}: ${error.response.data?.message || 'Assignee already assigned'}`;
+              console.error(errorMessage);
+            }
+            alert(errorMessage);
           });
     },
     deleteToDo(todoId) {
@@ -169,17 +134,13 @@ export default {
           .then(() => {
             this.todos = this.todos.filter(todo => todo.id !== todoId);
             this.closeModal();
+            EventBus.$emit('todoDeleted', todoId); // Emit event for deleted todo
           });
     },
   },
   computed: {
     filteredAndSortedTodos() {
-// Filter und Sortierung zusammen in einer berechneten Eigenschaft
-      const filteredTodos = this.todos.filter(todo => {
-        return todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && !todo.finished;
-      });
-
-// Sortierung der gefilterten To-Dos
+      const filteredTodos = this.todos.filter(todo => todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && !todo.finished);
       filteredTodos.sort((a, b) => {
         let aValue, bValue;
         if (this.sortBy === 'title') {
@@ -189,37 +150,12 @@ export default {
           aValue = a.dueDate;
           bValue = b.dueDate;
         }
-
-// Vergleiche aValue und bValue basierend auf der Sortierreihenfolge
-        if (this.sortOrder === 'asc') {
-          if (aValue > bValue) {
-            return 1;
-          } else if (aValue < bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        } else { // Wenn 'desc'
-          if (aValue < bValue) {
-            return 1;
-          } else if (aValue > bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        }
+        return this.sortOrder === 'asc' ? aValue > bValue : aValue < bValue;
       });
-
       return filteredTodos;
     },
-
     filteredAndSortedFinishedTodos() {
-// Filtert abgeschlossene To-Dos
-      const filteredTodos = this.todos.filter(todo => {
-        return todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && todo.finished;
-      });
-
-// Sortierung der gefilterten To-Dos
+      const filteredTodos = this.todos.filter(todo => todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && todo.finished);
       filteredTodos.sort((a, b) => {
         let aValue, bValue;
         if (this.sortBy === 'title') {
@@ -229,93 +165,82 @@ export default {
           aValue = a.dueDate;
           bValue = b.dueDate;
         }
-
-// Vergleiche aValue und bValue basierend auf der Sortierreihenfolge
-        if (this.sortOrder === 'asc') {
-          if (aValue > bValue) {
-            return 1;
-          } else if (aValue < bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        } else { // Wenn 'desc'
-          if (aValue < bValue) {
-            return 1;
-          } else if (aValue > bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        }
+        return this.sortOrder === 'asc' ? aValue > bValue : aValue < bValue;
       });
-
       return filteredTodos;
     }
   },
   created() {
     this.fetchTodos();
-    EventBus.$on('todoCreated', (newTodo) => {
-      this.todos.push(newTodo);
+    EventBus.$on('todoUpdated', (updatedTodo) => {
+      const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
+      if (index !== -1) {
+        this.todos.splice(index, 1, updatedTodo); // Update todo in the list
+      }
+    });
+    EventBus.$on('todoDeleted', (todoId) => {
+      this.todos = this.todos.filter(todo => todo.id !== todoId); // Remove deleted todo
     });
   },
   beforeDestroy() {
-    EventBus.$off('todoCreated');
+    EventBus.$off('todoUpdated');
+    EventBus.$off('todoDeleted');
   },
 };
 </script>
 
+
+
 <style scoped>
 /* Gesamter Container */
-
-.filters {
-  margin-bottom: 20px;
+.todos {
   display: flex;
-  /* Erlaubt Umbrüche bei Bedarf, falls der Platz nicht ausreicht */
+  flex-direction: row; /* Layout in einer Spalte */
+  gap: 10px; /* Reduziert den Abstand zwischen den To-Do-Abschnitten */
+}
+
+/* Filter und Sortierung */
+.filters {
+  margin-bottom: 10px; /* Verringert den Abstand nach unten */
+  gap: 10px; /* Verringert den Abstand zwischen den Filter-Elementen */
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .filters label {
-  color: #ccc; /* Helle Farbe für die Labels */
-  font-size: 16px;
+  font-size: 14px; /* Kleinere Schriftgröße */
+  color: #ccc;
+  margin-bottom: 4px; /* Verringert den Abstand nach unten */
 }
 
-.filters input, .filters select {
-  background-color: #333; /* Dunkler Hintergrund für Eingabefelder */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 10px;
+.filters input,
+.filters select {
+  width: 100%;
+  padding: 8px; /* Verringert das Padding */
+  font-size: 14px; /* Kleinere Schriftgröße */
+  background-color: #333;
   border: 1px solid #444;
   border-radius: 4px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.filters input:focus, .filters select:focus {
-  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
-  outline: none;
-  background-color: #444;
-}
-
-/* Überschrift der ToDo-Listen */
-h3 {
-  font-size: 20px;
   color: #e0e0e0;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Verringert den Abstand zwischen den Eingabefeldern */
 }
 
 /* To-Do Listen */
 .todo-list-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Verringert den Abstand nach unten */
+  width: 400px;
 }
 
 .todo-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 10px; /* Verringert den Abstand zwischen den Listen */
 }
 
 .todo-item {
-  background-color: #333; /* Dunkler Hintergrund für jedes ToDo-Item */
-  padding: 12px;
-  margin-bottom: 10px;
+  background-color: #333;
+  padding: 8px; /* Verringert das Padding */
+  margin-bottom: 6px; /* Verringert den Abstand zwischen den ToDo-Items */
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -324,19 +249,19 @@ h3 {
 }
 
 .todo-item:hover {
-  background-color: #444; /* Etwas hellerer Hintergrund bei Hover */
+  background-color: #444;
 }
 
 .todo-item input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 8px; /* Verringert den Abstand zwischen Checkbox und Titel */
 }
 
 /* Button für Details */
 .btn-details {
-  background-color: #4CAF50; /* Grüner Button */
+  background-color: #4CAF50;
   color: white;
-  font-size: 14px;
-  padding: 8px 12px;
+  font-size: 12px; /* Kleinere Schriftgröße */
+  padding: 6px 10px; /* Verringert das Padding */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -344,44 +269,44 @@ h3 {
 }
 
 .btn-details:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+  background-color: #45a049;
 }
 
 /* Modale Fenster */
 .ToDoDetailsModal, .ToDoEditModal {
-  max-width: 600px;
+  max-width: 500px; /* Verringert die maximale Breite des Modals */
   margin: 20px auto;
 }
 
 .ToDoDetailsModal .modal-content, .ToDoEditModal .modal-content {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für das Modal */
+  background-color: #1e1e1e;
   color: #e0e0e0;
-  padding: 20px;
+  padding: 16px; /* Verringert das Padding */
   border-radius: 8px;
 }
 
 .ToDoDetailsModal button, .ToDoEditModal button {
-  background-color: #4CAF50; /* Grüner Button im Modal */
+  background-color: #4CAF50;
   color: white;
-  padding: 10px;
+  padding: 8px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .ToDoDetailsModal button:hover, .ToDoEditModal button:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+  background-color: #45a049;
 }
 
 /* Eingabefelder im Edit Modal */
 .ToDoEditModal input[type="text"], .ToDoEditModal input[type="date"] {
   background-color: #333;
   color: #e0e0e0;
-  padding: 10px;
+  padding: 8px; /* Verringert das Padding */
   border-radius: 4px;
   border: 1px solid #444;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 12px; /* Verringert den Abstand zwischen den Eingabefeldern */
 }
 
 .ToDoEditModal input[type="text"]:focus, .ToDoEditModal input[type="date"]:focus {
@@ -390,20 +315,12 @@ h3 {
   background-color: #444;
 }
 
-/* Anpassung der Modalen Fenster für Buttons */
-.ToDoDetailsModal button:first-child, .ToDoEditModal button:first-child {
-  background-color: #e74c3c; /* Roter Button für Löschen */
-}
-
-.ToDoDetailsModal button:first-child:hover, .ToDoEditModal button:first-child:hover {
-  background-color: #c0392b; /* Etwas dunkleres Rot bei Hover */
-}
-
 /* Fehlernachricht im Modal */
 .error-message {
   color: red;
-  font-size: 14px;
-  margin-top: 15px;
+  font-size: 12px; /* Kleinere Schriftgröße */
+  margin-top: 12px; /* Verringert den Abstand */
 }
+
 </style>
 

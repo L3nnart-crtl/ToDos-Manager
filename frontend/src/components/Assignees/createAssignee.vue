@@ -1,20 +1,26 @@
 <template>
-    <form @submit.prevent="onSubmit" >
-      <h1>Create Assignee</h1>
-      <div class="form-group">
-        <label for="prename">Prename</label>
+  <form @submit.prevent="onSubmit">
+    <h1>Create Assignee</h1>
+
+    <!-- Container für Prename und Name nebeneinander -->
+    <div class="name-container">
+      <div>
+        <label for="prename">Prename:</label>
         <input type="text" id="prename" v-model="assignee.prename" />
       </div>
-      <div class="form-group">
-        <label for="name">Name</label>
+      <div>
+        <label for="name">Name:</label>
         <input type="text" id="name" v-model="assignee.name" />
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" id="email" v-model="assignee.email" />
-      </div>
-      <button type="submit">Create</button>
-    </form>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="text" id="email" v-model="assignee.email" />
+    </div>
+
+    <button type="submit">Create</button>
+  </form>
 </template>
 
 <script lang="ts">
@@ -48,3 +54,55 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+/* Container für Prename und Name nebeneinander */
+.name-container {
+  display: flex;
+  justify-content: space-between; /* Platz gleichmäßig verteilen */
+  gap: 10px; /* Abstand zwischen den Feldern */
+}
+
+/* Formularelemente */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #333; /* Dunkler Hintergrund für Eingabefelder */
+  border: 1px solid #444; /* Dunkle Umrandung */
+  border-radius: 4px;
+  color: #e0e0e0; /* Helle Textfarbe */
+  margin-bottom: 10px; /* Verringert den Abstand zwischen den Feldern */
+}
+
+input:focus,
+select:focus {
+  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
+  outline: none;
+  background-color: #444; /* Etwas dunklerer Hintergrund bei Fokus */
+}
+
+/* Button zum Hinzufügen eines Assignees */
+button {
+  background-color: #4CAF50; /* Grüner Button */
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+}
+
+button:disabled {
+  background-color: #666; /* Grauer Button, wenn deaktiviert */
+  cursor: not-allowed;
+}
+
+</style>

@@ -17,8 +17,8 @@
           <td>{{ assignee.id }}</td>
           <td>{{ assignee.prename }}</td>
           <td>{{ assignee.name }}</td>
-          <td>{{ assignee.email }}</td>
-          <td>
+          <td class="email-actions">{{ assignee.email }}</td>
+          <td class="actions">
             <button class="edit" @click="editAssignee(index)">Edit</button>
             <button class="delete" @click="deleteAssignee(assignee.id)">Delete</button>
           </td>
@@ -27,7 +27,7 @@
       </table>
     </div>
 
-    <!-- Modal für das Bearbeiten des Assignees -->
+    <!-- Edit Assignee Modal -->
     <div v-if="editIndex !== null" class="modal-overlay">
       <div class="modal-content">
         <EditAssignee
@@ -118,72 +118,83 @@ export default defineComponent({
   },
 });
 </script>
-
 <style scoped>
 .table-container {
-  max-height: 400px;
+  max-height: 380px;
   overflow-y: auto;
-  margin-top: 20px;
+  width: 100%;
+  position: relative; /* Ensure the table container is positioned */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 th, td {
-  padding: 3px 3px;  /* Weniger Padding für engere Spalten */
+  padding: 3px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: #4CAF50;  /* Grüner Hintergrund für die Überschriften */
+  background-color: #4CAF50;
   color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1;  /* Ensures headers stay above other table content */
+  position: sticky; /* Keep the header sticky */
+  top: 0; /* Stick to the top of the table container */
+  z-index: 1; /* Ensure the header stays above the table body */
 }
-.button-container {
-  display: block; /* Buttons untereinander anordnen */
+
+td {
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td.email-actions {
+  max-width: 120px;
+}
+
+td.actions {
+  width: 40px;
+  text-align: center;
 }
 
 button {
-  margin-bottom: 5px; /* Abstand zwischen den Buttons */
-}
-
-.edit {
-  background-color: #4CAF50; /* Grün für den Edit-Button */
-  color: white;
-  border: none;
-  padding: 6px 12px;
+  margin: 1px;
+  font-size: 12px;
+  padding: 6px 3px;
   border-radius: 4px;
   cursor: pointer;
+  text-align: center;
+  width: 100%;
 }
 
-.edit:hover {
-  background-color: #45a049; /* Dunkleres Grün beim Hover */
-}
-
-.delete {
-  background-color: #f44336; /* Rot für den Delete-Button */
+button.edit {
+  background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-.delete:hover {
-  background-color: #e53935; /* Dunkleres Rot beim Hover */
+button.edit:hover {
+  background-color: #45a049;
+}
+
+button.delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+button.delete:hover {
+  background-color: #e53935;
 }
 
 button:focus {
   outline: none;
 }
 
-
-/* Modal-Stile */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -204,5 +215,4 @@ button:focus {
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 </style>

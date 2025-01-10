@@ -1,28 +1,41 @@
 <template>
 
-    <h2>Create new To-Do</h2>
+    <h1>Create To-Do</h1>
+    <div class="form-group">
+      <div class="form-row">
+        <div class="form-column">
+          <label for="title">Title:</label>
+          <input v-model="newTodo.title" id="title" type="text" required />
+        </div>
+        <div class="form-column">
+          <label for="description">Description:</label>
+          <input v-model="newTodo.description" id="description" type="text" />
+        </div>
+      </div>
 
-    <div>
-      <label for="title">Title:</label>
-      <input v-model="newTodo.title" id="title" type="text" required />
+      <div class="form-row">
+        <div class="form-column">
+          <label for="dueDate">Due Date:</label>
+          <input v-model="newTodo.dueDate" id="dueDate" type="date" />
+        </div>
+      </div>
 
-      <label for="description">Description:</label>
-      <input v-model="newTodo.description" id="description" type="text" />
+      <div class="form-row">
+        <div class="form-column">
+          <select v-model="selectedAssignee" id="addAssignee" class="form-select">
+            <option disabled value="">Choose an assignee</option>
+            <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
+              {{ assignee.id }} {{ assignee.prename }} {{ assignee.name }}
+            </option>
+          </select>
+        </div>
+        <!-- Button Column: Do not let it take full width -->
+        <div class="add-button-column">
+          <button @click="addAssignee">Add</button>
+        </div>
+      </div>
 
-      <label for="dueDate">Due Date:</label>
-      <input v-model="newTodo.dueDate" id="dueDate" type="date" />
-
-      <label for="assignee">Assignees:</label>
-      <select v-model="selectedAssignee" id="addAssignee" class="form-select">
-        <option disabled value="">Choose an assignee</option>
-        <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
-          {{assignee.id}} {{ assignee.prename }} {{ assignee.name }}
-        </option>
-      </select>
-
-      <button @click="addAssignee">Add</button>
-
-      <div v-if="newTodo.assigneeList.length > 0">
+      <div v-show="true" class="assignees-container">
         <h4>Assignees:</h4>
         <ul>
           <li v-for="assignee in newTodo.assigneeList" :key="assignee.id">
@@ -34,7 +47,6 @@
     </div>
 
     <button @click="submit">Create</button>
-
 </template>
 
 <script>
@@ -114,55 +126,63 @@ export default {
 </script>
 
 <style scoped>
-/* Gesamter Container */
-.create-todo-form {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für das Formular */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+/* Container für das gesamte Formular */
+
+.assignees-container {
+  height: 200px;
+}
+/* Container für die Formularelemente nebeneinander */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Abstand zwischen den verschiedenen Form-Reihen */
 }
 
-/* Titel */
-h2 {
-  font-size: 24px;
-  color: #e0e0e0;
-  margin-bottom: 20px;
+/* Reihe mit nebeneinander liegenden Feldern */
+.form-row {
+  display: flex;
+  gap: 20px; /* Abstand zwischen den Spalten */
+  align-items: center; /* Vertikale Ausrichtung auf gleicher Höhe */
 }
 
-/* Label */
-label {
-  font-size: 16px;
-  color: #ccc; /* Helle Farbe für die Labels */
-  margin-bottom: 5px;
-  display: block;
+/* Einzelne Spalten nebeneinander */
+.form-column {
+  flex: 1;
 }
 
-/* Formularelemente */
+/* Button-Spalte */
+.add-button-column {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-top: -5px; /* Align the button vertically to the center */
+}
+
+/* Formularfelder */
 input,
 select {
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  background-color: #333; /* Dunkler Hintergrund für Eingabefelder */
-  border: 1px solid #444; /* Dunkle Umrandung */
+  background-color: #333;
+  border: 1px solid #444;
   border-radius: 4px;
-  color: #e0e0e0; /* Helle Textfarbe */
-  margin-bottom: 20px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+  height: 40px; /* Gleiche Höhe für alle Formularelemente */
 }
 
 input:focus,
 select:focus {
-  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
+  border-color: #4CAF50;
   outline: none;
-  background-color: #444; /* Etwas dunklerer Hintergrund bei Fokus */
+  background-color: #444;
 }
 
 /* Button zum Hinzufügen eines Assignees */
+/* Button zum Erstellen eines To-Do */
 button {
-  background-color: #4CAF50; /* Grüner Button */
+  background-color: #4CAF50;
   color: white;
   font-size: 16px;
   padding: 10px;
@@ -170,22 +190,12 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%;
+  width: 100%; /* Makes the button take up the full width */
+  height: 40px; /* Keeps the button height the same as input fields */
 }
 
 button:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
-}
-
-button:disabled {
-  background-color: #666; /* Grauer Button, wenn deaktiviert */
-  cursor: not-allowed;
-}
-
-/* Fehlernachricht */
-.error-message {
-  color: red;
-  font-size: 14px;
+  background-color: #45a049;
 }
 
 /* Liste der Assignees */
@@ -199,28 +209,31 @@ h4 {
 ul {
   list-style: none;
   padding: 0;
+  max-height: 125px;
+  overflow-y: auto;
 }
 
 ul li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #444; /* Dunkler Rand für Listenelemente */
+  padding: 5px;
+  border-bottom: 1px solid #444;
 }
 
 ul li button {
-  background-color: #f44336; /* Roter Button zum Entfernen */
+  background-color: #f44336;
   color: white;
   font-size: 14px;
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  width: auto;
 }
 
 ul li button:hover {
-  background-color: #e53935; /* Etwas dunkleres Rot bei Hover */
+  background-color: #e53935;
 }
 
 /* Dropdown-Menü für Assignees */
@@ -231,29 +244,13 @@ select.form-select {
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #444;
+  height: 40px; /* Gleiche Höhe wie das Eingabefeld */
 }
 
 select.form-select:focus {
   border-color: #4CAF50;
   background-color: #444;
   outline: none;
-}
-
-/* Anpassungen für das Layout der Eingabefelder */
-div {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* Weitere optische Feinanpassungen */
-.create-todo-form input,
-.create-todo-form select {
-  margin-bottom: 15px; /* Abstand zwischen den Eingabefeldern */
-}
-
-.create-todo-form button {
-  margin-top: 10px; /* Abstand zum unteren Button */
 }
 
 </style>
