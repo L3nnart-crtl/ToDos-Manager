@@ -195,7 +195,7 @@ export default defineComponent({
   display: flex;
   gap: 10px;
   margin-top: -30px;
-  margin-bottom: -30px;/* Abstand zwischen den Eingabefeldern und dem Button */
+  margin-bottom: -10px;/* Abstand zwischen den Eingabefeldern und dem Button */
 }
 
 .search-form input {

@@ -252,14 +252,14 @@ export default {
 .todo-list-section {
   margin-bottom: 20px; /* Verringert den Abstand nach unten */
   width: 400px;
-  height: 430px; /* Maximum height for the to-do list section */
+  height: 500px; /* Maximum height for the to-do list section */
 
 }
 .todo-list {
   list-style: none;
   padding: 0;
   margin-bottom: 10px;
-  max-height: 400px;
+  max-height: 470px;
   /* Verringert den Abstand zwischen den Listen */
 }
 
