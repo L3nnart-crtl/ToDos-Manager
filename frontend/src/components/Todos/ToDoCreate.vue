@@ -1,58 +1,75 @@
 <template>
-
-    <h1>Create To-Do</h1>
-    <div class="form-group">
-      <div class="form-row">
-        <div class="form-column">
-          <label for="title">Title:</label>
-          <input v-model="newTodo.title" id="title" type="text" required />
-        </div>
-        <div class="form-column">
-          <label for="description">Description:</label>
-          <input v-model="newTodo.description" id="description" type="text" />
-        </div>
+  <h1>Create To-Do</h1>
+  <div class="form-group">
+    <div class="form-row">
+      <div class="form-column">
+        <input v-model="newTodo.title" id="title" type="text" placeholder="Title" required />
       </div>
-
-      <div class="form-row">
-        <div class="form-column">
-          <label for="dueDate">Due Date:</label>
-          <input v-model="newTodo.dueDate" id="dueDate" type="date" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-column">
-          <select v-model="selectedAssignee" id="addAssignee" class="form-select">
-            <option disabled value="">Choose an assignee</option>
-            <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
-              {{ assignee.id }} {{ assignee.prename }} {{ assignee.name }}
-            </option>
-          </select>
-        </div>
-        <!-- Button Column: Do not let it take full width -->
-        <div class="add-button-column">
-          <button @click="addAssignee">Add</button>
-        </div>
-      </div>
-
-      <div v-show="true" class="assignees-container">
-        <h4>Assignees:</h4>
-        <ul>
-          <li v-for="assignee in newTodo.assigneeList" :key="assignee.id">
-            {{ assignee.prename }} {{ assignee.name }}
-            <button @click="removeAssignee(assignee.id)">Remove</button>
-          </li>
-        </ul>
+      <div class="form-column">
+        <button class="add-description" @click="openDescriptionModal">Add Description</button>
       </div>
     </div>
 
-    <button @click="submit">Create</button>
+    <div class="form-row">
+      <div class="form-column">
+        <label for="dueDate">Due Date:</label>
+        <input v-model="newTodo.dueDate" id="dueDate" type="date" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-column">
+        <select v-model="selectedAssignee" id="addAssignee" class="form-select">
+          <option disabled value="">Choose an assignee</option>
+          <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
+            {{ assignee.id }} {{ assignee.prename }} {{ assignee.name }}
+          </option>
+        </select>
+      </div>
+      <div class="add-button-column">
+        <button @click="addAssignee">Add</button>
+      </div>
+    </div>
+
+    <div v-show="true" class="assignees-container">
+      <h4>Assignees:</h4>
+      <ul>
+        <li v-for="assignee in newTodo.assigneeList" :key="assignee.id">
+          {{assignee.id}} {{ assignee.prename }} {{ assignee.name }}
+          <button @click="removeAssignee(assignee.id)">Remove</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <button @click="submit">Create</button>
+
+  <!-- Modal für Beschreibung -->
+  <div v-if="isDescriptionModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Add Description</h2>
+      <textarea v-model="newTodo.description" rows="10" placeholder="Enter detailed description"></textarea>
+      <div class="modal-actions">
+        <button class="save" @click="closeDescriptionModal">Save</button>
+        <button class="cancel" @click="closeDescriptionModal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fehler-Modal -->
+  <div v-if="isModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <p>{{ modalMessage }}</p>
+      <div class="modal-actions">
+        <button @click="isModalOpen = false">Close</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { EventBus } from '@/components/event-bus.js';
-import { watch } from 'vue';
 
 export default {
   data() {
@@ -65,23 +82,15 @@ export default {
       },
       availableAssignees: [],
       selectedAssignee: "",
+      isDescriptionModalOpen: false,
+      isModalOpen: false, // Fehler-Modal-Status
+      modalMessage: "", // Fehlermeldung
     };
   },
   created() {
-    this.fetchAvailableAssignees(); // Initiales Abrufen der Assignees
-    this.watchAssignees(); // Starte den Watcher für Assignees
+    this.fetchAvailableAssignees(); // Lädt die verfügbaren Assignees
   },
   methods: {
-    // Überwacht den EventBus und aktualisiert availableAssignees, wenn sich etwas ändert
-    watchAssignees() {
-      EventBus.$on('new-assignee', (newAssignee) => {
-        if (newAssignee) {
-          this.addAssigneeToList(newAssignee); // Add new assignee to available list
-        }
-      });
-    },
-
-    // Lädt die verfügbaren Assignees
     fetchAvailableAssignees() {
       axios
           .get('/api/v1/assignees')
@@ -92,14 +101,6 @@ export default {
             console.error('Fehler beim Abrufen der Assignees:', error);
           });
     },
-
-    // Assignee zur Liste der verfügbaren Assignees hinzufügen
-    addAssigneeToList(newAssignee) {
-      if (!this.availableAssignees.some((a) => a.id === newAssignee.id)) {
-        this.availableAssignees.push(newAssignee); // Ensure no duplicates
-      }
-    },
-
     addAssignee() {
       if (this.selectedAssignee) {
         const assignee = this.availableAssignees.find(
@@ -111,19 +112,92 @@ export default {
         this.selectedAssignee = ""; // Auswahl zurücksetzen
       }
     },
-
     removeAssignee(assigneeId) {
       this.newTodo.assigneeList = this.newTodo.assigneeList.filter(
           (assignee) => assignee.id !== assigneeId
       ); // Entferne den Assignee aus der Liste
     },
-
     async submit() {
-      // Form submission code here...
+      // Title validation
+      if (!this.newTodo.title || this.newTodo.title.trim().length < 1) {
+        this.modalMessage = 'ERROR: The title must contain at least one character.';
+        this.isModalOpen = true;
+        return;
+      }
+
+      // Assignee ID validation
+      const assigneeIds = this.newTodo.assigneeList.map((a) => a.id);
+      const uniqueAssigneeIds = new Set(assigneeIds);
+      if (assigneeIds.length !== uniqueAssigneeIds.size) {
+        this.modalMessage = 'ERROR: Assignee IDs must be unique.';
+        this.isModalOpen = true;
+        return;
+      }
+
+      // Due date validation (Unix Timestamp)
+      if (this.newTodo.dueDate && isNaN(new Date(this.newTodo.dueDate).getTime())) {
+        this.modalMessage = 'ERROR: Invalid due date.';
+        this.isModalOpen = true;
+        return;
+      }
+
+      try {
+        const response = await axios.post('/api/v1/todos', {
+          title: this.newTodo.title,
+          description: this.newTodo.description,
+          assigneeIdList: assigneeIds,
+          dueDate: this.newTodo.dueDate ? new Date(this.newTodo.dueDate).getTime() : null,
+        });
+
+        // Emit the new to-do via Event Bus
+        EventBus.$emit('todoCreated', response.data);
+        this.modalMessage = "Todo created!";
+        this.isModalOpen = true;
+
+        // Clear form
+        this.newTodo = {
+          title: "",
+          description: "",
+          assigneeList: [],
+          dueDate: null,
+        };
+
+        this.selectedAssignee = ""; // Reset assignee selection
+      } catch (error) {
+        console.error('Error while creating the to-do:', error);
+
+        // Check for specific error with Duplicate Key
+        if (
+            error.response &&
+            error.response.status === 500 &&
+            error.response.data &&
+            error.response.data.message.includes("Duplicate entry")
+        ) {
+          const duplicateIdMatch = error.response.data.message.match(/Duplicate entry '(\d+)'/);
+          if (duplicateIdMatch && duplicateIdMatch[1]) {
+            const duplicateId = duplicateIdMatch[1];
+            this.modalMessage = "ERROR: The assignee with ID " + duplicateId + " is already assigned to another to-do.";
+            this.isModalOpen = true;
+            return;
+          }
+        }
+
+        // General error message
+        this.modalMessage = 'ERROR: An error occurred while creating the to-do. Please try again.';
+        this.isModalOpen = true;
+      }
+    }
+    ,
+    openDescriptionModal() {
+      this.isDescriptionModalOpen = true;
+    },
+    closeDescriptionModal() {
+      this.isDescriptionModalOpen = false;
     },
   },
 };
 </script>
+
 
 <style scoped>
 /* Container für das gesamte Formular */
@@ -158,6 +232,9 @@ export default {
   margin-top: -5px; /* Align the button vertically to the center */
 }
 
+.add-description {
+  margin-top: -5px;
+}
 /* Formularfelder */
 input,
 select {
@@ -252,5 +329,58 @@ select.form-select:focus {
   background-color: #444;
   outline: none;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modal-content {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.save {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancel {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancel:hover {
+  background-color: #e53935;
+}
 </style>

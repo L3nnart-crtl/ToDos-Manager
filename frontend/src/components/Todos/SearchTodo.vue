@@ -2,14 +2,18 @@
   <div class="todos">
     <div class="search-form">
       <h1>Search Todo</h1>
-      <input v-model="todoId" placeholder="Enter Todo ID" />
-      <button @click="searchTodo">Search</button>
+      <div class="search-fields">
+        <input v-model="todoId" placeholder="Enter Todo ID" />
+        <button @click="searchTodo">Search</button>
+      </div>
     </div>
 
     <div v-if="todo" class="todo-list-section">
-      <h2>Todo Details</h2>
       <div class="todo-item">
+        <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
+        <span><strong>ID:</strong> {{ todo.id }}</span>
         <span><strong>Title:</strong> {{ todo.title }}</span>
+        <span><strong>Due Date:</strong> {{ new Date(todo.dueDate).toLocaleString() }}</span>
         <button class="btn-details" @click="openDetails(todo)">Details</button>
       </div>
 
@@ -34,6 +38,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
@@ -117,7 +122,25 @@ export default defineComponent({
       }
     };
 
+    // Funktion zum Aktualisieren des "finished"-Status eines ToDos
+    const toggleFinished = async (todo) => {
+      try {
+        // API-Anfrage, um den "finished"-Status zu aktualisieren
+        const response = await axios.put(`/api/v1/todos/${todo.id}`, {
+          ...todo,
+          finished: todo.finished
+        });
 
+        if (response.data) {
+          // Erfolgreiche Antwort – ToDo aktualisieren
+          todo.value = response.data;
+          EventBus.$emit('todoUpdated', response.data); // Event senden, wenn ToDo erfolgreich aktualisiert wurde
+        }
+        await searchTodo();
+      } catch (error) {
+        console.error('Error updating Todo:', error);
+      }
+    };
 
     const deleteToDo = async (todoId) => {
       try {
@@ -144,6 +167,7 @@ export default defineComponent({
       closeEditModal,
       updateToDo,
       deleteToDo,
+      toggleFinished,
       isDetailsModalOpen,
       isEditModalOpen,
     };
@@ -152,12 +176,12 @@ export default defineComponent({
 </script>
 
 
-
 <style scoped>
 .todos {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .search-form {
@@ -167,7 +191,14 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
-input {
+.search-fields {
+  display: flex;
+  gap: 10px;
+  margin-top: -30px;
+  margin-bottom: -30px;/* Abstand zwischen den Eingabefeldern und dem Button */
+}
+
+.search-form input {
   background-color: #333;
   color: #e0e0e0;
   padding: 8px;
@@ -175,45 +206,40 @@ input {
   border-radius: 4px;
   border: 1px solid #444;
   margin-bottom: 8px;
+  width: 200px; /* Feste Breite für das Input-Feld */
 }
 
-input:focus {
-  border-color: #4CAF50;
-  outline: none;
-  background-color: #444;
-}
-
-button {
+.search-form button {
   background-color: #4CAF50;
   color: white;
   font-size: 16px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.search-form button:hover {
   background-color: #45a049;
 }
 
 .todo-list-section {
-  margin-bottom: 20px;
-  width: 400px;
+
+  width: 100%;
+  max-width: 500px;
 }
 
 .todo-item {
   background-color: #333;
-  padding: 8px;
-  margin-bottom: 6px;
+  padding: 10px; /* Verringert das Padding */
+  margin-bottom: 6px; /* Verringert den Abstand zwischen den ToDo-Items */
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: background-color 0.3s ease;
 }
-
 .todo-item:hover {
   background-color: #444;
 }
@@ -238,4 +264,5 @@ button:hover {
   font-size: 12px;
   margin-top: 12px;
 }
+
 </style>

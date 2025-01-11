@@ -12,7 +12,7 @@
           <p><strong>Description:</strong> {{ todo.description }}</p>
           <p><strong>Category:</strong> {{ todo.category }}</p>
           <p><strong>Due Date:</strong> {{ new Date(todo.dueDate).toLocaleString() }}</p>
-          <p><strong>Status:</strong> {{ todo.finished ? "Completed" : "In Progress" }}</p>
+          <p><strong>Finished Date :</strong> {{ todo.finishedDate ? new Date(todo.finishedDate).toLocaleString() : "In Progress" }}</p>
         </div>
 
         <!-- Assignees -->
@@ -20,8 +20,9 @@
           <h3>Assignees</h3>
           <ul>
             <li v-for="assignee in todo.assigneeList" :key="assignee.id">
+              <span class="assignee-id">{{assignee.id}}</span>
               <span class="assignee-name">{{ assignee.prename }} {{ assignee.name }}</span>
-              <span class="assignee-email">({{ assignee.email }})</span>
+              <span class="assignee-email">{{ assignee.email }}</span>
             </li>
           </ul>
         </div>
@@ -105,6 +106,9 @@ export default {
   margin-bottom: 8px;
 }
 
+.assignee-id {
+  margin-right: 10px; /* Space between ID and name */
+}
 .assignee-name {
   font-weight: bold;
 }

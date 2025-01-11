@@ -65,7 +65,7 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
     max-width: 800px;
-    max-height: 800px;
+    height: 800px;
 }
 .assigneeList-component{
     background-color: #1e1e1e;
@@ -74,7 +74,7 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
     max-width: 500px;
-    height: 460px;
+    height: 800px;
 }
 .component-search {
     background-color: #1e1e1e;

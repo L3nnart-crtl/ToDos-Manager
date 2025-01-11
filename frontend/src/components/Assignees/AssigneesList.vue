@@ -1,6 +1,26 @@
 <template>
   <div>
     <h1>Assignees List</h1>
+
+    <!-- Search Functionality -->
+    <div class="search-container">
+      <div class="search-form">
+        <h1>Search Assignee</h1>
+        <div class="search-fields">
+          <select v-model="searchCriterion">
+            <option value="id">ID</option>
+            <option value="prename">First Name</option>
+            <option value="name">Last Name</option>
+            <option value="email">Email</option>
+          </select>
+          <input v-model="searchValue" placeholder="Enter search value" />
+          <button @click="searchAssignee">Search</button>
+        </div>
+        <button class="show-all" @click="showAllAssignees">Show All</button>
+      </div>
+    </div>
+
+    <!-- Assignees Table -->
     <div class="table-container">
       <table>
         <thead>
@@ -13,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(assignee, index) in assignees" :key="assignee.id">
+        <tr v-for="(assignee, index) in filteredAssignees" :key="assignee.id">
           <td>{{ assignee.id }}</td>
           <td>{{ assignee.prename }}</td>
           <td>{{ assignee.name }}</td>
@@ -25,6 +45,11 @@
         </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Error Message -->
+    <div v-if="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
     </div>
 
     <!-- Edit Assignee Modal -->
@@ -43,7 +68,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import axios from 'axios';
-import { EventBus } from '../event-bus';
 import EditAssignee from './EditAssignee.vue';
 
 export default defineComponent({
@@ -53,41 +77,66 @@ export default defineComponent({
   },
   setup() {
     const assignees = ref<any[]>([]);
+    const filteredAssignees = ref<any[]>([]);
+    const searchCriterion = ref('prename');
+    const searchValue = ref('');
+    const errorMessage = ref<string | null>(null);
     const editIndex = ref<number | null>(null);
 
     const getAssignees = async () => {
       try {
         const response = await axios.get('/api/v1/assignees');
         assignees.value = response.data;
+        filteredAssignees.value = response.data; // Default to showing all assignees
       } catch (error) {
-        console.error('Fehler beim Abrufen der Assignees:', error);
+        console.error('Error fetching assignees:', error);
       }
     };
 
-    watch(() => EventBus.newAssignee, (newAssignee) => {
-      if (newAssignee) {
-        assignees.value.push(newAssignee);
-        EventBus.newAssignee = null;
+    const searchAssignee = () => {
+      errorMessage.value = null;
+
+      if (!searchValue.value.trim()) {
+        errorMessage.value = 'Please enter a value to search';
+        return;
       }
-    });
+
+      filteredAssignees.value = assignees.value.filter((assignee: any) => {
+        const field = assignee[searchCriterion.value];
+
+        // Für ID-Vergleich: Konvertiere die Eingabe und den Wert in Strings
+        if (searchCriterion.value === 'id') {
+          return String(field) === searchValue.value.trim();
+        }
+
+        // Für andere Felder: Case-Insensitive Vergleich
+        return field?.toLowerCase().includes(searchValue.value.toLowerCase());
+      });
+
+      if (filteredAssignees.value.length === 0) {
+        errorMessage.value = 'No results found';
+      }
+    };
+
+    const showAllAssignees = () => {
+      errorMessage.value = null;
+      filteredAssignees.value = [...assignees.value];
+      searchValue.value = ''; // Clear search input
+    };
 
     const editAssignee = (index: number) => {
       editIndex.value = index;
     };
 
     const deleteAssignee = async (id: number) => {
-      // Bestätigungsfenster anzeigen
       const confirmed = window.confirm('Are you sure you want to delete this assignee?');
-
       if (confirmed) {
         try {
           await axios.delete(`/api/v1/assignees/${id}`);
-          getAssignees(); // Liste der Assignees nach dem Löschen aktualisieren
+          getAssignees(); // Refresh the list after deletion
         } catch (error) {
-          console.error('Fehler beim Löschen des Assignees:', error);
+          console.error('Error deleting assignee:', error);
         }
-      } else {
-        console.log('Delete operation was canceled.');
       }
     };
 
@@ -95,9 +144,10 @@ export default defineComponent({
       try {
         await axios.put(`/api/v1/assignees/${updatedAssignee.id}`, updatedAssignee);
         assignees.value[editIndex.value!] = updatedAssignee;
+        filteredAssignees.value = [...assignees.value];
         editIndex.value = null;
       } catch (error) {
-        console.error('Fehler beim Speichern des Assignees:', error);
+        console.error('Error saving assignee:', error);
       }
     };
 
@@ -109,7 +159,13 @@ export default defineComponent({
 
     return {
       assignees,
+      filteredAssignees,
+      searchCriterion,
+      searchValue,
+      errorMessage,
       editIndex,
+      searchAssignee,
+      showAllAssignees,
       editAssignee,
       deleteAssignee,
       saveAssignee,
@@ -118,9 +174,10 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 .table-container {
-  max-height: 380px;
+  max-height: 550px;
   overflow-y: auto;
   width: 100%;
   position: relative; /* Ensure the table container is positioned */
@@ -214,5 +271,58 @@ button:focus {
   border-radius: 8px;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* Reduzierter Abstand zwischen den Elementen */
+}
+
+.search-fields {
+  display: flex;
+  gap: 10px; /* Abstand zwischen Filter, Eingabefeld und Button */
+  align-items: center;
+}
+
+select,
+input,
+button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 4px;
+  border: 1px solid #444;
+}
+
+select {
+  flex: 1;
+}
+
+input {
+  flex: 2;
+}
+
+button {
+  flex: 1;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+button.show-all {
+  margin-bottom: 20px; /* Abstand zwischen Button und Tabelle */
 }
 </style>

@@ -5,18 +5,15 @@
     <!-- Container für Prename und Name nebeneinander -->
     <div class="name-container">
       <div>
-        <label for="prename">Prename:</label>
-        <input type="text" id="prename" v-model="assignee.prename" />
+        <input type="text" id="prename" v-model="assignee.prename" placeholder="Prename:" />
       </div>
       <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="assignee.name" />
+        <input type="text" id="name" v-model="assignee.name" placeholder="Name:"/>
       </div>
     </div>
 
     <div>
-      <label for="email">Email:</label>
-      <input type="text" id="email" v-model="assignee.email" />
+      <input type="text" id="email" v-model="assignee.email" placeholder="Email"/>
     </div>
 
     <button type="submit">Create</button>

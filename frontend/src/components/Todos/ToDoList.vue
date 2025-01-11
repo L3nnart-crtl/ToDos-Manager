@@ -4,8 +4,8 @@
 
     <div class="filters">
       <div>
-        <label for="titleFilter">Filter by Title:</label>
-        <input id="titleFilter" v-model="titleFilter" type="text" placeholder="Search by title" />
+        <label for="titleFilter">Filter by Title:</label >
+        <input id="titleFilter" v-model="titleFilter" type="text" placeholder="Filter by title"/>
       </div>
       <div>
         <label for="sortBy">Sort by:</label>
@@ -30,7 +30,7 @@
         <li v-for="todo in filteredAndSortedTodos" :key="todo.id" class="todo-item">
           <label>
             <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-            {{ todo.title }}
+            {{ todo.title }} Due Date: {{new Date(todo.dueDate).toLocaleString() }}
           </label>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
@@ -44,7 +44,7 @@
         <li v-for="todo in filteredAndSortedFinishedTodos" :key="todo.id" class="todo-item">
           <label>
             <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-            {{ todo.title }}
+            {{ todo.title }} Due Date: {{new Date(todo.dueDate).toLocaleString() }}
           </label>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
@@ -137,7 +137,30 @@ export default {
             EventBus.$emit('todoDeleted', todoId); // Emit event for deleted todo
           });
     },
+    toggleFinished(todo) {
+      // Transform the todo object to match the desired request body
+      const requestBody = {
+        title: todo.title,
+        description: todo.description,
+        finished: todo.finished,
+        assigneeIdList: todo.assigneeList.map(assignee => assignee.id), // Extract IDs from assigneeList
+        dueDate: new Date(todo.dueDate).getTime() // Convert dueDate to a Unix timestamp in milliseconds
+      };
+
+      // Send the PUT request with the transformed body
+      axios.put(`/api/v1/todos/${todo.id}`, requestBody)
+          .then(response => {
+            const index = this.todos.findIndex(t => t.id === todo.id);
+            if (index !== -1) {
+              this.todos.splice(index, 1, response.data);
+            }
+          })
+          .catch(error => {
+            console.error('Error updating the todo:', error);
+          });
+    },
   },
+
   computed: {
     filteredAndSortedTodos() {
       const filteredTodos = this.todos.filter(todo => todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && !todo.finished);
@@ -229,12 +252,15 @@ export default {
 .todo-list-section {
   margin-bottom: 20px; /* Verringert den Abstand nach unten */
   width: 400px;
-}
+  height: 430px; /* Maximum height for the to-do list section */
 
+}
 .todo-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 10px; /* Verringert den Abstand zwischen den Listen */
+  margin-bottom: 10px;
+  max-height: 400px;
+  /* Verringert den Abstand zwischen den Listen */
 }
 
 .todo-item {
@@ -316,11 +342,6 @@ export default {
 }
 
 /* Fehlernachricht im Modal */
-.error-message {
-  color: red;
-  font-size: 12px; /* Kleinere Schriftgröße */
-  margin-top: 12px; /* Verringert den Abstand */
-}
 
 </style>
 

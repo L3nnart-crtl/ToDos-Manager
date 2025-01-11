@@ -3,23 +3,19 @@
   <div class="container">
 
       <div class="todoList-component">
+        <SearchTodo />
         <ToDoList :todos="todos" />
         <TodoCsvDownloader />
-        <SearchTodo />
       </div>
+
       <div class="component">
         <ToDoCreateModal @created="handleNewToDo" />
         <CreateAssignee />
       </div>
-      <div>
-        <div class="component-search">
-          <SearchAssignee />
-        </div>
-        <div class="assigneeList-component">
-          <AssigneeList />
-        </div>
-      </div>
 
+      <div class="assigneeList-component">
+        <AssigneeList />
+      </div>
 
   </div>
 
@@ -30,7 +26,6 @@
 import { ref } from 'vue';
 import AssigneeList from './Assignees/AssigneesList.vue';
 import CreateAssignee from './Assignees/createAssignee.vue';
-import SearchAssignee from './Assignees/SearchAssignee.vue';
 import ToDoList from "@/components/Todos/ToDoList.vue";
 import ToDoCreateModal from "@/components/Todos/ToDoCreate.vue";
 import SearchTodo from "@/components/Todos/SearchTodo.vue";
