@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
-import ConfirmModal from '@/components/Modals/ConfirmModal.vue';
+import ConfirmModal from '@/components/Modals/confirmModal.vue';
 
 export default defineComponent({
   name: 'TodoCsvDownloader',
