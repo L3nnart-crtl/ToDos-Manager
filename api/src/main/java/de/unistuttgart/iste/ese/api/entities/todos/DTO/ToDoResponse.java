@@ -1,10 +1,7 @@
-package de.unistuttgart.iste.ese.api.entities.todos;
+package de.unistuttgart.iste.ese.api.entities.todos.DTO;
 
 import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-import java.util.Date;
 import java.util.List;
 
 public class ToDoResponse {
@@ -15,9 +12,11 @@ public class ToDoResponse {
     private List<Assignee> assigneeList;
     private long createdDate;
     private long dueDate;
+    private Long finishedDate;  // finishedDate kann jetzt null sein
+    private String category;
 
-    public ToDoResponse(final long id, final String title, final String description, final boolean finished, 
-                        final List<Assignee> assigneeList, final long createdDate, final long dueDate) {
+    public ToDoResponse(final long id, final String title, final String description, final boolean finished,
+                        final List<Assignee> assigneeList, final long createdDate, final long dueDate, final Long finishedDate, final String category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -25,6 +24,8 @@ public class ToDoResponse {
         this.assigneeList = assigneeList;
         this.createdDate = createdDate;
         this.dueDate = dueDate;
+        this.finishedDate = finishedDate;  // Kann null sein
+        this.category = category;
     }
 
     public long getId() {
@@ -81,5 +82,21 @@ public class ToDoResponse {
 
     public void setDueDate(final long dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Long getFinishedDate() {
+        return finishedDate;
+    }
+
+    public void setFinishedDate(final Long finishedDate) {
+        this.finishedDate = finishedDate;  // Kann null sein
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(final String category) {
+        this.category = category;
     }
 }

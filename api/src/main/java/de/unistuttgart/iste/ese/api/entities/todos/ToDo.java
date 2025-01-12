@@ -1,15 +1,21 @@
 package de.unistuttgart.iste.ese.api.entities.todos;
 
 import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
-import de.unistuttgart.iste.ese.api.entities.assignees.AssigneeRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * Represents a To-Do item entity for task management.
+ *
+ * <p>The class includes properties such as title, description, status, 
+ * assignees, and important dates (creation, due, and finished dates). 
+ * It is mapped to the database table "todos" using JPA annotations.</p>
+ */
 @Entity
 @Table(name = "todos")
 public class ToDo {
@@ -26,7 +32,7 @@ public class ToDo {
     private String description;
 
     private boolean finished;
-    
+
     @OneToMany
     private List<Assignee> assigneeList;
 
@@ -35,24 +41,22 @@ public class ToDo {
     private Date dueDate;
 
     private Date finishedDate;
-    
-    
 
-    // empty default constructor is necessary for JPA
+    private String category;
+
+    // Empty default constructor is necessary for JPA
     public ToDo() {
 
     }
 
-
-    public ToDo(final String title, final String description, final List<Assignee> assigneeList, final long unixTimeStamp) {
-        
+    public ToDo(final String title, final String description, final List<Assignee> assigneeList, final long dueDate, final String category) {
         this.title = title;
         this.description = description;
-        this.dueDate = new Date(unixTimeStamp);
+        this.createdDate = new Date();
+        this.dueDate = new Date(dueDate);
+        this.finishedDate = null;  // Finished date is initially null
         this.assigneeList = new ArrayList<>(assigneeList);
-        this.createdDate = dueDate;
-        this.finishedDate = createdDate;
-        
+        this.category = category;
     }
 
     public long getId() {
@@ -82,7 +86,6 @@ public class ToDo {
     public void setTitle(final @NotNull String title) {
         this.title = title;
     }
-    
 
     public void setDescription(final String description) {
         this.description = description;
@@ -94,36 +97,56 @@ public class ToDo {
 
     public void setFinished(final boolean finished) {
         this.finished = finished;
+        if (finished) {
+            this.finishedDate = new Date();  // Set the finished date to the current time when finished is true
+        } else {
+            this.finishedDate = null;  // Set finished date to null when finished is false
+        }
     }
 
     public List<Assignee> getAssigneeList() {
         return assigneeList;
     }
-    
+
     public void setAssigneeList(final List<Assignee> assigneeList) {
         this.assigneeList = assigneeList;
     }
 
-    
     public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Long getDueDate() {
-        return dueDate.getTime();
+    public Date getDueDate() {
+        return dueDate;
     }
 
     public void setDueDate(final Long dueDate) {
         this.dueDate = new Date(dueDate);
     }
 
-    public Long getFinishedDate() {
-        return finishedDate.getTime();
+    public Date getFinishedDate() {
+        if (finishedDate == null) {
+            return null;
+        }
+        return finishedDate;
     }
 
     public void setFinishedDate(final Date finishedDate) {
         this.finishedDate = finishedDate;
     }
 
-    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(final String category) {
+        this.category = category;
+    }
+
+    public Long getFinishedDateMilliSeconds() {
+        if (this.finishedDate == null) {
+            return null;
+        }
+        return this.finishedDate.getTime();
+    }
 }

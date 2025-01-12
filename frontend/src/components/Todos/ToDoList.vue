@@ -1,31 +1,35 @@
 <template>
-  <div class="todo-container">
-    <!-- Filter und Sortierung -->
-    <div class="filters">
-      <label for="titleFilter">Filter by Title:</label>
-      <input id="titleFilter" v-model="titleFilter" type="text" placeholder="Search by title" />
-
+  <h1>Todos</h1>
+  <!-- Filter and Sorting -->
+  <div class="filters">
+    <div>
+      <input class="titleFilter" id="titleFilter" v-model="titleFilter" type="text" placeholder="Filter by title"/>
+    </div>
+    <div>
       <label for="sortBy">Sort by:</label>
       <select v-model="sortBy">
         <option value="title">Title</option>
         <option value="dueDate">Due Date</option>
       </select>
-
+    </div>
+    <div>
       <label for="sortOrder">Sort Order:</label>
       <select v-model="sortOrder">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
     </div>
+  </div>
 
+  <div class="todos">
     <!-- Open To-Do List -->
     <div class="todo-list-section">
       <h3>Open To-Dos</h3>
       <ul class="todo-list">
         <li v-for="todo in filteredAndSortedTodos" :key="todo.id" class="todo-item">
+          <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
           <label>
-            <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-            {{ todo.title }}
+            <strong>Title: </strong>{{ todo.title }}  <strong>Due Date: </strong>{{new Date(todo.dueDate).toLocaleString() }}
           </label>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
@@ -37,52 +41,63 @@
       <h3>Finished To-Dos</h3>
       <ul class="todo-list">
         <li v-for="todo in filteredAndSortedFinishedTodos" :key="todo.id" class="todo-item">
+          <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
           <label>
-            <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-            {{ todo.title }}
+            <strong>Title: </strong>{{ todo.title }}  <strong>Due Date: </strong>{{new Date(todo.dueDate).toLocaleString() }}
           </label>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
       </ul>
     </div>
-
-    <!-- ToDoDetailsModal -->
-    <ToDoDetailsModal
-        v-if="selectedToDo && !isEditModalOpen"
-        :todo="selectedToDo"
-        @delete="deleteToDo"
-        @close="closeModal"
-        @edit="openEditModal" />
-
-    <!-- ToDoEditModal -->
-    <ToDoEditModal
-        v-if="isEditModalOpen"
-        :todo="selectedToDo"
-        @update="updateToDo"
-        @close="closeEditModal" />
   </div>
-</template>
 
+  <!-- ToDoDetailsModal -->
+  <ToDoDetailsModal
+      v-if="selectedToDo && !isEditModalOpen"
+      :todo="selectedToDo"
+      @delete="deleteToDo"
+      @close="closeModal"
+      @edit="openEditModal"
+      ref="detailsModal"/>
+
+  <!-- ToDoEditModal -->
+  <ToDoEditModal
+      v-if="isEditModalOpen"
+      :todo="selectedToDo"
+      @update="updateToDo"
+      @close="closeEditModal" />
+
+  <!-- MessageModal -->
+  <MessageModal
+      v-if="isMessageModalOpen"
+      :isOpen="isMessageModalOpen"
+      :message="message"
+      @close="closeMessageModal" />
+</template>
 
 <script>
 import axios from 'axios';
 import ToDoDetailsModal from './ToDoDetailsModal.vue';
 import ToDoEditModal from './ToDoEditModal.vue';
-import { EventBus } from '@/components/event-bus.js';
+import MessageModal from '@/components/Modals/messageModal.vue';
+import { EventBus } from '@/components/event-bus.js'; // Import EventBus
 
 export default {
   components: {
     ToDoDetailsModal,
     ToDoEditModal,
+    MessageModal,
   },
   data() {
     return {
       todos: [],
       selectedToDo: null,
       isEditModalOpen: false,
-      titleFilter: '',  // Filter für den Titel
-      sortBy: 'title',  // Sortierkriterium
-      sortOrder: 'asc',  // Sortierreihenfolge
+      titleFilter: '',
+      sortBy: 'title',
+      sortOrder: 'asc',
+      isMessageModalOpen: false, // For MessageModal
+      message: '', // Message to display in the modal
     };
   },
   methods: {
@@ -108,48 +123,44 @@ export default {
       this.isEditModalOpen = false;
     },
     updateToDo(updatedTodo) {
-        axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
-            .then(response => {
-                const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
-                if (index !== -1) {
-                    this.todos.splice(index, 1, response.data); // Ersetze das alte ToDo mit dem aktualisierten
-                }
-                this.closeEditModal(); // Schließe das Modal nach erfolgreichem Update
-            })
-            .catch(error => {
-                let errorMessage = "An unexpected error occurred.";
-
-                // Fehler vom Backend (z. B. 400, 500)
-                if (error.response) {
-                    // Fehlerdetails vom Backend
-                    errorMessage = `Error ${error.response.status}: ${error.response.data?.message || 'Assignee already assigned'}`;
-                    console.error(errorMessage);
-                }
-                // Fehler, weil keine Antwort vom Server kam
-                else if (error.request) {
-                    errorMessage = 'No response received from the server.';
-                    console.error(errorMessage);
-                }
-                // Allgemeiner Fehler, z. B. Syntaxfehler
-                else {
-                    errorMessage = `Error: ${error.message}`;
-                    console.error(errorMessage);
-                }
-
-                // Optionale Benutzerbenachrichtigung (z. B. mit alert oder einer anderen Methode)
-                alert(errorMessage); // Hier könnte auch eine benutzerdefinierte Fehleranzeige wie ein Modal oder eine Statusmeldung stehen.
-
-                // Fehler werfen, damit die Methode außerhalb Fehler behandeln kann
-                throw new Error(errorMessage);
-            });
-    },
-    toggleFinished(todo) {
-      axios.put(`/api/v1/todos/${todo.id}`, todo)
+      axios.put(`/api/v1/todos/${updatedTodo.id}`, updatedTodo)
           .then(response => {
-            const index = this.todos.findIndex(t => t.id === todo.id);
+            const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
             if (index !== -1) {
               this.todos.splice(index, 1, response.data);
             }
+            this.closeEditModal();
+            this.closeModal();
+            this.openDetails(updatedTodo);
+            EventBus.$emit('todoUpdated', response.data); // Emit event for updated todo
+          })
+          .catch(error => {
+            let errorMessage = "An unexpected error occurred.";
+            if (
+                error.response &&
+                error.response.status === 500 &&
+                error.response.data &&
+                error.response.data.message.includes("Duplicate entry")
+            ) {
+              const duplicateIdMatch = error.response.data.message.match(/Duplicate entry '(\d+)'/);
+              if (duplicateIdMatch && duplicateIdMatch[1]) {
+                const duplicateId = duplicateIdMatch[1];
+                // Find and remove the assignee causing the duplication
+                const assigneeIndex = updatedTodo.assigneeList.findIndex(assignee => assignee.id == duplicateId);
+                if (assigneeIndex !== -1) {
+                  updatedTodo.assigneeList.splice(assigneeIndex, 1); // Remove the problematic assignee
+                }
+                // Update the selected todo to reflect changes
+                this.selectedToDo = {...this.selectedToDo, assigneeList: updatedTodo.assigneeList};
+                this.showMessageModal(`ERROR: The assignee with ID ${duplicateId} is already assigned to another to-do.`);
+                return;
+              }
+            }
+            if (error.response) {
+              errorMessage = `Error ${error.response.status}: ${error.response.data?.message || 'Assignee already assigned'}`;
+              console.error(errorMessage);
+            }
+            this.showMessageModal(errorMessage); // Use MessageModal instead of alert
           });
     },
     deleteToDo(todoId) {
@@ -157,17 +168,40 @@ export default {
           .then(() => {
             this.todos = this.todos.filter(todo => todo.id !== todoId);
             this.closeModal();
+            EventBus.$emit('todoDeleted', todoId); // Emit event for deleted todo
           });
+    },
+    toggleFinished(todo) {
+      const requestBody = {
+        title: todo.title,
+        description: todo.description,
+        finished: todo.finished,
+        assigneeIdList: todo.assigneeList.map(assignee => assignee.id),
+        dueDate: new Date(todo.dueDate).getTime()
+      };
+
+      axios.put(`/api/v1/todos/${todo.id}`, requestBody)
+          .then(response => {
+            const index = this.todos.findIndex(t => t.id === todo.id);
+            if (index !== -1) {
+              this.todos.splice(index, 1, response.data);
+            }
+          })
+          .catch(error => {
+            console.error('Error updating the todo:', error);
+          });
+    },
+    showMessageModal(message) {
+      this.message = message;
+      this.isMessageModalOpen = true;
+    },
+    closeMessageModal() {
+      this.isMessageModalOpen = false;
     },
   },
   computed: {
     filteredAndSortedTodos() {
-// Filter und Sortierung zusammen in einer berechneten Eigenschaft
-      const filteredTodos = this.todos.filter(todo => {
-        return todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && !todo.finished;
-      });
-
-// Sortierung der gefilterten To-Dos
+      const filteredTodos = this.todos.filter(todo => todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && !todo.finished);
       filteredTodos.sort((a, b) => {
         let aValue, bValue;
         if (this.sortBy === 'title') {
@@ -177,37 +211,12 @@ export default {
           aValue = a.dueDate;
           bValue = b.dueDate;
         }
-
-// Vergleiche aValue und bValue basierend auf der Sortierreihenfolge
-        if (this.sortOrder === 'asc') {
-          if (aValue > bValue) {
-            return 1;
-          } else if (aValue < bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        } else { // Wenn 'desc'
-          if (aValue < bValue) {
-            return 1;
-          } else if (aValue > bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        }
+        return this.sortOrder === 'asc' ? aValue > bValue : aValue < bValue;
       });
-
       return filteredTodos;
     },
-
     filteredAndSortedFinishedTodos() {
-// Filtert abgeschlossene To-Dos
-      const filteredTodos = this.todos.filter(todo => {
-        return todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && todo.finished;
-      });
-
-// Sortierung der gefilterten To-Dos
+      const filteredTodos = this.todos.filter(todo => todo.title.toLowerCase().includes(this.titleFilter.toLowerCase()) && todo.finished);
       filteredTodos.sort((a, b) => {
         let aValue, bValue;
         if (this.sortBy === 'title') {
@@ -217,101 +226,99 @@ export default {
           aValue = a.dueDate;
           bValue = b.dueDate;
         }
-
-// Vergleiche aValue und bValue basierend auf der Sortierreihenfolge
-        if (this.sortOrder === 'asc') {
-          if (aValue > bValue) {
-            return 1;
-          } else if (aValue < bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        } else { // Wenn 'desc'
-          if (aValue < bValue) {
-            return 1;
-          } else if (aValue > bValue) {
-            return -1;
-          } else {
-            return 0;
-          }
-        }
+        return this.sortOrder === 'asc' ? aValue > bValue : aValue < bValue;
       });
-
       return filteredTodos;
     }
   },
   created() {
     this.fetchTodos();
-    EventBus.$on('todoCreated', (newTodo) => {
-      this.todos.push(newTodo);
+    EventBus.$on('todoUpdated', (updatedTodo) => {
+      const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
+      if (index !== -1) {
+        this.todos.splice(index, 1, updatedTodo);
+      }
     });
+    EventBus.$on('todoDeleted', (todoId) => {
+      this.todos = this.todos.filter(todo => todo.id !== todoId);
+    });
+    EventBus.$on('todoCreated', (newTodo) => {
+      this.todos.push(newTodo); // Add the new to-do to the list
+    });
+    EventBus.$on('todo-updated', (updatedTodo) => {
+      // You can handle the updatedTodo event here if needed
+    });
+    // Listen for the assigneeDeleted, assigneeUpdated, and newAssignee events
+    EventBus.$on('assigneeDeleted', this.fetchTodos);
+    EventBus.$on('assigneeUpdated', this.fetchTodos);
+    EventBus.$on('newAssignee', this.fetchTodos);
   },
+
   beforeDestroy() {
-    EventBus.$off('todoCreated');
+    EventBus.$off('todoUpdated');
+    EventBus.$off('todoDeleted');
+    EventBus.$off('assigneeDeleted', this.fetchTodos);
+    EventBus.$off('assigneeUpdated', this.fetchTodos);
+    EventBus.$off('newAssignee', this.fetchTodos);
   },
 };
 </script>
 
 <style scoped>
-/* Gesamter Container */
-.todo-container {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für den Container */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+/* General Container */
+.todos {
+  display: flex;
+  flex-direction: row; /* Layout in one row */
+  gap: 10px; /* Reduces the space between the to-do sections */
 }
 
-/* Filter und Sortierung */
+/* Filter and Sorting */
 .filters {
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduces the bottom margin */
+  gap: 10px; /* Reduces the space between filter elements */
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .filters label {
-  color: #ccc; /* Helle Farbe für die Labels */
-  font-size: 16px;
+  font-size: 14px; /* Smaller font size */
+  color: #ccc;
+  margin-bottom: 4px; /* Reduces the bottom margin */
 }
 
-.filters input, .filters select {
-  background-color: #333; /* Dunkler Hintergrund für Eingabefelder */
-  color: #e0e0e0; /* Helle Textfarbe */
-  padding: 10px;
+.filters input,
+.filters select {
+  width: 100%;
+  padding: 8px; /* Reduces padding */
+  font-size: 14px; /* Smaller font size */
+  background-color: #333;
   border: 1px solid #444;
   border-radius: 4px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.filters input:focus, .filters select:focus {
-  border-color: #4CAF50; /* Grüne Umrandung bei Fokus */
-  outline: none;
-  background-color: #444;
-}
-
-/* Überschrift der ToDo-Listen */
-h3 {
-  font-size: 20px;
   color: #e0e0e0;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Reduces margin between input fields */
 }
 
-/* To-Do Listen */
+/* To-Do Lists */
 .todo-list-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduces bottom margin */
+  width: 400px;
+  height: 420px; /* Maximum height for the to-do list section */
 }
 
 .todo-list {
   list-style: none;
   padding: 0;
-}
-
-.todo-item {
-  background-color: #333; /* Dunkler Hintergrund für jedes ToDo-Item */
-  padding: 12px;
   margin-bottom: 10px;
+  max-height: 390px;
+  /* Reduces space between list items */
+}
+.titleFilter {
+  margin-top: 18px;
+}
+.todo-item {
+  background-color: #333;
+  padding: 8px; /* Reduces padding */
+  margin-bottom: 6px; /* Reduces space between to-do items */
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -319,20 +326,31 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
+.todo-item label {
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+  gap: 4px; /* Adds a small space between Title and Due Date */
+}
+
+.todo-item label div {
+  font-size: 14px; /* Optional: Adjust font size */
+  line-height: 1.4; /* Optional: Adjust line height for better readability */
+}
+
 .todo-item:hover {
-  background-color: #444; /* Etwas hellerer Hintergrund bei Hover */
+  background-color: #444;
 }
 
 .todo-item input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 8px; /* Reduces space between checkbox and title */
 }
 
-/* Button für Details */
+/* Button for Details */
 .btn-details {
-  background-color: #4CAF50; /* Grüner Button */
+  background-color: #4CAF50;
   color: white;
-  font-size: 14px;
-  padding: 8px 12px;
+  font-size: 12px; /* Smaller font size */
+  padding: 6px 10px; /* Reduces padding */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -340,66 +358,36 @@ h3 {
 }
 
 .btn-details:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
-}
-
-/* Modale Fenster */
-.ToDoDetailsModal, .ToDoEditModal {
-  max-width: 600px;
-  margin: 20px auto;
+  background-color: #45a049;
 }
 
 .ToDoDetailsModal .modal-content, .ToDoEditModal .modal-content {
-  background-color: #1e1e1e; /* Dunkler Hintergrund für das Modal */
+  background-color: #1e1e1e;
   color: #e0e0e0;
-  padding: 20px;
+  padding: 16px; /* Reduces padding */
   border-radius: 8px;
 }
 
 .ToDoDetailsModal button, .ToDoEditModal button {
-  background-color: #4CAF50; /* Grüner Button im Modal */
+  background-color: #4CAF50;
   color: white;
-  padding: 10px;
+  padding: 8px 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .ToDoDetailsModal button:hover, .ToDoEditModal button:hover {
-  background-color: #45a049; /* Etwas dunkleres Grün bei Hover */
+  background-color: #45a049;
 }
 
-/* Eingabefelder im Edit Modal */
+/* Input Fields in Edit Modal */
 .ToDoEditModal input[type="text"], .ToDoEditModal input[type="date"] {
-  background-color: #333;
-  color: #e0e0e0;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #444;
   width: 100%;
-  margin-bottom: 15px;
-}
-
-.ToDoEditModal input[type="text"]:focus, .ToDoEditModal input[type="date"]:focus {
-  border-color: #4CAF50;
-  outline: none;
-  background-color: #444;
-}
-
-/* Anpassung der Modalen Fenster für Buttons */
-.ToDoDetailsModal button:first-child, .ToDoEditModal button:first-child {
-  background-color: #e74c3c; /* Roter Button für Löschen */
-}
-
-.ToDoDetailsModal button:first-child:hover, .ToDoEditModal button:first-child:hover {
-  background-color: #c0392b; /* Etwas dunkleres Rot bei Hover */
-}
-
-/* Fehlernachricht im Modal */
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 15px;
+  padding: 8px;
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #e0e0e0;
 }
 </style>
-

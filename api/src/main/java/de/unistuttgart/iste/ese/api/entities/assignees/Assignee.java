@@ -12,6 +12,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Entity class representing an Assignee in the system. 
+ * This class is mapped to the "assignees" table in the database.
+ *
+ * It includes validation annotations to ensure that the prename, name, and email are not null 
+ * and follow specific formats (e.g., email must be a valid email address).
+ */
 @Entity
 @Table(name = "assignees")
 public class Assignee {

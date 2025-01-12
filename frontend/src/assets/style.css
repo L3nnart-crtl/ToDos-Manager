@@ -1,4 +1,4 @@
-/* Globale Stile */
+/* Global styles */
 * {
     margin: 0;
     padding: 0;
@@ -6,25 +6,28 @@
 }
 
 body {
-    background-color: #121212; /* Dunkler Hintergrund für Dark Mode */
-    color: #e0e0e0; /* Helle Textfarbe */
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text color */
     font-family: 'Roboto', sans-serif;
-    padding: 20px;
+    margin: 0;
+    padding: 0; /* No additional space */
     overflow-x: hidden;
+    display: flex; /* Flexbox for vertical alignment */
+    flex-direction: column; /* Arrange components vertically */
+    align-items: center; /* Centered horizontally */
 }
 
-/* Container für alle Inhalte */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    max-width: 100%; /* Maximale Breite auf 100% */
-    margin: 0 auto;
-    padding: 0 10px; /* Abstand an den Seiten für kleinere Bildschirme */
+    flex-direction: column; /* Arrange components vertically */
+    align-items: flex-start; /* Place components at the top */
+    gap: 30px; /* Space between components */
+    width: 100%;
+    max-width: 100%;
+    padding: 20px; /* Padding for sides */
 }
 
-/* Layout für größere Bildschirme */
+/* Layout for larger screens */
 @media (min-width: 768px) {
     .container {
         flex-direction: row;
@@ -45,14 +48,63 @@ body {
     }
 }
 
-/* Komponente-Stil */
+/* Component style */
 .component {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
+    height: 800px;
+    display: flex;
+    flex-direction: column; /* Ensures child components are stacked vertically */
+    gap: 20px; /* Increases space between child components */
+}
+
+.todoList-component {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 800px;
+    height: 800px;
+}
+
+.assigneeList-component {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px;
+    height: 800px;
+}
+
+.component-search {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    height: 340px;
+    width: 500px; /* Fixed width */
+    /* Flexbox settings */
+    display: flex;
+    flex-direction: column; /* Vertical arrangement of items */
+    align-items: flex-start; /* Align items to the top */
+
+    /* Space between items */
+    gap: 20px; /* Space between items */
+
+    /* Prevent content overflow */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    overflow-y: auto; /* Allows vertical scrolling if content is too tall */
+}
+
+.todos-search-container {
+    display: flex;
+    flex-direction: column;
 }
 
 button {
@@ -92,13 +144,13 @@ ul {
     margin: 0;
 }
 
-/* Dynamische Scrollbare Listen */
+/* Dynamic scrollable lists */
 .scrollable-list {
-    max-height: 300px; /* Begrenze die maximale Höhe */
-    overflow-y: auto;  /* Vertikale Scrollbar aktivieren */
+    max-height: 300px; /* Limit the maximum height */
+    overflow-y: auto;  /* Enable vertical scrollbar */
 }
 
-/* Scrollbare Listen für Assignees, To-Do's, etc. */
+/* Scrollable lists for assignees, to-dos, etc. */
 ul li {
     display: flex;
     justify-content: space-between;
@@ -124,7 +176,7 @@ ul li button:hover {
     background-color: #d32f2f;
 }
 
-/* Modal Styles */
+/* Modal styles */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -164,24 +216,24 @@ ul li button:hover {
     color: #d32f2f;
 }
 
-/* Scrollbare Listen für alle Aufgaben */
+/* Scrollable lists for all tasks */
 .todo-list {
-    max-height: 300px; /* Maximale Höhe der To-Do-Liste */
-    overflow-y: auto;  /* Aktiviert vertikales Scrollen */
-    margin-bottom: 20px; /* Abstand zwischen den Listen */
-    width: 100%;  /* Volle Breite des Containers */
-    max-width: 600px; /* Maximale Breite anpassen */
+    max-height: 300px; /* Max height of to-do list */
+    overflow-y: auto;  /* Enables vertical scrolling */
+    margin-bottom: 20px; /* Space between lists */
+    width: 100%;  /* Full width of container */
+    max-width: 600px; /* Adjust max width */
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Weitere nützliche Stile */
+/* Additional useful styles */
 .error-message {
     color: #f44336;
     font-weight: bold;
 }
 
-/* Formular */
+/* Form */
 .form {
     width: 100%;
     max-width: 600px;
@@ -226,7 +278,7 @@ button[type="submit"]:hover {
     background-color: #45a049;
 }
 
-/* Optimierungen für Formulare und Buttons */
+/* Optimizations for forms and buttons */
 input, textarea {
     font-size: 14px;
 }
@@ -235,7 +287,7 @@ textarea {
     min-height: 100px;
 }
 
-/* Responsive Design */
+/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -267,4 +319,3 @@ h1 {
 h2 {
     font-size: 24px;
 }
-

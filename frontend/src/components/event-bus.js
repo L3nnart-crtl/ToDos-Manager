@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 export const EventBus = reactive({
     events: {},
 
-    // Methode zum Erzeugen eines Events
+    // Method to register an event
     $on(event, callback) {
         if (!this.events[event]) {
             this.events[event] = [];
@@ -11,14 +11,14 @@ export const EventBus = reactive({
         this.events[event].push(callback);
     },
 
-    // Methode zum Auslösen eines Events
+    // Method to trigger an event
     $emit(event, data) {
         if (this.events[event]) {
             this.events[event].forEach(callback => callback(data));
         }
     },
 
-    // Methode zum Entfernen eines Events
+    // Method to remove a specific event listener
     $off(event, callback) {
         if (!this.events[event]) return;
 

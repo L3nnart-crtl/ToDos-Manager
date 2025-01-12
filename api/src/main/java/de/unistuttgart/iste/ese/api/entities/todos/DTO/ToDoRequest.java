@@ -1,4 +1,4 @@
-package de.unistuttgart.iste.ese.api.entities.todos;
+package de.unistuttgart.iste.ese.api.entities.todos.DTO;
 
 import java.util.List;
 
