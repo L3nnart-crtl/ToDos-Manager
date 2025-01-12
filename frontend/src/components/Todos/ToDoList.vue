@@ -321,7 +321,7 @@ export default {
 
 /* Filter and Sorting */
 .filters {
-  margin-bottom: 10px; /* Reduces the bottom margin */
+  margin-top: -30px; /* Reduces the bottom margin */
   gap: 10px; /* Reduces the space between filter elements */
   display: flex;
   flex-wrap: wrap;
@@ -349,14 +349,14 @@ export default {
 .todo-list-section {
   margin-bottom: 20px; /* Reduces bottom margin */
   width: 400px;
-  height: 420px; /* Maximum height for the to-do list section */
+  height: 450px; /* Maximum height for the to-do list section */
 }
 
 .todo-list {
   list-style: none;
   padding: 0;
   margin-bottom: 10px;
-  max-height: 350px;
+  max-height: 380px;
   /* Reduces space between list items */
 }
 /* Container for due-date information */
