@@ -147,12 +147,20 @@ export default {
 
 /* Assignees */
 .assignees {
-  margin-top: 20px;
+  margin-top: 0px;
+  max-height: 200px; /* Set a max height for the container */
+  overflow-y: auto; /* Enable vertical scrolling when the content exceeds max height */
+  padding-top: 0px; /* Adds space between header and the first list item */
 }
 
 .assignees h3 {
   font-size: 1.2em;
   margin-bottom: 12px;
+  position: sticky; /* Make the header stick to the top */
+  top: 0; /* Position it at the top of the container */
+  background-color: #333; /* Same background as modal for seamless look */
+  z-index: 1; /* Ensure it stays on top of the list items */
+  padding: 5px 0; /* Add some padding for spacing */
 }
 
 .assignees ul {

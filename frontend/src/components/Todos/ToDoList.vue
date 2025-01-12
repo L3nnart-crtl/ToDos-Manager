@@ -25,12 +25,24 @@
     <!-- Open To-Do List -->
     <div class="todo-list-section">
       <h3>Open To-Dos</h3>
+      <!-- Table-like Header -->
+      <div class="todo-list-header">
+        <div class="todo-list-header-item">
+          <strong>Title</strong>
+        </div>
+        <div class="todo-list-header-item-dueDate">
+          <strong>Due Date</strong>
+        </div>
+      </div>
       <ul class="todo-list">
         <li v-for="todo in filteredAndSortedTodos" :key="todo.id" class="todo-item">
           <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-          <label>
-            <strong>Title: </strong>{{ todo.title }}  <strong>Due Date: </strong>{{new Date(todo.dueDate).toLocaleString() }}
-          </label>
+          <div class="title-info">
+              <span class="todo-info">{{ todo.title }}</span>
+          </div>
+          <div class="due-date-info">
+            <span class="todo-info">{{new Date(todo.dueDate).toLocaleString()}}</span>
+          </div>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
       </ul>
@@ -38,13 +50,25 @@
 
     <!-- Finished To-Do List -->
     <div class="todo-list-section">
-      <h3>Finished To-Dos</h3>
+      <h3>Open To-Dos</h3>
+      <!-- Table-like Header -->
+      <div class="todo-list-header">
+        <div class="todo-list-header-item">
+          <strong>Title</strong>
+        </div>
+        <div class="todo-list-header-item-dueDate">
+          <strong>Due Date</strong>
+        </div>
+      </div>
       <ul class="todo-list">
         <li v-for="todo in filteredAndSortedFinishedTodos" :key="todo.id" class="todo-item">
           <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
-          <label>
-            <strong>Title: </strong>{{ todo.title }}  <strong>Due Date: </strong>{{new Date(todo.dueDate).toLocaleString() }}
-          </label>
+          <div class="title-info">
+            <span class="todo-info">{{ todo.title }}</span>
+          </div>
+          <div class="due-date-info">
+            <span class="todo-info">{{new Date(todo.dueDate).toLocaleString()}}</span>
+          </div>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
       </ul>
@@ -74,6 +98,7 @@
       :message="message"
       @close="closeMessageModal" />
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -272,6 +297,28 @@ export default {
   gap: 10px; /* Reduces the space between the to-do sections */
 }
 
+/* To-Do List Header */
+.todo-list-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background-color: #444;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.todo-list-header-item {
+  width: 45%; /* Adjust width to fit content */
+  text-align: center;
+  font-size: 14px;
+  margin-right: 50px;
+  color: #e0e0e0;
+}
+
+.todo-list-header-item strong {
+  font-weight: bold;
+}
+
 /* Filter and Sorting */
 .filters {
   margin-bottom: 10px; /* Reduces the bottom margin */
@@ -309,37 +356,70 @@ export default {
   list-style: none;
   padding: 0;
   margin-bottom: 10px;
-  max-height: 390px;
+  max-height: 350px;
   /* Reduces space between list items */
+}
+/* Container for due-date information */
+.due-date-info {
+  width: 80px; /* Fixed width for the container */
+  word-wrap: break-word; /* Allow line breaks if the text is too long */
+  overflow-wrap: break-word; /* Ensure long words are also wrapped correctly */
+  display: flex;
+  flex-direction: row; /* Stack title and due date vertically */
+  gap: 2px; /* Add a small gap between Title and Due Date */
+  font-size: 14px; /* Optional: Adjust font size */
+}
+
+.title-info {
+  width: 120px; /* Fixed width for the container */
+  word-wrap: break-word; /* Allow line breaks if the text is too long */
+  overflow-wrap: break-word; /* Ensure long words are also wrapped correctly */
+  display: flex;
+  flex-direction: row; /* Stack title and due date vertically */
+  gap: 2px; /* Add a small gap between Title and Due Date */
+  font-size: 14px; /* Optional: Adjust font size */
 }
 .titleFilter {
   margin-top: 18px;
 }
 .todo-item {
   background-color: #333;
-  padding: 8px; /* Reduces padding */
-  margin-bottom: 6px; /* Reduces space between to-do items */
+  padding: 8px; /* Adjust padding */
+  margin-bottom: 6px; /* Reduce space between items */
   border-radius: 4px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: start;
   transition: background-color 0.3s ease;
 }
 
 .todo-item label {
   display: flex;
-  flex-direction: column; /* Arrange content vertically */
-  gap: 4px; /* Adds a small space between Title and Due Date */
+  flex-direction: row; /* Stack title and due date vertically */
+  gap: 10px; /* Add a small gap between Title and Due Date */
+  font-size: 14px; /* Optional: Adjust font size */
+}
+.todo-list-header-item-dueDate {
+  width: 45%; /* Adjust width to fit content */
+  text-align: center;
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-right: 90px;
 }
 
 .todo-item label div {
-  font-size: 14px; /* Optional: Adjust font size */
-  line-height: 1.4; /* Optional: Adjust line height for better readability */
+  line-height: 1.4; /* Optional: Adjust line height */
+}
+
+/* Ensure checkbox and button are correctly spaced */
+.todo-item input[type="checkbox"] {
+  margin-right: 8px; /* Space between checkbox and content */
 }
 
 .todo-item:hover {
   background-color: #444;
 }
+
 
 .todo-item input[type="checkbox"] {
   margin-right: 8px; /* Reduces space between checkbox and title */

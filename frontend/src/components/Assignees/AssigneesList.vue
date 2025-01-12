@@ -227,11 +227,14 @@ th, td {
 }
 
 th {
-  background-color: #4CAF50;
+  background-color: #333;
   color: white;
   position: sticky; /* Keep the header sticky */
   top: 0; /* Stick to the top of the table container */
   z-index: 1; /* Ensure the header stays above the table body */
+  margin-bottom: 10px;
+  padding: 5px 10px;
+
 }
 
 td {
