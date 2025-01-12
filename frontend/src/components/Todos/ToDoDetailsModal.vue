@@ -137,6 +137,11 @@ export default {
   text-align: center;
   margin-bottom: 20px;
   margin-right: 40px;
+  color: #ccc;
+  word-break: break-word; /* Allow breaking long words onto the next line */
+  display: flex;
+  flex-direction: row; /* Keep the layout horizontally */
+  gap: 2px; /* Optional: Adjust font size */
 }
 
 .todo-info p {
@@ -221,6 +226,7 @@ button {
 .delete:hover {
   background-color: #e53935;
 }
+
 
 /* Close Button */
 .close-btn {

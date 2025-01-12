@@ -38,10 +38,10 @@
         <li v-for="todo in filteredAndSortedTodos" :key="todo.id" class="todo-item">
           <input type="checkbox" v-model="todo.finished" @change="toggleFinished(todo)" />
           <div class="title-info">
-              <span class="todo-info">{{ todo.title }}</span>
+              {{ todo.title }}
           </div>
           <div class="due-date-info">
-            <span class="todo-info">{{new Date(todo.dueDate).toLocaleString()}}</span>
+            {{new Date(todo.dueDate).toLocaleString()}}
           </div>
           <button @click="openDetails(todo)" class="btn-details">Details</button>
         </li>
@@ -372,13 +372,14 @@ export default {
 
 .title-info {
   width: 120px; /* Fixed width for the container */
-  word-wrap: break-word; /* Allow line breaks if the text is too long */
-  overflow-wrap: break-word; /* Ensure long words are also wrapped correctly */
+  word-break: break-word; /* Allow breaking long words onto the next line */
   display: flex;
-  flex-direction: row; /* Stack title and due date vertically */
-  gap: 2px; /* Add a small gap between Title and Due Date */
+  flex-direction: row; /* Keep the layout horizontally */
+  gap: 2px;
   font-size: 14px; /* Optional: Adjust font size */
 }
+
+
 .titleFilter {
   margin-top: 18px;
 }

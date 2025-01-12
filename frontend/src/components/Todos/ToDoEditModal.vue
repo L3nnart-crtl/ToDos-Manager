@@ -121,12 +121,7 @@ export default {
   gap: 10px; /* Space between form rows */
 }
 
-/* Individual form rows */
-.form-row {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+
 
 /* Label and input fields */
 input,
