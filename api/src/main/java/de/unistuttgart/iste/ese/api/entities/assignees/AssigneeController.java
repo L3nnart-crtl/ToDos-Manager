@@ -2,7 +2,6 @@ package de.unistuttgart.iste.ese.api.entities.assignees;
 
 import de.unistuttgart.iste.ese.api.entities.todos.ToDo;
 import de.unistuttgart.iste.ese.api.entities.todos.ToDoRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
