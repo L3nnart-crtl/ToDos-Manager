@@ -8,19 +8,21 @@
         <h2 class="todo-title">{{ todo.title }}</h2>
 
         <div class="todo-info">
-          <p><strong>Id:</strong> {{ todo.id }}</p>
+          <p><strong>ID:</strong> {{ todo.id }}</p>
           <p><strong>Description:</strong> {{ todo.description }}</p>
           <p><strong>Category:</strong> {{ todo.category }}</p>
-          <p><strong>Due Date:</strong> {{ new Date(todo.dueDate).toLocaleString() }}</p>
-          <p><strong>Finished Date :</strong> {{ todo.finishedDate ? new Date(todo.finishedDate).toLocaleString() : "In Progress" }}</p>
+          <p><strong>Due Date:</strong> {{ formatDate(todo.dueDate) }}</p>
+          <p><strong>Finished Date:</strong>
+            {{ todo.finishedDate ? formatDate(todo.finishedDate) : "In Progress" }}
+          </p>
         </div>
 
         <!-- Assignees -->
         <div class="assignees">
           <h3>Assignees</h3>
           <ul>
-            <li v-for="assignee in todo.assigneeList" :key="assignee.id">
-              <span class="assignee-id">{{assignee.id}}</span>
+            <li v-for="assignee in todo.assigneeList" :key="assignee.id" class="assignee-item">
+              <span class="assignee-id">{{ assignee.id }}</span>
               <span class="assignee-name">{{ assignee.prename }} {{ assignee.name }}</span>
               <span class="assignee-email">{{ assignee.email }}</span>
             </li>
@@ -28,15 +30,28 @@
         </div>
       </div>
 
-      <!-- Action buttons -->
-      <button class="delete" @click="deleteToDo(todo.id)">Delete</button>
-      <button class="edit" @click="editToDo">Edit</button>
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="delete" @click="openConfirmModal">Delete</button>
+        <button class="edit" @click="editToDo">Edit</button>
+      </div>
     </div>
   </div>
+
+  <!-- Confirm Modal -->
+  <ConfirmModal
+      v-if="isConfirmModalOpen"
+      :isOpen="isConfirmModalOpen"
+      :message="confirmMessage"
+      @confirm="deleteToDo"
+      @cancel="closeConfirmModal"
+      @close="closeConfirmModal"
+  />
 </template>
 
 <script>
-import axios from "axios";
+import ConfirmModal from "@/components/Modals/confirmModal.vue";
+import { EventBus } from "@/components/event-bus.js";
 
 export default {
   props: {
@@ -45,110 +60,173 @@ export default {
       required: true,
     },
   },
+  components: {
+    ConfirmModal,
+  },
+  data() {
+    return {
+      isConfirmModalOpen: false,
+      confirmMessage: "Are you sure you want to delete this To-Do?", // Confirm message in English
+    };
+  },
+  created() {
+    EventBus.$on("todo-updated", this.updateTodoDetails);
+  },
+  beforeDestroy() {
+    EventBus.$off("todo-updated", this.updateTodoDetails);
+  },
   methods: {
+    // Format the date to a human-readable string
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
+    // Update the todo details when the todo is updated
+    updateTodoDetails(updatedTodo) {
+      this.todo = updatedTodo;
+    },
+    // Close the modal
     closeModal() {
-      this.$emit('close'); // Emit 'close' event to parent
+      this.$emit("close");
     },
-    deleteToDo(id) {
-      const confirmed = window.confirm('Möchte Sie das Todo wirklich löschen?');
-      if (confirmed) {
-        try {
-          this.$emit('delete', id); // Emit 'delete' event to parent
-        } catch (error) {
-          console.error('Fehler beim Löschen des Todos:', error);
-        }
-      } else {
-        console.log('Delete operation was canceled.');
-      }
-
+    // Open the confirmation modal
+    openConfirmModal() {
+      this.isConfirmModalOpen = true;
     },
+    // Close the confirmation modal
+    closeConfirmModal() {
+      this.isConfirmModalOpen = false;
+    },
+    // Delete the todo and close the confirmation modal
+    deleteToDo() {
+      this.$emit("delete", this.todo.id);
+      this.closeConfirmModal();
+    },
+    // Edit the todo
     editToDo() {
-      this.$emit('edit', this.todo); // Emit 'edit' event to parent
+      this.$emit("edit", this.todo);
     },
   },
 };
 </script>
-<style>
-.todo-details {
+
+<style scoped>
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal */
+.modal {
+  background: #333;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 480px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  color: #f0f0f0;
+  position: relative;
 }
 
 .todo-title {
-  font-size: 1.5em;
-  margin-bottom: 15px;
+  font-size: 1.8em;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-right: 40px;
 }
 
 .todo-info p {
+  margin: 8px 0;
   font-size: 1.1em;
-  line-height: 1.5;
-  margin: 5px 0;
+  line-height: 1.4;
 }
 
-
+/* Assignees */
 .assignees {
   margin-top: 20px;
 }
 
 .assignees h3 {
   font-size: 1.2em;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .assignees ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
-.assignees li {
-  font-size: 1.1em;
-  margin-bottom: 8px;
+.assignee-item {
+  margin-bottom: 10px;
+  font-size: 1em;
 }
 
 .assignee-id {
-  margin-right: 10px; /* Space between ID and name */
+  color: #888;
+  margin-right: 8px;
 }
+
 .assignee-name {
   font-weight: bold;
+  margin-right: 8px;
 }
 
 .assignee-email {
   font-style: italic;
+  color: #b0b0b0;
 }
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 button {
-  margin-bottom: 5px; /* Abstand zwischen den Buttons */
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
 }
 
 .edit {
-  background-color: #4CAF50; /* Grün für den Edit-Button */
+  background-color: #4caf50;
   color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .edit:hover {
-  background-color: #45a049; /* Dunkleres Grün beim Hover */
+  background-color: #43a047;
 }
 
 .delete {
-  background-color: #f44336; /* Rot für den Delete-Button */
+  background-color: #f44336;
   color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .delete:hover {
-  background-color: #e53935; /* Dunkleres Rot beim Hover */
+  background-color: #e53935;
 }
 
-button:focus {
-  outline: none;
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.5em;
+  color: #f44336;
+  background: #333;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
 }
-
-
+.close-btn:hover {
+  color: #e53935;
+}
 </style>

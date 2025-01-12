@@ -2,6 +2,7 @@ package de.unistuttgart.iste.ese.api.entities.todos;
 
 import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
 import de.unistuttgart.iste.ese.api.entities.assignees.AssigneeRepository;
+import de.unistuttgart.iste.ese.api.entities.todos.DTO.ToDoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

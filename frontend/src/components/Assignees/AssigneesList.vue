@@ -5,7 +5,6 @@
     <!-- Search Functionality -->
     <div class="search-container">
       <div class="search-form">
-        <h1>Search Assignee</h1>
         <div class="search-fields">
           <select v-model="searchCriterion">
             <option value="id">ID</option>
@@ -40,7 +39,7 @@
           <td class="email-actions">{{ assignee.email }}</td>
           <td class="actions">
             <button class="edit" @click="editAssignee(index)">Edit</button>
-            <button class="delete" @click="deleteAssignee(assignee.id)">Delete</button>
+            <button class="delete" @click="openDeleteModal(assignee.id)">Delete</button>
           </td>
         </tr>
         </tbody>
@@ -62,18 +61,29 @@
         />
       </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <ConfirmModal
+        :isOpen="isModalOpen"
+        message="Are you sure you want to delete this assignee?"
+        @close="closeModal"
+        @confirm="deleteAssignee"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { EventBus } from '../event-bus';
 import axios from 'axios';
 import EditAssignee from './EditAssignee.vue';
+import ConfirmModal from '@/components/Modals/confirmModal.vue'; // Import the modal component
 
 export default defineComponent({
   name: 'AssigneeList',
   components: {
     EditAssignee,
+    ConfirmModal, // Register the modal component
   },
   setup() {
     const assignees = ref<any[]>([]);
@@ -82,6 +92,8 @@ export default defineComponent({
     const searchValue = ref('');
     const errorMessage = ref<string | null>(null);
     const editIndex = ref<number | null>(null);
+    const isModalOpen = ref(false); // Modal state
+    const assigneeToDelete = ref<number | null>(null); // Store the ID of the assignee to be deleted
 
     const getAssignees = async () => {
       try {
@@ -104,12 +116,10 @@ export default defineComponent({
       filteredAssignees.value = assignees.value.filter((assignee: any) => {
         const field = assignee[searchCriterion.value];
 
-        // Für ID-Vergleich: Konvertiere die Eingabe und den Wert in Strings
         if (searchCriterion.value === 'id') {
           return String(field) === searchValue.value.trim();
         }
 
-        // Für andere Felder: Case-Insensitive Vergleich
         return field?.toLowerCase().includes(searchValue.value.toLowerCase());
       });
 
@@ -125,19 +135,31 @@ export default defineComponent({
     };
 
     const editAssignee = (index: number) => {
-      editIndex.value = index;
+      const assignee = filteredAssignees.value[index];
+      editIndex.value = assignees.value.findIndex((a) => a.id === assignee.id);
     };
 
-    const deleteAssignee = async (id: number) => {
-      const confirmed = window.confirm('Are you sure you want to delete this assignee?');
-      if (confirmed) {
+    const openDeleteModal = (id: number) => {
+      assigneeToDelete.value = id;
+      isModalOpen.value = true; // Open the modal when delete button is clicked
+    };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+      assigneeToDelete.value = null; // Reset assignee to delete
+    };
+
+    const deleteAssignee = async () => {
+      if (assigneeToDelete.value !== null) {
         try {
-          await axios.delete(`/api/v1/assignees/${id}`);
+          await axios.delete(`/api/v1/assignees/${assigneeToDelete.value}`);
           getAssignees(); // Refresh the list after deletion
+          EventBus.$emit('assigneeDeleted', assigneeToDelete.value); // Notify other components
         } catch (error) {
           console.error('Error deleting assignee:', error);
         }
       }
+      closeModal(); // Close the modal after deletion
     };
 
     const saveAssignee = async (updatedAssignee: any) => {
@@ -146,6 +168,7 @@ export default defineComponent({
         assignees.value[editIndex.value!] = updatedAssignee;
         filteredAssignees.value = [...assignees.value];
         editIndex.value = null;
+        EventBus.$emit('assigneeUpdated', updatedAssignee);
       } catch (error) {
         console.error('Error saving assignee:', error);
       }
@@ -154,6 +177,11 @@ export default defineComponent({
     const cancelEdit = () => {
       editIndex.value = null;
     };
+
+    EventBus.$on('new-assignee', (newAssignee: any) => {
+      assignees.value.push(newAssignee);
+      filteredAssignees.value = [...assignees.value];
+    });
 
     getAssignees();
 
@@ -167,9 +195,12 @@ export default defineComponent({
       searchAssignee,
       showAllAssignees,
       editAssignee,
+      openDeleteModal,
       deleteAssignee,
       saveAssignee,
       cancelEdit,
+      isModalOpen,
+      closeModal,
     };
   },
 });
@@ -177,7 +208,7 @@ export default defineComponent({
 
 <style scoped>
 .table-container {
-  max-height: 550px;
+  max-height: 600px;
   overflow-y: auto;
   width: 100%;
   position: relative; /* Ensure the table container is positioned */
@@ -204,6 +235,7 @@ th {
 }
 
 td {
+  max-width: 90px;
   word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -281,12 +313,12 @@ button:focus {
 .search-form {
   display: flex;
   flex-direction: column;
-  gap: 3px; /* Reduzierter Abstand zwischen den Elementen */
+  gap: 3px; /* Reduced spacing between elements */
 }
 
 .search-fields {
   display: flex;
-  gap: 10px; /* Abstand zwischen Filter, Eingabefeld und Button */
+  gap: 10px; /* Spacing between filter, input field, and button */
   align-items: center;
 }
 
@@ -323,6 +355,6 @@ button:hover {
   background-color: #45a049;
 }
 button.show-all {
-  margin-bottom: 20px; /* Abstand zwischen Button und Tabelle */
+  margin-bottom: 20px; /* Space between button and table */
 }
 </style>

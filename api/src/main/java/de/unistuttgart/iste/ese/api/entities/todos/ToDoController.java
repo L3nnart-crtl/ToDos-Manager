@@ -2,6 +2,9 @@ package de.unistuttgart.iste.ese.api.entities.todos;
 
 import de.unistuttgart.iste.ese.api.ApiVersion1;
 import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
+import de.unistuttgart.iste.ese.api.entities.todos.DTO.ToDoRequest;
+import de.unistuttgart.iste.ese.api.entities.todos.DTO.ToDoResponse;
+import de.unistuttgart.iste.ese.api.entities.todos.DTO.ToDoResponsePost;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,15 +3,18 @@
   <div class="form-group">
     <div class="form-row">
       <div class="form-column">
+        <!-- Input field for the title of the to-do -->
         <input v-model="newTodo.title" id="title" type="text" placeholder="Title" required />
       </div>
       <div class="form-column">
+        <!-- Button to open the description modal -->
         <button class="add-description" @click="openDescriptionModal">Add Description</button>
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-column">
+        <!-- Input field for the due date -->
         <label for="dueDate">Due Date:</label>
         <input v-model="newTodo.dueDate" id="dueDate" type="date" />
       </div>
@@ -19,6 +22,7 @@
 
     <div class="form-row">
       <div class="form-column">
+        <!-- Dropdown to select an assignee -->
         <select v-model="selectedAssignee" id="addAssignee" class="form-select">
           <option disabled value="">Choose an assignee</option>
           <option v-for="assignee in availableAssignees" :key="assignee.id" :value="assignee.id">
@@ -27,142 +31,143 @@
         </select>
       </div>
       <div class="add-button-column">
+        <!-- Button to add the selected assignee -->
         <button @click="addAssignee">Add</button>
       </div>
     </div>
 
+    <!-- Display the list of assigned users -->
     <div v-show="true" class="assignees-container">
       <h4>Assignees:</h4>
       <ul>
         <li v-for="assignee in newTodo.assigneeList" :key="assignee.id">
-          {{assignee.id}} {{ assignee.prename }} {{ assignee.name }}
+          {{ assignee.id }} {{ assignee.prename }} {{ assignee.name }}
           <button @click="removeAssignee(assignee.id)">Remove</button>
         </li>
       </ul>
     </div>
   </div>
 
+  <!-- Button to submit the new to-do -->
   <button @click="submit">Create</button>
 
-  <!-- Modal für Beschreibung -->
+  <!-- Modal for adding description -->
   <div v-if="isDescriptionModalOpen" class="modal-overlay">
     <div class="modal-content">
       <h2>Add Description</h2>
+      <!-- Text area to input the description of the to-do -->
       <textarea v-model="newTodo.description" rows="10" placeholder="Enter detailed description"></textarea>
       <div class="modal-actions">
+        <!-- Buttons to save or cancel the description -->
         <button class="save" @click="closeDescriptionModal">Save</button>
         <button class="cancel" @click="closeDescriptionModal">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- Fehler-Modal -->
-  <div v-if="isModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <p>{{ modalMessage }}</p>
-      <div class="modal-actions">
-        <button @click="isModalOpen = false">Close</button>
-      </div>
-    </div>
-  </div>
+  <!-- Message Modal -->
+  <MessageModal :isOpen="isModalOpen" :message="modalMessage" @close="closeModal" />
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { EventBus } from '@/components/event-bus';
 import axios from 'axios';
-import { EventBus } from '@/components/event-bus.js';
+import MessageModal from '@/components/Modals/messageModal.vue'; // Import the message modal component
 
-export default {
-  data() {
-    return {
-      newTodo: {
-        title: "",
-        description: "",
-        assigneeList: [],
-        dueDate: null,
-      },
-      availableAssignees: [],
-      selectedAssignee: "",
-      isDescriptionModalOpen: false,
-      isModalOpen: false, // Fehler-Modal-Status
-      modalMessage: "", // Fehlermeldung
-    };
+export default defineComponent({
+  name: 'TodoCreate',
+  components: {
+    MessageModal,
   },
-  created() {
-    this.fetchAvailableAssignees(); // Lädt die verfügbaren Assignees
-  },
-  methods: {
-    fetchAvailableAssignees() {
-      axios
-          .get('/api/v1/assignees')
-          .then((response) => {
-            this.availableAssignees = response.data;
-          })
-          .catch((error) => {
-            console.error('Fehler beim Abrufen der Assignees:', error);
-          });
-    },
-    addAssignee() {
-      if (this.selectedAssignee) {
-        const assignee = this.availableAssignees.find(
-            (a) => a.id === this.selectedAssignee
-        );
-        if (assignee && !this.newTodo.assigneeList.includes(assignee)) {
-          this.newTodo.assigneeList.push(assignee); // Assignee zur Liste hinzufügen
-        }
-        this.selectedAssignee = ""; // Auswahl zurücksetzen
+  setup() {
+    const newTodo = ref({
+      title: '',
+      description: '',
+      dueDate: '',
+      assigneeList: [] as any[],
+    });
+    const selectedAssignee = ref('');
+    const availableAssignees = ref<any[]>([]);
+    const isDescriptionModalOpen = ref(false);
+    const isModalOpen = ref(false);
+    const modalMessage = ref('');
+
+    const getAvailableAssignees = async () => {
+      try {
+        const response = await axios.get('/api/v1/assignees');
+        availableAssignees.value = response.data;
+      } catch (error) {
+        console.error('Error fetching available assignees:', error);
       }
-    },
-    removeAssignee(assigneeId) {
-      this.newTodo.assigneeList = this.newTodo.assigneeList.filter(
+    };
+
+    const addAssignee = () => {
+      if (selectedAssignee.value) {
+        const assignee = availableAssignees.value.find(
+            (a: any) => a.id === selectedAssignee.value
+        );
+        if (assignee && !newTodo.value.assigneeList.includes(assignee)) {
+          newTodo.value.assigneeList.push(assignee);
+          selectedAssignee.value = ''; // Reset selection
+          EventBus.$emit('assigneeAdded', assignee); // Notify AssigneeList about the new assignee
+        }
+      }
+    };
+
+    const removeAssignee = (assigneeId: number) => {
+      newTodo.value.assigneeList = newTodo.value.assigneeList.filter(
           (assignee) => assignee.id !== assigneeId
-      ); // Entferne den Assignee aus der Liste
-    },
-    async submit() {
+      );
+      EventBus.$emit('assigneeRemoved', assigneeId); // Notify AssigneeList about removal
+    };
+
+    const submit = async () => {
       // Title validation
-      if (!this.newTodo.title || this.newTodo.title.trim().length < 1) {
-        this.modalMessage = 'ERROR: The title must contain at least one character.';
-        this.isModalOpen = true;
+      if (!newTodo.value.title || newTodo.value.title.trim().length < 1) {
+        modalMessage.value = 'ERROR: The title must contain at least one character.';
+        isModalOpen.value = true;
         return;
       }
 
       // Assignee ID validation
-      const assigneeIds = this.newTodo.assigneeList.map((a) => a.id);
+      const assigneeIds = newTodo.value.assigneeList.map((a) => a.id);
       const uniqueAssigneeIds = new Set(assigneeIds);
       if (assigneeIds.length !== uniqueAssigneeIds.size) {
-        this.modalMessage = 'ERROR: Assignee IDs must be unique.';
-        this.isModalOpen = true;
+        modalMessage.value = 'ERROR: Assignee IDs must be unique.';
+        isModalOpen.value = true;
         return;
       }
 
       // Due date validation (Unix Timestamp)
-      if (this.newTodo.dueDate && isNaN(new Date(this.newTodo.dueDate).getTime())) {
-        this.modalMessage = 'ERROR: Invalid due date.';
-        this.isModalOpen = true;
+      if (newTodo.value.dueDate && isNaN(new Date(newTodo.value.dueDate).getTime())) {
+        modalMessage.value = 'ERROR: Invalid due date.';
+        isModalOpen.value = true;
         return;
       }
 
       try {
         const response = await axios.post('/api/v1/todos', {
-          title: this.newTodo.title,
-          description: this.newTodo.description,
+          title: newTodo.value.title,
+          description: newTodo.value.description,
           assigneeIdList: assigneeIds,
-          dueDate: this.newTodo.dueDate ? new Date(this.newTodo.dueDate).getTime() : null,
+          dueDate: newTodo.value.dueDate ? new Date(newTodo.value.dueDate).getTime() : null,
         });
 
         // Emit the new to-do via Event Bus
         EventBus.$emit('todoCreated', response.data);
-        this.modalMessage = "Todo created!";
-        this.isModalOpen = true;
+        modalMessage.value = "Todo created!";
+        isModalOpen.value = true;
 
         // Clear form
-        this.newTodo = {
+        newTodo.value = {
           title: "",
           description: "",
           assigneeList: [],
           dueDate: null,
         };
 
-        this.selectedAssignee = ""; // Reset assignee selection
+        selectedAssignee.value = ""; // Reset assignee selection
       } catch (error) {
         console.error('Error while creating the to-do:', error);
 
@@ -176,66 +181,103 @@ export default {
           const duplicateIdMatch = error.response.data.message.match(/Duplicate entry '(\d+)'/);
           if (duplicateIdMatch && duplicateIdMatch[1]) {
             const duplicateId = duplicateIdMatch[1];
-            this.modalMessage = "ERROR: The assignee with ID " + duplicateId + " is already assigned to another to-do.";
-            this.isModalOpen = true;
+            modalMessage.value = "ERROR: The assignee with ID " + duplicateId + " is already assigned to another to-do.";
+            isModalOpen.value = true;
             return;
           }
         }
 
         // General error message
-        this.modalMessage = 'ERROR: An error occurred while creating the to-do. Please try again.';
-        this.isModalOpen = true;
+        modalMessage.value = 'ERROR: An error occurred while creating the to-do. Please try again.';
+        isModalOpen.value = true;
       }
-    }
-    ,
-    openDescriptionModal() {
-      this.isDescriptionModalOpen = true;
-    },
-    closeDescriptionModal() {
-      this.isDescriptionModalOpen = false;
-    },
+    };
+
+    const openDescriptionModal = () => {
+      isDescriptionModalOpen.value = true;
+    };
+
+    const closeDescriptionModal = () => {
+      isDescriptionModalOpen.value = false;
+    };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+
+    // Listen for changes in assignees
+    EventBus.$on('assigneeDeleted', (id: number) => {
+      availableAssignees.value = availableAssignees.value.filter(
+          (assignee) => assignee.id !== id
+      );
+    });
+    EventBus.$on('assigneeUpdated', (updatedAssignee: any) => {
+      // Find the assignee in the list of available assignees and update it
+      const index = availableAssignees.value.findIndex((a: any) => a.id === updatedAssignee.id);
+      if (index !== -1) {
+        availableAssignees.value[index] = updatedAssignee;
+      }
+    });
+    EventBus.$on('new-assignee', (newAssignee: any) => {
+      availableAssignees.value.push(newAssignee);
+    });
+    getAvailableAssignees();
+
+    return {
+      newTodo,
+      selectedAssignee,
+      availableAssignees,
+      isDescriptionModalOpen,
+      isModalOpen,
+      modalMessage,
+      addAssignee,
+      removeAssignee,
+      submit,
+      openDescriptionModal,
+      closeDescriptionModal,
+      closeModal,
+    };
   },
-};
+});
 </script>
 
-
 <style scoped>
-/* Container für das gesamte Formular */
+/* Container for the entire form */
 
 .assignees-container {
   height: 200px;
 }
-/* Container für die Formularelemente nebeneinander */
+/* Container for form elements displayed in a column */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 2px; /* Abstand zwischen den verschiedenen Form-Reihen */
+  gap: 2px; /* Spacing between the form rows */
 }
 
-/* Reihe mit nebeneinander liegenden Feldern */
+/* Row with form elements displayed side by side */
 .form-row {
   display: flex;
-  gap: 20px; /* Abstand zwischen den Spalten */
-  align-items: center; /* Vertikale Ausrichtung auf gleicher Höhe */
+  gap: 20px; /* Spacing between the columns */
+  align-items: center; /* Vertical alignment */
 }
 
-/* Einzelne Spalten nebeneinander */
+/* Individual columns side by side */
 .form-column {
   flex: 1;
 }
 
-/* Button-Spalte */
+/* Button column */
 .add-button-column {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  margin-top: -5px; /* Align the button vertically to the center */
+  margin-top: -10px; /* Align the button vertically */
 }
 
 .add-description {
-  margin-top: -5px;
+  margin-top: -10px;
 }
-/* Formularfelder */
+/* Form fields */
 input,
 select {
   width: 100%;
@@ -246,7 +288,7 @@ select {
   border-radius: 4px;
   color: #e0e0e0;
   margin-bottom: 10px;
-  height: 40px; /* Gleiche Höhe für alle Formularelemente */
+  height: 40px;
 }
 
 input:focus,
@@ -256,8 +298,8 @@ select:focus {
   background-color: #444;
 }
 
-/* Button zum Hinzufügen eines Assignees */
-/* Button zum Erstellen eines To-Do */
+/* Button for adding an assignee */
+/* Button for creating a to-do */
 button {
   background-color: #4CAF50;
   color: white;
@@ -267,15 +309,15 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%; /* Makes the button take up the full width */
-  height: 40px; /* Keeps the button height the same as input fields */
+  width: 100%;
+  height: 40px;
 }
 
 button:hover {
   background-color: #45a049;
 }
 
-/* Liste der Assignees */
+/* List of assignees */
 h4 {
   font-size: 18px;
   color: #e0e0e0;
@@ -313,7 +355,7 @@ ul li button:hover {
   background-color: #e53935;
 }
 
-/* Dropdown-Menü für Assignees */
+/* Dropdown for assignees */
 select.form-select {
   background-color: #333;
   color: #e0e0e0;
@@ -321,7 +363,7 @@ select.form-select {
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #444;
-  height: 40px; /* Gleiche Höhe wie das Eingabefeld */
+  height: 40px;
 }
 
 select.form-select:focus {

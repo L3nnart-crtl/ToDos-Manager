@@ -1,10 +1,10 @@
-package de.unistuttgart.iste.ese.api.entities.todos;
+package de.unistuttgart.iste.ese.api.entities.todos.DTO;
 
 import de.unistuttgart.iste.ese.api.entities.assignees.Assignee;
 
 import java.util.List;
 
-public class ToDoResponsePost {
+public class ToDoResponse {
     private long id;
     private String title;
     private String description;
@@ -12,10 +12,11 @@ public class ToDoResponsePost {
     private List<Assignee> assigneeList;
     private long createdDate;
     private long dueDate;
+    private Long finishedDate;  // finishedDate kann jetzt null sein
     private String category;
 
-    public ToDoResponsePost(final long id, final String title, final String description, final boolean finished,
-                            final List<Assignee> assigneeList, final long createdDate, final long dueDate, final String category) {
+    public ToDoResponse(final long id, final String title, final String description, final boolean finished,
+                        final List<Assignee> assigneeList, final long createdDate, final long dueDate, final Long finishedDate, final String category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -23,6 +24,7 @@ public class ToDoResponsePost {
         this.assigneeList = assigneeList;
         this.createdDate = createdDate;
         this.dueDate = dueDate;
+        this.finishedDate = finishedDate;  // Kann null sein
         this.category = category;
     }
 
@@ -80,6 +82,14 @@ public class ToDoResponsePost {
 
     public void setDueDate(final long dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Long getFinishedDate() {
+        return finishedDate;
+    }
+
+    public void setFinishedDate(final Long finishedDate) {
+        this.finishedDate = finishedDate;  // Kann null sein
     }
 
     public String getCategory() {
