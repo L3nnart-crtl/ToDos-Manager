@@ -1,7 +1,6 @@
-# Description
 # ToDo Manager
 
-A full-stack ToDo management application built with **Vue.js** for the frontend and **Spring Boot** for the backend. The application allows users to efficiently manage tasks, assign them to team members, and quickly find the information they need. The entire application is **containerized with Docker** for easy setup and deployment.
+A full-stack ToDo management application built with **Vue.js** for the frontend and **Spring Boot** for the backend. The application allows users to efficiently manage tasks, assign them to team members, and quickly find the information they need.
 
 ## Features
 
@@ -10,15 +9,14 @@ A full-stack ToDo management application built with **Vue.js** for the frontend 
 - **Search and Filter**: Quickly find todos based on title, status, or assignee.
 - **Responsive UI**: User-friendly interface built with Vue.js.
 - **RESTful API**: Backend services implemented with Spring Boot for secure and scalable data management.
-- **Dockerized**: Run frontend and backend in isolated containers for easy development and deployment.
 
 ## Technologies
 
 - **Frontend**: Vue.js, Vuex, Vue Router, Axios
 - **Backend**: Spring Boot, Spring Data JPA, Hibernate
-- **Database**: H2 / MySQL (Dockerized)
-- **Containerization**: Docker, Docker Compose
+- **Database**: H2 / MySQL (can be configured)
 - **Build Tools**: Maven, Node.js/NPM
+
 
 <img width="1895" height="920" alt="grafik" src="https://github.com/user-attachments/assets/b5e788b4-8fce-48df-9470-24d656873e0b" />
 
