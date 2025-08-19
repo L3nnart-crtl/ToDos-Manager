@@ -1,3 +1,9 @@
+# Description
+<img width="1895" height="920" alt="grafik" src="https://github.com/user-attachments/assets/b5e788b4-8fce-48df-9470-24d656873e0b" />
+
+
+
+
 # Project Setup and Start Guide
 *(Java 21, Spring Boot, Vue.js)*
 
