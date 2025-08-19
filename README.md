@@ -13,7 +13,7 @@ A full-stack ToDo management application built with **Vue.js** for the frontend 
 ## Technologies
 
 - **Frontend**: Vue.js, Vuex, Vue Router, Axios
-- **Backend**: Spring Boot, Spring Data JPA, Hibernate
+- **Backend**: Spring Boot, Spring Data JPA
 - **Database**: H2 / MySQL (can be configured)
 - **Build Tools**: Maven, Node.js/NPM
 
